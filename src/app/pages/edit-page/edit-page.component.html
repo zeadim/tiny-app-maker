@@ -1,0 +1,39 @@
+<div class="page" (pointerdown)="unselectSelectedComponent()">
+    <div class="header">
+        <div class="hgroup-8" *ngIf="false">
+            <div>☰</div>
+            <div style="font-size: 14px">SQUAPPS</div>
+        </div>
+
+        <app-fancy-button icon="☰" label="Menu"></app-fancy-button>
+
+        <app-fancy-button icon="⚙️" label="Settings"></app-fancy-button>
+        <app-fancy-button icon="💾" label="Export"></app-fancy-button>
+
+    </div>
+
+    <div class="content">
+        <div class="editor-grid" #grid></div>
+    </div>
+
+    <div class="footer">
+        <div class="hgroup-8">
+            <app-fancy-button icon="⏪" label="" (onClick)="performUndo()"></app-fancy-button>
+            <app-fancy-button icon="⏩" label="" (onClick)="performRedo()"></app-fancy-button>
+        </div>
+
+        <ng-container *ngIf="!SelectedComponent">
+            <app-fancy-button icon="⚡" label="Events"></app-fancy-button>
+            <app-fancy-button icon="▶️" label="Run App"></app-fancy-button>
+        </ng-container>
+
+        <ng-container *ngIf="SelectedComponent">
+            <div class="hgroup-8">
+                <app-fancy-button icon="🗑️" label="" (onClick)="deleteSelectedComponent()"></app-fancy-button>
+                <app-fancy-button icon="✏️" label="Edit" (onClick)="editSelectedComponent()"></app-fancy-button>
+            </div>
+
+            <app-fancy-button icon="✅" label="Ok" (onClick)="unselectSelectedComponent()"></app-fancy-button>
+        </ng-container>
+    </div>
+</div>
