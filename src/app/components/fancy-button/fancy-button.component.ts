@@ -9,6 +9,7 @@ export class FancyButtonComponent {
 
     @Input('icon') public icon: string = '';
     @Input('label') public label: string = '';
+    @Input('color') public color: string = '#eee';
 
     @Output('onClick') public onClick: EventEmitter<void> = new EventEmitter();
 

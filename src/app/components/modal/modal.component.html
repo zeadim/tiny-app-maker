@@ -1,0 +1,5 @@
+<dialog class="modal" (contextmenu)="$event.preventDefault()" (pointerdown)="closeModal()" #dialog>
+    <div class="container" (pointerdown)="$event.stopPropagation()">
+        <ng-content></ng-content>
+    </div>
+</dialog>

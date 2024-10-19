@@ -26,7 +26,6 @@ export class StateService {
 
         this.historyPointer = Math.max(0, this.historyPointer - 1);
         this.currentState = this.copy(this.history[this.historyPointer]);
-        console.log('state', this.currentState);
     }
 
     public redo(): void {
@@ -35,14 +34,12 @@ export class StateService {
 
         this.historyPointer += 1;
         this.currentState = this.copy(this.history[this.historyPointer]);
-        console.log('state', this.currentState);
     }
 
     public push(): void {
         this.historyPointer += 1;
         this.history.length = this.historyPointer + 1;
         this.history[this.historyPointer] = this.copy(this.currentState);
-        console.log('state', this.currentState);
     }
 
     public copy(state: State): State {

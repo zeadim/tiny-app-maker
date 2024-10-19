@@ -1,0 +1,27 @@
+:host {
+    display: contents;
+}
+
+.modal {
+    padding: 0;
+    background-color: white;
+    border-radius: 4px;
+    min-width: min(400px, 90vw);
+    max-width: 90vw;
+
+    &::backdrop {
+        background-image: linear-gradient(45deg,
+                magenta,
+                rebeccapurple,
+                dodgerblue,
+                green);
+        opacity: 0.75;
+    }
+
+    .container {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+}

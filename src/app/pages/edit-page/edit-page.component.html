@@ -18,22 +18,26 @@
 
     <div class="footer">
         <div class="hgroup-8">
-            <app-fancy-button icon="⏪" label="" (onClick)="performUndo()"></app-fancy-button>
-            <app-fancy-button icon="⏩" label="" (onClick)="performRedo()"></app-fancy-button>
+            <app-fancy-button icon="⏪" label="" color="#e4e4e4" (onClick)="performUndo()"></app-fancy-button>
+            <app-fancy-button icon="⏩" label="" color="#e4e4e4" (onClick)="performRedo()"></app-fancy-button>
         </div>
 
         <ng-container *ngIf="!SelectedComponent">
-            <app-fancy-button icon="⚡" label="Events"></app-fancy-button>
-            <app-fancy-button icon="▶️" label="Run App"></app-fancy-button>
+            <app-fancy-button icon="⚡" color="#f4f4e4" label="Events"></app-fancy-button>
+            <app-fancy-button icon="▶️" color="#eeffff" label="Run App"></app-fancy-button>
         </ng-container>
 
         <ng-container *ngIf="SelectedComponent">
             <div class="hgroup-8">
-                <app-fancy-button icon="🗑️" label="" (onClick)="deleteSelectedComponent()"></app-fancy-button>
-                <app-fancy-button icon="✏️" label="Edit" (onClick)="editSelectedComponent()"></app-fancy-button>
+                <app-fancy-button icon="🗑️" label="" color="#eeeeee" (onClick)="deleteSelectedComponent()"></app-fancy-button>
+                <app-fancy-button icon="✏️" label="Edit" color="#fff4e4" (onClick)="editSelectedComponent()"></app-fancy-button>
             </div>
 
-            <app-fancy-button icon="✅" label="Ok" (onClick)="unselectSelectedComponent()"></app-fancy-button>
+            <app-fancy-button icon="✅" label="Ok" color="#eeffee" (onClick)="unselectSelectedComponent()"></app-fancy-button>
         </ng-container>
     </div>
 </div>
+
+<app-modal *ngIf="componentModalOpen && SelectedComponent" (onClose)="componentModalOpen = false">
+    <div>Edit {{SelectedComponent.type}}.</div>
+</app-modal>
