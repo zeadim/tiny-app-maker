@@ -16,6 +16,10 @@ export class GridSelectionBox extends GridElement {
         this.htmlElement.style.gridRowEnd = this.gridComponent.htmlElement.style.gridRowEnd;
         this.htmlElement.classList.add('grid-selection-box');
 
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        this.htmlElement.appendChild(overlay);
+
         for (let i = 0; i < 4; i++) {
             const corner = new GridSelectionBoxCorner(i);
             this.htmlElement.appendChild(corner.htmlElement);

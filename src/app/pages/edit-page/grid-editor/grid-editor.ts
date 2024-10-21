@@ -28,10 +28,13 @@ export class GridEditor {
     public selectedComponentChange$: Subject<ComponentState | undefined> = new Subject();
     public cellClick$: Subject<{ x: number, y: number }> = new Subject();
     public moveOrResizeEnd$: Subject<void> = new Subject();
+    public componentRightClick$: Subject<ComponentState> = new Subject();
+    public componentDoubleClick$: Subject<ComponentState> = new Subject();
 
     public constructor(containerElement: HTMLElement, initialState: State) {
         this.containerElement = containerElement;
 
+        this.setEventListener(containerElement, 'contextmenu', (event: Event) => event.preventDefault());
         this.setEventListener(window, 'pointermove', (event: MouseEvent) => this.onPointerMove(event));
         this.setEventListener(window, 'touchmove', (event: TouchEvent) => this.onPointerMove(event));
         this.setEventListener(window, 'mouseup', () => this.onPointerCancel());
@@ -59,6 +62,11 @@ export class GridEditor {
         state.components.forEach(x => this.addComponent(x));
     }
 
+    public highlightComponent(component: ComponentState): void {
+        const gridComponent = this.gridComponents.find(x => x.component === component);
+        gridComponent?.highlight();
+    }
+
     public getSelectedComponent(): ComponentState | undefined {
         return this.selectedGridComponent?.component;
     }
@@ -70,7 +78,19 @@ export class GridEditor {
 
     public addComponent(component: ComponentState): void {
         const gridComponent = new GridComponent(component);
-        gridComponent.setEventListener('pointerdown', () => this.selectGridComponent(gridComponent));
+
+        gridComponent.setEventListener('dblclick', () => {
+            this.componentDoubleClick$.next(gridComponent.component)
+        });
+
+        gridComponent.setEventListener('pointerdown', (event: PointerEvent) => {
+            if (event.button === 2) {
+                this.componentRightClick$.next(gridComponent.component);
+                return;
+            }
+
+            this.selectGridComponent(gridComponent);
+        });
 
         this.containerElement.appendChild(gridComponent.htmlElement);
         this.gridComponents.push(gridComponent);
@@ -176,7 +196,16 @@ export class GridEditor {
         this.selectedGridComponent.select();
         this.gridSelectionBox = new GridSelectionBox(this.selectedGridComponent);
 
+        this.gridSelectionBox.setEventListener('dblclick', () => {
+            this.componentDoubleClick$.next(this.selectedGridComponent!.component)
+        });
+
         this.gridSelectionBox.setEventListener('pointerdown', (event: PointerEvent) => {
+            if (event.button === 2) {
+                this.componentRightClick$.next(this.selectedGridComponent!.component);
+                return;
+            }
+
             const { x, y } = this.gridSelectionBox!.htmlElement.getBoundingClientRect();
             this.startMovePosition.x = event.pageX - x;
             this.startMovePosition.y = event.pageY - y;

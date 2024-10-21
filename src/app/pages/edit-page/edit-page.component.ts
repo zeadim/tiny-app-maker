@@ -4,11 +4,6 @@ import { StateService } from '../../services/state.service';
 import { GridEditor } from './grid-editor/grid-editor';
 import { ComponentState, State } from '../../types/state';
 
-// TODO desktop controls:
-// - right click: remove
-// - double left click: start edit
-// - escape: close modal
-
 @Component({
     selector: 'app-edit-page',
     templateUrl: './edit-page.component.html',
@@ -65,22 +60,28 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public performUndo(): void {
-        this.stateService.undo();
+        const changedComponent = this.stateService.undo();
         this.gridEditor?.syncState(this.State);
+
+        if (changedComponent)
+            this.gridEditor?.highlightComponent(changedComponent);
     }
 
     public performRedo(): void {
-        this.stateService.redo();
+        const changedComponent = this.stateService.redo();
         this.gridEditor?.syncState(this.State);
+        
+        if (changedComponent)
+            this.gridEditor?.highlightComponent(changedComponent);
     }
 
-    public deleteSelectedComponent(): void {
-        if (!this.SelectedComponent)
+    public deleteComponent(component?: ComponentState): void {
+        if (!component)
             return;
 
-        const index = this.State.components.indexOf(this.SelectedComponent);
+        const index = this.State.components.indexOf(component);
         if (index >= 0) {
-            this.gridEditor?.removeComponent(this.SelectedComponent);
+            this.gridEditor?.removeComponent(component);
             this.State.components.splice(index, 1);
             this.stateService.push();
         }
@@ -105,6 +106,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.addGridEditorSubscription(this.gridEditor.selectedComponentChange$, x => this.onSelectedComponentChange(x));
             this.addGridEditorSubscription(this.gridEditor.cellClick$, x => this.createNewComponent(x.x, x.y));
             this.addGridEditorSubscription(this.gridEditor.moveOrResizeEnd$, () => this.stateService.push());
+            this.addGridEditorSubscription(this.gridEditor.componentRightClick$, (x) => this.deleteComponent(x));
+            this.addGridEditorSubscription(this.gridEditor.componentDoubleClick$, () => this.editSelectedComponent());
         });
     }
 
@@ -148,5 +151,19 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.stateService.redo();
             this.gridEditor?.syncState(this.State);
         }
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            this.goBack();
+        }
+    }
+
+    private goBack(): void {
+        if (this.componentModalOpen) { // any modal open
+            this.componentModalOpen = false;
+            return;
+        }
+
+        this.unselectSelectedComponent();
     }
 }

@@ -29,7 +29,7 @@
 
         <ng-container *ngIf="SelectedComponent">
             <div class="hgroup-8">
-                <app-fancy-button icon="🗑️" label="" color="#eeeeee" (onClick)="deleteSelectedComponent()"></app-fancy-button>
+                <app-fancy-button icon="🗑️" label="" color="#eeeeee" (onClick)="deleteComponent(SelectedComponent)"></app-fancy-button>
                 <app-fancy-button icon="✏️" label="Edit" color="#fff4e4" (onClick)="editSelectedComponent()"></app-fancy-button>
             </div>
 

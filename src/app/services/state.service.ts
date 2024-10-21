@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { State } from '../types/state';
+import { ComponentState, State } from '../types/state';
 
 @Injectable({
     providedIn: 'root'
@@ -20,20 +20,24 @@ export class StateService {
         return this.currentState;
     }
 
-    public undo(): void {
+    public undo(): ComponentState | undefined {
         if (this.historyPointer < 0)
             return;
 
+        const previousState = this.currentState;
         this.historyPointer = Math.max(0, this.historyPointer - 1);
         this.currentState = this.copy(this.history[this.historyPointer]);
+        return this.detectChangedComponent(previousState, this.currentState);
     }
 
-    public redo(): void {
+    public redo(): ComponentState | undefined {
         if (this.historyPointer >= this.history.length - 1)
             return;
 
+        const previousState = this.currentState;
         this.historyPointer += 1;
         this.currentState = this.copy(this.history[this.historyPointer]);
+        return this.detectChangedComponent(previousState, this.currentState);
     }
 
     public push(): void {
@@ -58,5 +62,22 @@ export class StateService {
                 })),
             })),
         };
+    }
+
+    private detectChangedComponent(previousState: State, currentState: State): ComponentState | undefined {
+        const unchangedComponents: ComponentState[] = [];
+        const previousStateStrings = previousState.components.map(x => JSON.stringify(x));
+        const currentStateStrings = currentState.components.map(x => JSON.stringify(x));
+
+        for (let i = 0; i < currentState.components.length; i++) {
+            for (let j = 0; j < previousState.components.length; j++) {
+                if (currentStateStrings[i] === previousStateStrings[j]) {
+                    unchangedComponents.push(currentState.components[i]);
+                    break;
+                }
+            }
+        }
+        
+        return currentState.components.filter(x => !unchangedComponents.includes(x))[0];
     }
 }

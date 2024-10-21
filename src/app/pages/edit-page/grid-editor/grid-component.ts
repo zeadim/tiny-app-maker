@@ -27,4 +27,9 @@ export class GridComponent extends GridElement {
     public unselect(): void {
         this.htmlElement.style.zIndex = '1';
     }
+
+    public highlight(): void {
+        this.htmlElement.classList.remove('highlight');
+        setTimeout(() => this.htmlElement.classList.add('highlight'));
+    }
 }
