@@ -4,6 +4,9 @@ import { StateService } from '../../services/state.service';
 import { GridEditor } from './grid-editor/grid-editor';
 import { ComponentState, State } from '../../types/state';
 
+// TODO:
+// remove overlay.component and modal.component
+
 @Component({
     selector: 'app-edit-page',
     templateUrl: './edit-page.component.html',

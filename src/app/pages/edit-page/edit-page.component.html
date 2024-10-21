@@ -38,6 +38,6 @@
     </div>
 </div>
 
-<app-modal *ngIf="componentModalOpen && SelectedComponent" (onClose)="componentModalOpen = false">
+<app-edit-component-overlay *ngIf="componentModalOpen && SelectedComponent" (onClose)="componentModalOpen = false">
     <div>Edit {{SelectedComponent.type}}.</div>
-</app-modal>
+</app-edit-component-overlay>

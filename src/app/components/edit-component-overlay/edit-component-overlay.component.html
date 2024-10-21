@@ -1,0 +1,28 @@
+<dialog class="overlay" #dialog>
+    <div class="background" (pointerdown)="closeModal()"></div>
+    
+    <div class="header">
+        <div class="hgroup-8">
+            <app-fancy-button icon="📋" label="Paste"></app-fancy-button>
+            <app-fancy-button icon="🖇️" label="Copy" (onClick)="closeModal()"></app-fancy-button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="modal">
+            <div class="component-type">
+                <div class="label">
+                    component
+                </div>
+                
+                <select class="select-menu">
+                    <option>Button</option>
+                </select>
+            </div>
+
+            <div class="component-settings">
+                something.
+            </div>
+        </div>
+    </div>
+</dialog>
