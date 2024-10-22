@@ -1,0 +1,35 @@
+:host {
+    display: contents;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .content {
+        flex: 1;
+        width: 100%;
+        min-height: 0;
+    }
+
+    .tabs {
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+
+        .tab {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+            background-color: #4aa;
+            color: white;
+            padding: 4px;
+        }
+    }
+}

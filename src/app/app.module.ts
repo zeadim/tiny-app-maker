@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { EditPageComponent } from './pages/edit-page/edit-page.component';
 import { FancyButtonComponent } from './components/fancy-button/fancy-button.component';
 import { EditComponentOverlayComponent } from './components/edit-component-overlay/edit-component-overlay.component';
+import { ComponentConfigurationComponent } from './components/component-configuration/component-configuration.component';
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import { EditComponentOverlayComponent } from './components/edit-component-overl
         EditPageComponent,
         FancyButtonComponent,
         EditComponentOverlayComponent,
+        ComponentConfigurationComponent,
     ],
     imports: [
         BrowserModule,

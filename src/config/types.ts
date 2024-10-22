@@ -13,12 +13,12 @@ export type InputConfiguration = {
     type: 'variable' | 'string' | 'number' | 'boolean' | 'color',
     default?: any,
     required?: boolean,
-    alwaysVariable?: boolean,
 };
 
 export type OutputConfiguration = {
     name: string,
     label: string,
+    default?: string,
 };
 
 export type EventConfiguration = {

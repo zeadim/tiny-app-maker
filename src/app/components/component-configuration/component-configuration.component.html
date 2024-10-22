@@ -1,0 +1,11 @@
+<div class="container">
+    <div class="content">
+        <div *ngFor="let input of config.inputs">
+            {{input.label}}
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab" *ngFor="let event of events">{{event.label}}</div>
+    </div>
+</div>

@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { componentList } from '../../../config/component-list';
 import { ComponentConfiguration } from 'src/config/types';
+import { ComponentState } from 'src/app/types/state';
 
 @Component({
   selector: 'app-edit-component-overlay',
@@ -9,19 +10,28 @@ import { ComponentConfiguration } from 'src/config/types';
 })
 export class EditComponentOverlayComponent implements OnInit, AfterViewInit {
 
-    private selectedComponentType = componentList[0].type;
     public componentGroups: { name: string, options: ComponentConfiguration[] }[] = [];
+    public componentTypeLoaded: boolean = false;
+
+    @Input('component') public component!: ComponentState;
 
     @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();
     
     @ViewChild('dialog') public dialog!: ElementRef<HTMLDialogElement>;
 
     public get SelectedComponentType(): string {
-        return this.selectedComponentType;
+        return this.component.type;
     }
 
     public set SelectedComponentType(type: string) {
-        this.selectedComponentType = type;
+        this.component.type = type;
+
+        this.component.inputs = [];
+        this.component.outputs = [];
+        this.component.events = [];
+
+        this.componentTypeLoaded = false;
+        setTimeout(() => this.componentTypeLoaded = true);
     }
 
     public ngOnInit(): void {
@@ -37,6 +47,8 @@ export class EditComponentOverlayComponent implements OnInit, AfterViewInit {
             const options = this.componentGroups[index].options;
             options.push(component);
         }
+
+        this.componentTypeLoaded = true;
     }
 
     public ngAfterViewInit(): void {
