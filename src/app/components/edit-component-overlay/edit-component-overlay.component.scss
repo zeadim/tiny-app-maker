@@ -4,7 +4,7 @@
 
 .overlay {
     &::backdrop {
-        background-image: linear-gradient(#eeef, #faffffdd);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
+        background-image: linear-gradient(#faffffff, #faffffee);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
         //opacity: 0.97;
     }
 
@@ -13,12 +13,13 @@
     max-width: 100%;
     max-height: 100%;
     margin: 0;
-    padding: 16px;
+    padding: 0;
     border: none;
     background-color: transparent;
     
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: relative;
 
     .background {
@@ -31,65 +32,37 @@
         cursor: pointer;
     }
 
-    .header {
+    .header,
+    .footer {
         z-index: 1;
-        width: 100%;
+        width: min(67vh, 100%);
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
+
+        padding: 16px;
     }
 
     .content {
         z-index: 1;
         flex: 1;
-        width: 100%;
+        width: min(67vh, 100%);
 
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        
+        padding: 0 16px;
 
         .modal {
-            min-width: min(400px, 95vw);
-            max-width: 90vw;
+            width: 100%;
+            height: 100%;
 
             display: flex;
             flex-direction: column;
+            justify-content: center;
             gap: 16px;
-
-            .component-type {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 16px;
-
-                .label {
-                    color: #aaa;
-                    font-weight: bold;
-                    font-size: 1.3em;
-                }
-
-                .select-menu {
-                    flex: 1;
-                    font-size: 1.3em;
-                    padding: 4px;
-                    outline: none;
-                    //background-color: #eed;
-                    background-image: linear-gradient(#eee, #ccc);
-                    border: 2px solid gray;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    text-transform: lowercase;
-                }
-            }
-
-            .component-configuration {
-                background-color: white;
-                border: 2px solid black;
-                border-radius: 4px;
-                padding: 4px;
-                min-height: 30vh;
-            }
         }
     }
 }

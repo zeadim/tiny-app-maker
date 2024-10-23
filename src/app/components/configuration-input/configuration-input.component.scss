@@ -1,0 +1,32 @@
+:host {
+    display: contents;
+}
+
+.container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .label {
+        font-size: 0.8em;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #2bbe;
+        margin-left: 4px;
+    }
+
+    .input {
+        width: 100%;
+
+        input {
+            width: 100%;
+            border: 2px solid #aaa;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 1em;
+            background-color: #fafafa;
+        }
+    }
+}

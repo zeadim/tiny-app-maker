@@ -5,31 +5,102 @@
 .container {
     width: 100%;
     height: 100%;
-    
+
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    justify-content: center;
+    gap: 16px;
 
-    .content {
-        flex: 1;
-        width: 100%;
-        min-height: 0;
-    }
-
-    .tabs {
+    .component-type {
         width: 100%;
 
         display: flex;
         flex-direction: row;
-        gap: 8px;
+        align-items: center;
+        gap: 16px;
 
-        .tab {
+        .label {
+            color: #aaa;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .select-menu {
             flex: 1;
-            min-width: 0;
-            height: 100%;
-            background-color: #4aa;
-            color: white;
+            font-size: 1.3em;
             padding: 4px;
+            outline: none;
+            //background-color: #eed;
+            background-image: linear-gradient(#eee, #ccc);
+            border: 2px solid gray;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: lowercase;
+        }
+    }
+
+    .component-settings {
+        flex: 1;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+        border: 2px solid rgba(0, 0, 0, 0.4);
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        //background-color: white;
+        //border: 2px solid black;
+        //border-radius: 4px;
+        padding: 8px;
+
+        .content {
+            flex: 1;
+            width: 100%;
+            min-height: 0;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            padding-top: 4px;
+        }
+
+        .tabs {
+            width: 100%;
+
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+
+            .tab {
+                flex: 1;
+                min-width: 0;
+                height: 100%;
+                text-align: center;
+                background-color: #eee;
+                color: #444;
+                padding: 8px;
+                border-radius: 4px;
+                font-size: 1.2em;
+                text-transform: lowercase;
+                user-select: none;
+                cursor: pointer;
+            }
+
+            .tab-selected {
+                background-color: #2bba;
+                color: white;
+                font-weight: bold;
+            }
+
+            .tab-divider {
+                width: 1px;
+                height: 100%;
+                border: 1px solid #eee;
+            }
         }
     }
 }
