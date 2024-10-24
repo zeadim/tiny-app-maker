@@ -1,4 +1,12 @@
 <div class="container">
+    <div class="action-settings">
+        <div class="content">
+            <ng-container *ngFor="let input of config.inputs">
+                <app-configuration-input [config]="input" [component]="action"></app-configuration-input>
+            </ng-container>
+        </div>
+    </div>
+
     <div class="action-type">
         <div class="label">
             action
@@ -11,13 +19,5 @@
                 </option>
             </optgroup>
         </select>
-    </div>
-
-    <div class="action-settings">
-        <div class="content">
-            <ng-container *ngFor="let input of config.inputs">
-                <app-configuration-input [config]="input" [component]="action"></app-configuration-input>
-            </ng-container>
-        </div>
     </div>
 </div>

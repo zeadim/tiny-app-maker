@@ -12,6 +12,7 @@ import { ComponentState, State } from '../../types/state';
 export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public componentModalOpen: boolean = false;
+    public selectedComponentSnapshot: string = '';
 
     public gridEditor?: GridEditor;
     public gridEditorSubscription: Subscription = new Subscription();
@@ -88,12 +89,26 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public editSelectedComponent(): void {
-        if (this.SelectedComponent)
-            this.componentModalOpen = true;
+        if (!this.SelectedComponent)
+            return;
+
+        this.componentModalOpen = true;
+        this.selectedComponentSnapshot = JSON.stringify(this.SelectedComponent);
     }
 
     public unselectSelectedComponent(): void {
         this.gridEditor?.selectComponent(undefined);
+    }
+
+    public onEditComponentOverlayClose(): void {
+        this.componentModalOpen = false;
+
+        // TODO: fails if e.g. previously empty event is populated on edit modal open
+        if (this.selectedComponentSnapshot === JSON.stringify(this.SelectedComponent))
+            return;
+
+        this.stateService.push();
+        this.gridEditor?.updateComponent(this.SelectedComponent);
     }
 
     private createGridEditor(): void {

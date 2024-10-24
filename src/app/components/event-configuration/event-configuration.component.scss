@@ -8,5 +8,25 @@
 
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    justify-content: flex-end;
+    gap: 16px;
+
+    .action-list {
+        width: 100%;
+        height: min(120px, 40vh);
+
+        border: 1px solid black;
+        background-color: #ddd;
+
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .action-entry:nth-child(odd) {
+            background-color: beige;
+        }
+
+        .action-entry {
+            padding: 4px;
+        }
+    }
 }

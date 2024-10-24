@@ -6,10 +6,8 @@
         </div>
 
         <app-fancy-button icon="☰" label="Menu"></app-fancy-button>
-
         <app-fancy-button icon="⚙️" label="Settings"></app-fancy-button>
         <app-fancy-button icon="💾" label="Export"></app-fancy-button>
-
     </div>
 
     <div class="content">
@@ -41,5 +39,5 @@
 <app-edit-component-overlay
     *ngIf="componentModalOpen && SelectedComponent"
     [component]="SelectedComponent"
-    (onClose)="componentModalOpen = false"
+    (onClose)="onEditComponentOverlayClose()"
 ></app-edit-component-overlay>

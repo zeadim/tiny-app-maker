@@ -14,7 +14,13 @@
         font-weight: bold;
         text-transform: uppercase;
         color: #2bbe;
-        margin-left: 4px;
+        padding: 0 4px;
+
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 8px;
     }
 
     .input {

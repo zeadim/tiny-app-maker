@@ -1,18 +1,4 @@
 <div class="container">
-    <div class="component-type">
-        <div class="label">
-            component
-        </div>
-
-        <select class="select-menu" [(ngModel)]="SelectedComponentType">
-            <optgroup *ngFor="let group of componentGroups" [label]="group.name">
-                <option *ngFor="let option of group.options" [value]="option.type">
-                    {{option.label}}
-                </option>
-            </optgroup>
-        </select>
-    </div>
-
     <div class="component-settings">
         <div class="content">
             <ng-container *ngIf="SelectedEvent.name === 'settings'">
@@ -47,5 +33,19 @@
                 <div class="tab-divider" *ngIf="!event.name"></div>
             </ng-container>
         </div>
+    </div>
+
+    <div class="component-type">
+        <div class="label">
+            component
+        </div>
+
+        <select class="select-menu" [(ngModel)]="SelectedComponentType" autofocus>
+            <optgroup *ngFor="let group of componentGroups" [label]="group.name">
+                <option *ngFor="let option of group.options" [value]="option.type">
+                    {{option.label}}
+                </option>
+            </optgroup>
+        </select>
     </div>
 </div>

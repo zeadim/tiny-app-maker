@@ -110,6 +110,15 @@ export class GridEditor {
         this.gridComponents.splice(index, 1);
     }
 
+    public updateComponent(component?: ComponentState): void {
+        const index = this.gridComponents.findIndex(x => x.component === component);
+        if (index < 0)
+            return;
+
+        const gridComponent = this.gridComponents[index];
+        gridComponent.update();
+    }
+
     private clearGridState(): void {
         this.gridSelectionBox?.destroy();
         this.gridComponents.forEach(x => x.destroy());
@@ -170,7 +179,12 @@ export class GridEditor {
             const y = Math.floor(i / this.gridWidth);
 
             const gridCell = new GridCell(x, y);
-            gridCell.setEventListener('pointerdown', () => this.cellClick$.next({ x, y }));
+            gridCell.setEventListener('pointerdown', () => {
+                if (this.selectedGridComponent)
+                    this.selectGridComponent(undefined);
+                else
+                    this.cellClick$.next({ x, y });
+            });
 
             this.containerElement.appendChild(gridCell.htmlElement);
             this.gridCells.push(gridCell);
@@ -196,9 +210,10 @@ export class GridEditor {
         this.selectedGridComponent.select();
         this.gridSelectionBox = new GridSelectionBox(this.selectedGridComponent);
 
-        this.gridSelectionBox.setEventListener('dblclick', () => {
+        // TODO: dblclick seems to behave weirdly on mobile sometimes?
+        /*this.gridSelectionBox.setEventListener('dblclick', () => {
             this.componentDoubleClick$.next(this.selectedGridComponent!.component)
-        });
+        });*/
 
         this.gridSelectionBox.setEventListener('pointerdown', (event: PointerEvent) => {
             if (event.button === 2) {

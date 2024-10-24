@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="label">{{config.label}}</div>
+    <div class="label">{{config.label}} <div style="color: #ddd">{{config.type}}</div></div>
 
     <ng-container [ngSwitch]="config.type">
         <div *ngSwitchCase="'string'" class="input">

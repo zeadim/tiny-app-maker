@@ -1,5 +1,6 @@
 import { ComponentState } from "src/app/types/state";
 import { GridElement } from "./grid-element";
+import { componentList } from "src/config/component-list";
 
 export class GridComponent extends GridElement {
     public component: ComponentState;
@@ -16,8 +17,13 @@ export class GridComponent extends GridElement {
         this.htmlElement.classList.add('grid-component');
 
         this.label = document.createElement('div');
-        this.label.textContent = component.type; // TODO: component's configuration .label
+        this.update();
         this.htmlElement.appendChild(this.label);
+    }
+
+    public update(): void {
+        const config = componentList.find(x => x.type === this.component.type)!;
+        this.label.textContent = config.label;
     }
 
     public select(): void {

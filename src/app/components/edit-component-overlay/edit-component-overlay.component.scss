@@ -4,7 +4,7 @@
 
 .overlay {
     &::backdrop {
-        background-image: linear-gradient(#faffffff, #faffffee);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
+        background-image: linear-gradient(#faffffee, #faffffee);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
         //opacity: 0.97;
     }
 
@@ -38,9 +38,13 @@
         width: min(67vh, 100%);
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: space-between;
 
         padding: 16px;
+    }
+
+    .footer {
+        justify-content: flex-end;
     }
 
     .content {
@@ -53,7 +57,7 @@
         justify-content: center;
         align-items: center;
         
-        padding: 0 16px;
+        padding: 0 8px;
 
         .modal {
             width: 100%;
