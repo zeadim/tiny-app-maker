@@ -9,24 +9,58 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 16px;
+    gap: 24px;
 
-    .action-list {
+    .action-list-section {
         width: 100%;
-        height: min(120px, 40vh);
 
-        border: 1px solid black;
-        background-color: #ddd;
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
 
-        overflow-y: scroll;
-        overflow-x: hidden;
+        .action-list-container {
+            flex: 1;
+            height: 120px;
+            position: relative;
 
-        .action-entry:nth-child(odd) {
-            background-color: beige;
+            border: 1px solid black;
+            background-color: #ddd;
+
+            .action-list {
+                width: 100%;
+                height: 100%;
+
+                overflow-y: scroll;
+                overflow-x: hidden;
+
+                .action-entry:nth-child(odd) {
+                    background-color: beige;
+                }
+
+                .action-entry {
+                    padding: 8px;
+                }
+            }
+
+            .floating-action-list-buttons {
+                position: absolute;
+                top: 0;
+                right: 3vw;
+                height: 100%;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 8px;
+            }
         }
 
-        .action-entry {
-            padding: 4px;
+        .action-list-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+            padding: 0 8px 0 0;
         }
     }
 }

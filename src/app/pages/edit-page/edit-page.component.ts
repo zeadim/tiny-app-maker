@@ -38,8 +38,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngOnInit(): void {
         const initialState = {
-            width: 6,
-            height: 10,
+            width: 4,
+            height: 8,
             components: [
 
             ],
@@ -92,7 +92,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.SelectedComponent)
             return;
 
-        this.componentModalOpen = true;
+        this.openComponentModal();
         this.selectedComponentSnapshot = JSON.stringify(this.SelectedComponent);
     }
 
@@ -100,8 +100,18 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.gridEditor?.selectComponent(undefined);
     }
 
-    public onEditComponentOverlayClose(): void {
+    public openComponentModal(): void {
+        this.componentModalOpen = true;
+        this.gridEditor?.deactivate();
+    }
+
+    public closeComponentModal(): void {
         this.componentModalOpen = false;
+        this.gridEditor?.activate();
+    }
+
+    public onEditComponentOverlayClose(): void {
+        this.closeComponentModal();
 
         // TODO: fails if e.g. previously empty event is populated on edit modal open
         if (this.selectedComponentSnapshot === JSON.stringify(this.SelectedComponent))
@@ -118,7 +128,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ngZone.runOutsideAngular(() => {
             this.gridEditor?.destroy();
             this.gridEditor = new GridEditor(this.gridElementRef.nativeElement, this.State);
-            this.addGridEditorSubscription(this.gridEditor.selectedComponentChange$, x => this.onSelectedComponentChange(x));
+            //this.addGridEditorSubscription(this.gridEditor.selectedComponentChange$, x => this.onSelectedComponentChange(x));
             this.addGridEditorSubscription(this.gridEditor.cellClick$, x => this.createNewComponent(x.x, x.y));
             this.addGridEditorSubscription(this.gridEditor.moveOrResizeEnd$, () => this.stateService.push());
             this.addGridEditorSubscription(this.gridEditor.componentRightClick$, (x) => this.deleteComponent(x));
@@ -130,10 +140,10 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.gridEditorSubscription.add(observable.subscribe(x => this.ngZone.run(() => callback(x))));
     }
 
-    private onSelectedComponentChange(component?: ComponentState): void {
+    /*private onSelectedComponentChange(component?: ComponentState): void {
         if (!component)
             this.componentModalOpen = false;
-    }
+    }*/
 
     private createNewComponent(x: number, y: number): void {
         const component: ComponentState = {
@@ -175,7 +185,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private goBack(): void {
         if (this.componentModalOpen) { // any modal open
-            this.componentModalOpen = false;
+            this.closeComponentModal();
             return;
         }
 

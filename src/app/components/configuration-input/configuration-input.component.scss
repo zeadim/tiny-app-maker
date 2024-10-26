@@ -6,11 +6,30 @@
     width: 100%;
 
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    flex-direction: row;
+    gap: 16px;
+
+    .input-container {
+        flex: 1;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .var-container {
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2px;
+        margin-right: 4px;
+    }
 
     .label {
-        font-size: 0.8em;
+        font-size: 0.75em;
         font-weight: bold;
         text-transform: uppercase;
         color: #2bbe;
@@ -33,6 +52,10 @@
             padding: 2px 6px;
             font-size: 1em;
             background-color: #fafafa;
+        }
+
+        input[type=checkbox] {
+            transform: scale(1.5);
         }
     }
 }

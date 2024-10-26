@@ -1,10 +1,6 @@
 <div class="container">
-    <div class="label">{{config.label}} <div style="color: #ddd">{{config.type}}</div></div>
-
-    <ng-container [ngSwitch]="config.type">
-        <div *ngSwitchCase="'string'" class="input">
-            <input type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off" />
-        </div>
+    <div class="input-container" [ngSwitch]="config.type">
+        <div class="label">{{config.label}} <div style="color: #ddd; display: none">{{config.type}}</div></div>
         
         <div *ngSwitchCase="'number'" class="input">
             <input type="number" [(ngModel)]="Value" />
@@ -17,5 +13,17 @@
         <div *ngSwitchCase="'color'" class="input">
             <input type="color" [(ngModel)]="Value" />
         </div>
-    </ng-container>
+
+        <div *ngSwitchDefault class="input">
+            <input type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off" />
+        </div>
+    </div>
+
+    <div class="var-container">
+        <div class="label">var</div>
+
+        <div class="input">
+            <input type="checkbox" [(ngModel)]="Value" />
+        </div>
+    </div>
 </div>

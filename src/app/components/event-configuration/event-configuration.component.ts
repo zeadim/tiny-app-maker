@@ -19,7 +19,7 @@ export class EventConfigurationComponent implements OnInit {
 
         // TODO: just to test
         this.currentAction = {
-            type: 'wait',
+            type: 'do-nothing',
             inputs: [],
         };
 

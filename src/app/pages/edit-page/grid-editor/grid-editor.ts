@@ -35,13 +35,7 @@ export class GridEditor {
         this.containerElement = containerElement;
 
         this.setEventListener(containerElement, 'contextmenu', (event: Event) => event.preventDefault());
-        this.setEventListener(window, 'pointermove', (event: MouseEvent) => this.onPointerMove(event));
-        this.setEventListener(window, 'touchmove', (event: TouchEvent) => this.onPointerMove(event));
-        this.setEventListener(window, 'mouseup', () => this.onPointerCancel());
-        this.setEventListener(window, 'pointerup', () => this.onPointerCancel());
-        this.setEventListener(window, 'touchcancel', () => this.onPointerCancel());
-        this.setEventListener(window, 'touchend', () => this.onPointerCancel());
-
+        this.activate();
         this.syncState(initialState);
     }
 
@@ -51,6 +45,22 @@ export class GridEditor {
         }
 
         this.clearGridState();
+    }
+
+    public activate(): void {
+        this.setEventListener(window, 'pointermove', (event: MouseEvent) => this.onPointerMove(event));
+        this.setEventListener(window, 'touchmove', (event: TouchEvent) => this.onPointerMove(event));
+        this.setEventListener(window, 'mouseup', () => this.onPointerCancel());
+        this.setEventListener(window, 'pointerup', () => this.onPointerCancel());
+        this.setEventListener(window, 'touchcancel', () => this.onPointerCancel());
+        this.setEventListener(window, 'touchend', () => this.onPointerCancel());
+    }
+
+    public deactivate(): void {
+        for (const [element, eventName, handler] of this.eventListeners) {
+            if (element === window)
+                element.removeEventListener(eventName, handler, false);
+        }
     }
 
     public syncState(state: State): void {

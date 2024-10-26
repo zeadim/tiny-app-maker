@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 16px;
+    gap: 24px;
 
     .component-type {
         width: 100%;
@@ -66,8 +66,8 @@
             display: flex;
             flex-direction: column;
             //justify-content: center;
-            gap: 12px;
-            padding-top: 8px;
+            gap: 16px;
+            padding: 8px;
         }
 
         .tabs {
