@@ -9,10 +9,6 @@
     </div>
 
     <div class="content">
-        <app-component-configuration [component]="component"></app-component-configuration>
-    </div>
-
-    <div class="footer">
-        <app-fancy-button icon="✅" label="Go Back" color="#eeffee" (onClick)="closeModal()"></app-fancy-button>
+        <app-component-configuration [component]="component" (onClose)="closeModal()"></app-component-configuration>
     </div>
 </dialog>

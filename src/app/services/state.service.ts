@@ -62,7 +62,6 @@ export class StateService {
         this.historyPointer += 1;
         this.history.length = this.historyPointer + 1;
         this.history[this.historyPointer] = this.copy(this.currentState);
-        console.log('pushed state', JSON.stringify(this.currentState));
     }
 
     public copy(state: State): State {

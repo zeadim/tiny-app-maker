@@ -17,10 +17,8 @@
             </div>
 
             <div class="floating-action-list-buttons">
-                <app-fancy-button icon="⬆️" label="" (onClick)="moveSelectedActionUp()"
-                    [disabled]="selectedActionIndex === 0"></app-fancy-button>
-                <app-fancy-button icon="⬇️" label="" (onClick)="moveSelectedActionDown()"
-                    [disabled]="selectedActionIndex === event.actions.length - 1"></app-fancy-button>
+                <app-fancy-button icon="⬆️" label="" (onClick)="moveSelectedActionUp()"></app-fancy-button>
+                <app-fancy-button icon="⬇️" label="" (onClick)="moveSelectedActionDown()"></app-fancy-button>
             </div>
         </div>
     </div>

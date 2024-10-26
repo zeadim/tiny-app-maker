@@ -4,7 +4,7 @@
 
 .overlay {
     &::backdrop {
-        background-image: linear-gradient(#e0eeeeff, #eaeeeef8);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
+        background-image: linear-gradient(#e0eeeef8, #eaeeeef8);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
         //opacity: 0.97;
     }
 
@@ -58,7 +58,7 @@
         justify-content: center;
         align-items: center;
         
-        padding: 0 8px;
+        padding: 0 16px;
 
         .modal {
             width: 100%;

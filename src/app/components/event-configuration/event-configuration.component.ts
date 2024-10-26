@@ -65,6 +65,9 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
     }
 
     public moveSelectedActionUp(): void {
+        if (this.selectedActionIndex <= 0)
+            return;
+
         const action = this.event.actions[this.selectedActionIndex];
         this.event.actions[this.selectedActionIndex] = this.event.actions[this.selectedActionIndex - 1]
         this.event.actions[this.selectedActionIndex - 1] = action;
@@ -73,6 +76,9 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
     }
 
     public moveSelectedActionDown(): void {
+        if (this.selectedActionIndex >= this.event.actions.length - 1)
+            return;
+
         const action = this.event.actions[this.selectedActionIndex];
         this.event.actions[this.selectedActionIndex] = this.event.actions[this.selectedActionIndex + 1]
         this.event.actions[this.selectedActionIndex + 1] = action;

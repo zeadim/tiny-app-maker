@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ComponentState } from '../../types/state';
 import { componentList } from '../../../config/component-list';
 import { ComponentConfiguration, EventConfiguration } from '../../../config/types';
@@ -17,6 +17,8 @@ export class ComponentConfigurationComponent implements OnInit {
     public savedComponentStates: Map<string, ComponentState> = new Map();
 
     @Input('component') public component!: ComponentState;
+
+    @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();
 
     public get SelectedComponentType(): string {
         return this.component.type;

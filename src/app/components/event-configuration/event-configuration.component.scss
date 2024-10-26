@@ -23,7 +23,9 @@
             height: 120px;
             position: relative;
 
-            border: 1px solid black;
+            //box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
             background-color: #eee;
 
             .action-list {
@@ -34,20 +36,24 @@
                 overflow-x: hidden;
 
                 .action-entry:nth-child(odd) {
-                    background-color: beige;
+                    background-color: #eed;
                 }
 
                 .action-entry:nth-child(even) {
-                    background-color: #dee;
+                    background-color: #ddc;
                 }
 
                 .action-entry {
                     padding: 8px;
-                    border-bottom: 1px solid #0002;
+                    border-bottom: 2px solid #0003;
+                    user-select: none;
+                    cursor: pointer;
 
                     &.selected {
-                        background-color: #f77;
+                        background-color: #e66;
                         font-weight: bold;
+                        color: white;
+                        cursor: default;
                     }
                 }
             }
@@ -55,7 +61,7 @@
             .floating-action-list-buttons {
                 position: absolute;
                 top: 0;
-                right: 3vw;
+                right: min(28px, 3.5vw);
                 height: 100%;
 
                 display: flex;

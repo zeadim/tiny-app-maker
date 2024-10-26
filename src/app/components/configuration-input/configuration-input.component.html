@@ -1,6 +1,10 @@
 <div class="container">
     <div class="input-container" [ngSwitch]="Variable ? 'variable' : config.type">
-        <div class="label">{{IsOutput ? "variable to put " + config.label + "into" : config.label}}
+        <div class="label-group" *ngIf="!IsOutput"><div class="label">{{config.label}}</div></div>
+        <div class="label-group" *ngIf="IsOutput">
+            <div class="label">variable to put&nbsp;</div>
+            <div class="label identifier">{{config.label}}</div>
+            <div class="label">&nbsp;into</div>
         </div>
 
         <div *ngSwitchCase="'number'" class="input">
@@ -25,15 +29,15 @@
         </div>
 
         <div *ngSwitchDefault class="input">
-            <input type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off" />
+            <input type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off" [class.variable]="Variable" />
         </div>
     </div>
 
     <div class="var-container">
-        <div class="label">var?</div>
+        <div class="label identifier">var?</div>
 
         <div class="input">
-            <input type="checkbox" [(ngModel)]="Variable" (change)="onVariableChange($event)" />
+            <input type="checkbox" [(ngModel)]="Variable" [disabled]="IsOutput" />
         </div>
     </div>
 </div>
