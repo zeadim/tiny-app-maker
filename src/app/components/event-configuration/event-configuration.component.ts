@@ -1,28 +1,94 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActionState, ComponentState, EventState } from '../../types/state';
 import { ActionConfiguration, EventConfiguration } from '../../../config/types';
+import { actionList } from 'src/config/action-list';
 
 @Component({
     selector: 'app-event-configuration',
     templateUrl: './event-configuration.component.html',
     styleUrls: ['./event-configuration.component.scss']
 })
-export class EventConfigurationComponent implements OnInit {
+export class EventConfigurationComponent implements OnInit, OnDestroy {
 
-    public currentAction?: ActionState;
+    public selectedActionIndex: number = 0;
+    public event!: EventState;
 
     @Input('config') public config!: EventConfiguration;
-    @Input('event') public event!: EventState;
+    @Input('component') public component!: ComponentState;
+
+    @ViewChild('actionList') public actionList!: ElementRef<HTMLElement>;
+
+    public get SelectedAction(): ActionState {
+        return this.event.actions[this.selectedActionIndex];
+    }
 
     public ngOnInit(): void {
-        //
+        let event = this.component.events.find(x => x.name === this.config.name);
+        if (!event) {
+            event = { name: this.config.name, actions: [] };
+            this.component.events.push(event);
+        }
 
-        // TODO: just to test
-        this.currentAction = {
-            type: 'do-nothing',
-            inputs: [],
-        };
+        this.event = event;
+        this.addPlaceholderAction(true);
+    }
 
-        this.event.actions.push(this.currentAction);
+    public ngOnDestroy(): void {
+        this.event.actions = this.event.actions.filter(x => x.type !== 'do-nothing');
+
+        if (this.event.actions.length === 0) {
+            const index = this.component.events.indexOf(this.event);
+            this.component.events.splice(index, 1);
+        }
+    }
+
+    public getActionLabel(action: ActionState): string {
+        return actionList.find(x => x.type === action.type)?.label ?? 'unknown';
+    }
+
+    public selectAction(index: number): void {
+        this.selectedActionIndex = index;
+        this.scrollSelectionActionEntryIntoView();
+    }
+
+    public deleteSelectedAction(): void {
+        this.event.actions.splice(this.selectedActionIndex, 1);
+        this.addPlaceholderAction(true);
+        this.selectedActionIndex = Math.max(0, this.selectedActionIndex - 1);
+        this.scrollSelectionActionEntryIntoView();
+    }
+
+    public addAction(): void {
+        this.addPlaceholderAction(false);
+        this.selectedActionIndex = this.event.actions.length - 1;
+        this.scrollSelectionActionEntryIntoView();
+    }
+
+    public moveSelectedActionUp(): void {
+        const action = this.event.actions[this.selectedActionIndex];
+        this.event.actions[this.selectedActionIndex] = this.event.actions[this.selectedActionIndex - 1]
+        this.event.actions[this.selectedActionIndex - 1] = action;
+        this.selectedActionIndex -= 1;
+        this.scrollSelectionActionEntryIntoView();
+    }
+
+    public moveSelectedActionDown(): void {
+        const action = this.event.actions[this.selectedActionIndex];
+        this.event.actions[this.selectedActionIndex] = this.event.actions[this.selectedActionIndex + 1]
+        this.event.actions[this.selectedActionIndex + 1] = action;
+        this.selectedActionIndex += 1;
+        this.scrollSelectionActionEntryIntoView();
+    }
+
+    private addPlaceholderAction(onlyWhenEmpty: boolean): void {
+        if (!onlyWhenEmpty || this.event.actions.length === 0)
+            this.event.actions.push({ type: 'do-nothing', inputs: [] });
+    }
+
+    private scrollSelectionActionEntryIntoView(): void {
+        setTimeout(() => {
+            const element = this.actionList.nativeElement.children.item(this.selectedActionIndex);
+            element?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
     }
 }

@@ -1,11 +1,12 @@
 <div class="container">
     <div class="component-settings">
         <div class="content">
+            <!-- TODO: create component for this section, since also used in action-configuration.component -->
             <ng-container *ngIf="SelectedEvent.name === 'settings'">
                 <ng-container *ngFor="let input of config.inputs">
                     <app-configuration-input
                         [config]="input"
-                        [component]="component"
+                        [inputs]="component.inputs"
                     ></app-configuration-input>
                 </ng-container>
             </ng-container>
@@ -13,7 +14,7 @@
             <ng-container *ngIf="SelectedEvent.name !== 'settings'">
                 <app-event-configuration
                     [config]="SelectedEvent"
-                    [event]="selectedEventState"
+                    [component]="component"
                 ></app-event-configuration>
             </ng-container>
         </div>

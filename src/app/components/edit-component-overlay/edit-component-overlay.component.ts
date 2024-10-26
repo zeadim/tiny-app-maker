@@ -1,6 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { componentList } from '../../../config/component-list';
-import { ComponentConfiguration } from 'src/config/types';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ComponentState } from 'src/app/types/state';
 
 @Component({
@@ -22,5 +20,9 @@ export class EditComponentOverlayComponent implements AfterViewInit {
 
     public closeModal(): void {
         this.onClose.emit();
+    }
+
+    public test(): void {
+        console.log(this.component); // TODO: remove, just to debug component state
     }
 }

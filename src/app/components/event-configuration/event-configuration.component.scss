@@ -24,7 +24,7 @@
             position: relative;
 
             border: 1px solid black;
-            background-color: #ddd;
+            background-color: #eee;
 
             .action-list {
                 width: 100%;
@@ -37,8 +37,18 @@
                     background-color: beige;
                 }
 
+                .action-entry:nth-child(even) {
+                    background-color: #dee;
+                }
+
                 .action-entry {
                     padding: 8px;
+                    border-bottom: 1px solid #0002;
+
+                    &.selected {
+                        background-color: #f77;
+                        font-weight: bold;
+                    }
                 }
             }
 

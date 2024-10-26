@@ -12,7 +12,6 @@ export const button: ComponentConfiguration = {
             required: false,
         },
     ],
-    outputs: [],
     events: [
         {
             name: 'click',

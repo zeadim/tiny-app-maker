@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ComponentState, EventState } from '../../types/state';
+import { ComponentState } from '../../types/state';
 import { componentList } from '../../../config/component-list';
 import { ComponentConfiguration, EventConfiguration } from '../../../config/types';
 
@@ -11,10 +11,10 @@ import { ComponentConfiguration, EventConfiguration } from '../../../config/type
 export class ComponentConfigurationComponent implements OnInit {
 
     public config!: ComponentConfiguration;
+    public componentGroups: { name: string, options: ComponentConfiguration[] }[] = [];
     public events: EventConfiguration[] = [];
     public selectedEvent!: EventConfiguration;
-    public selectedEventState!: EventState;
-    public componentGroups: { name: string, options: ComponentConfiguration[] }[] = [];
+    public savedComponentStates: Map<string, ComponentState> = new Map();
 
     @Input('component') public component!: ComponentState;
 
@@ -23,12 +23,18 @@ export class ComponentConfigurationComponent implements OnInit {
     }
 
     public set SelectedComponentType(type: string) {
+        this.savedComponentStates.set(this.component.type, { ...this.component });
+
         this.component.type = type;
+
+        const component = this.savedComponentStates.get(type);
+        this.component.inputs = component?.inputs ?? [];
+        this.component.events = component?.events ?? [];
+        
         this.loadComponentType();
     }
 
     public get SelectedEvent(): EventConfiguration {
-        this.selectedEventState = this.component.events.find(x => x.name === this.selectedEvent.name)!;
         return this.selectedEvent;
     }
 
@@ -54,10 +60,6 @@ export class ComponentConfigurationComponent implements OnInit {
     }
 
     private loadComponentType(): void {
-        this.component.inputs = [];
-        this.component.outputs = [];
-        this.component.events = [];
-
         this.config = componentList.find(x => x.type === this.component.type)!;
 
         this.events = [{
@@ -66,12 +68,10 @@ export class ComponentConfigurationComponent implements OnInit {
         }];
 
         for (const event of this.config.events) {
-            this.component.events.push({ name: event.name, actions: [] });
             this.events.push({ name: '', label: '' });
             this.events.push(event);
         }
 
         this.selectedEvent = this.events[0];
-        this.selectedEventState = this.component.events.find(x => x.name === this.selectedEvent.name)!;
     }
 }

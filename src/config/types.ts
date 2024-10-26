@@ -3,7 +3,6 @@ export type ComponentConfiguration = {
     label: string,
     group?: string,
     inputs: InputConfiguration[],
-    outputs: OutputConfiguration[],
     events: EventConfiguration[],
 };
 
@@ -13,12 +12,6 @@ export type InputConfiguration = {
     type: 'variable' | 'string' | 'number' | 'boolean' | 'color',
     default?: any,
     required?: boolean,
-};
-
-export type OutputConfiguration = {
-    name: string,
-    label: string,
-    default?: string,
 };
 
 export type EventConfiguration = {

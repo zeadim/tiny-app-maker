@@ -1,25 +1,26 @@
 <div class="container">
-    <app-action-configuration
-        *ngIf="currentAction"
-        [action]="currentAction"
-    ></app-action-configuration>
+    <app-action-configuration *ngIf="SelectedAction" [action]="SelectedAction"></app-action-configuration>
 
     <div class="action-list-section">
         <div class="action-list-buttons">
-            <app-fancy-button icon="🗑️" label=""></app-fancy-button>
-            <app-fancy-button icon="➕" label=""></app-fancy-button>
+            <app-fancy-button icon="🗑️" label="" (onClick)="deleteSelectedAction()"></app-fancy-button>
+            <app-fancy-button icon="➕" label="" (onClick)="addAction()"></app-fancy-button>
         </div>
 
         <div class="action-list-container">
-            <div class="action-list">
-                <div class="action-entry" *ngFor="let x of [1, 2, 3, 4, 5, 6, 7, 8, 9]; let i = index">
-                    {{i + 1}}. connect websocket
+            <div class="action-list" #actionList>
+                <div class="action-entry" [class.selected]="selectedActionIndex === i"
+                    (pointerdown)="selectAction(i)"
+                    *ngFor="let action of event.actions; let i = index">
+                    {{i + 1}}. {{ getActionLabel(action) }}
                 </div>
             </div>
 
             <div class="floating-action-list-buttons">
-                <app-fancy-button icon="⬆️" label=""></app-fancy-button>
-                <app-fancy-button icon="⬇️" label=""></app-fancy-button>
+                <app-fancy-button icon="⬆️" label="" (onClick)="moveSelectedActionUp()"
+                    [disabled]="selectedActionIndex === 0"></app-fancy-button>
+                <app-fancy-button icon="⬇️" label="" (onClick)="moveSelectedActionDown()"
+                    [disabled]="selectedActionIndex === event.actions.length - 1"></app-fancy-button>
             </div>
         </div>
     </div>

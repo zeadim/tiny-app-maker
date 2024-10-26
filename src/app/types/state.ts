@@ -11,7 +11,6 @@ export type ComponentState = {
     x1: number,
     y1: number,
     inputs: InputState[],
-    outputs: OutputState[],
     events: EventState[],
 };
 
@@ -19,11 +18,6 @@ export type InputState = {
     name: string,
     value: any,
     variable: boolean,
-};
-
-export type OutputState = {
-    name: string,
-    value?: string,
 };
 
 export type EventState = {

@@ -20,4 +20,9 @@
     padding: 12px 12px;
     cursor: pointer;
     user-select: none;
+
+    &.disabled {
+        cursor: not-allowed;
+        background-color: gray;
+    }
 }

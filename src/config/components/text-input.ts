@@ -12,16 +12,15 @@ export const textInput: ComponentConfiguration = {
             required: false,
         },
         {
-            name: 'value',
-            label: 'Value',
+            name: 'text',
+            label: 'Text',
             type: 'string',
             required: false,
         },
-    ],
-    outputs: [
         {
-            name: 'text',
-            label: 'current text',
+            name: 'output-text',
+            label: 'Current Text',
+            type: 'variable',
         },
     ],
     events: [],

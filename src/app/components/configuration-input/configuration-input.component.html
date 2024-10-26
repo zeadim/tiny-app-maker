@@ -1,11 +1,12 @@
 <div class="container">
-    <div class="input-container" [ngSwitch]="config.type">
-        <div class="label">{{config.label}} <div style="color: #ddd; display: none">{{config.type}}</div></div>
-        
+    <div class="input-container" [ngSwitch]="Variable ? 'variable' : config.type">
+        <div class="label">{{IsOutput ? "variable to put " + config.label + "into" : config.label}}
+        </div>
+
         <div *ngSwitchCase="'number'" class="input">
             <input type="number" [(ngModel)]="Value" />
         </div>
-        
+
         <div *ngSwitchCase="'boolean'" class="input">
             <input type="checkbox" [(ngModel)]="Value" />
         </div>
@@ -14,16 +15,25 @@
             <input type="color" [(ngModel)]="Value" />
         </div>
 
+        <div *ngSwitchCase="'variable'" class="input">
+            <input [attr.list]="id" type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off"
+                class="variable" />
+            <datalist [id]="id" *ngIf="!IsOutput">
+                <option *ngFor="let variableOption of VariableOptions" [value]="variableOption">{{variableOption}}
+                </option>
+            </datalist>
+        </div>
+
         <div *ngSwitchDefault class="input">
             <input type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off" />
         </div>
     </div>
 
     <div class="var-container">
-        <div class="label">var</div>
+        <div class="label">var?</div>
 
         <div class="input">
-            <input type="checkbox" [(ngModel)]="Value" />
+            <input type="checkbox" [(ngModel)]="Variable" (change)="onVariableChange($event)" />
         </div>
     </div>
 </div>

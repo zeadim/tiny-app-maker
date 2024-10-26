@@ -113,12 +113,14 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public onEditComponentOverlayClose(): void {
         this.closeComponentModal();
 
-        // TODO: fails if e.g. previously empty event is populated on edit modal open
-        if (this.selectedComponentSnapshot === JSON.stringify(this.SelectedComponent))
-            return;
+        // setTimeout to make modal components' OnDestroy be called first for cleaning up empty inputs
+        setTimeout(() => {
+            if (this.selectedComponentSnapshot === JSON.stringify(this.SelectedComponent))
+                return;
 
-        this.stateService.push();
-        this.gridEditor?.updateComponent(this.SelectedComponent);
+            this.stateService.push();
+            this.gridEditor?.updateComponent(this.SelectedComponent);
+        });
     }
 
     private createGridEditor(): void {
@@ -153,7 +155,6 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             x1: x + 2,
             y1: y + 2,
             inputs: [],
-            outputs: [],
             events: [],
         };
 

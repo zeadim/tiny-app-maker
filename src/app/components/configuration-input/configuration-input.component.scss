@@ -56,6 +56,12 @@
 
         input[type=checkbox] {
             transform: scale(1.5);
+            margin-left: -0.1px;
+        }
+
+        .variable {
+            color: blue;
+            font-weight: bold;
         }
     }
 }

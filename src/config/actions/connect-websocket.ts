@@ -10,16 +10,14 @@ export const connectWebsocket: ActionConfiguration = {
             label: 'Websocket URL',
             type: 'string',
         },
-        
-        // TODO: actually outputs
         {
-            name: 'websocket-var',
-            label: 'Variable to put websocket into',
+            name: 'output-websocket',
+            label: 'websocket',
             type: 'variable',
         },
         {
-            name: 'last-message-var',
-            label: 'Variable to put last message into',
+            name: 'output-last-message',
+            label: 'last message',
             type: 'variable',
         }
     ],

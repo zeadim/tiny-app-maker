@@ -1,8 +1,8 @@
 <div class="container">
-    <div class="action-settings" *ngIf="config.inputs.length > 0">
+    <div class="action-settings" *ngIf="configInputs.length > 0">
         <div class="content">
-            <ng-container *ngFor="let input of config.inputs">
-                <app-configuration-input [config]="input" [component]="action"></app-configuration-input>
+            <ng-container *ngFor="let input of configInputs">
+                <app-configuration-input [config]="input" [inputs]="action.inputs"></app-configuration-input>
             </ng-container>
         </div>
     </div>
