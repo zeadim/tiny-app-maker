@@ -1,4 +1,4 @@
-import { Component } from "../component";
+import { Component } from "./component";
 
 export class $Button extends Component {
     private button!: HTMLButtonElement;
@@ -9,13 +9,11 @@ export class $Button extends Component {
         this.button.addEventListener('click', async () => {
             await this.triggerEvent('click');
         });
+
+        this.addInputListener('label', (value) => {
+            this.button.textContent = value ?? '';
+        });
         
         return this.button;
-    }
-
-    protected override onInputUpdate(name: string, value: any): void {
-        if (name === 'label') {
-            this.button.textContent = value;
-        }
     }
 }

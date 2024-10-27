@@ -1,23 +1,23 @@
-import { ActionConfiguration } from "../types";
+import { ActionConfiguration } from "../../types";
 
-export const connectWebsocket: ActionConfiguration = {
-    name: 'connect-websocket',
-    label: 'Connect Websocket',
+export const openWebSocket: ActionConfiguration = {
+    name: 'open-websocket',
+    label: 'Open WebSocket',
     group: 'network',
     inputs: [
         {
             name: 'url',
-            label: 'Websocket URL',
+            label: 'WebSocket URL',
             type: 'string',
         },
         {
             name: 'output-websocket',
-            label: 'websocket',
+            label: 'WebSocket ID',
             type: 'variable',
         },
         {
             name: 'output-last-message',
-            label: 'last message',
+            label: 'Last Message',
             type: 'variable',
         }
     ],

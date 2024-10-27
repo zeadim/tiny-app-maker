@@ -25,6 +25,250 @@
 <body>
     <div id="grid" class="grid"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script>
+        // @ts-ignore
+        window.appConfig = { // TODO: remove, just for debugging
+            "width": 4,
+            "height": 8,
+            "components": [
+                {
+                    "name": "button",
+                    "x0": 2,
+                    "y0": 6,
+                    "x1": 4,
+                    "y1": 8,
+                    "inputs": [
+                        {
+                            "name": "label",
+                            "value": "TEST",
+                            "variable": true
+                        }
+                    ],
+                    "events": [
+                        {
+                            name: "click",
+                            actions: [
+                                {
+                                    name: "alert",
+                                    inputs: [
+                                        {
+                                            name: "message",
+                                            value: "In 3 seconds, I will tell you the textbox text.",
+                                            variable: false
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "wait",
+                                    inputs: [
+                                        {
+                                            name: "duration",
+                                            value: "3000",
+                                            variable: false
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "alert",
+                                    inputs: [
+                                        {
+                                            name: "message",
+                                            value: "TEST",
+                                            variable: true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                /*{
+                    "name": "text-input",
+                    "x0": 1,
+                    "y0": 5,
+                    "x1": 2,
+                    "y1": 6,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "first value",
+                            "variable": false
+                        },
+                        {
+                            "name": "output-text",
+                            "value": "YAY",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },*/
+                {
+                    "name": "text-input",
+                    "x0": 1,
+                    "y0": 3,
+                    "x1": 5,
+                    "y1": 4,
+                    "inputs": [
+                        {
+                            "name": "placeholder",
+                            "value": "Please enter here...",
+                            "variable": false
+                        },
+                        /*{
+                            "name": "text",
+                            "value": "YAY",
+                            "variable": true
+                        },*/
+                        {
+                            "name": "output-text",
+                            "value": "TEST",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+            ]
+        };
+
+        //@ts-ignore
+        window.appConfig = {
+            "width": 6,
+            "height": 10,
+            "components": [
+                {
+                    "name": "button",
+                    "x0": 3,
+                    "y0": 8,
+                    "x1": 5,
+                    "y1": 9,
+                    "inputs": [{ name: 'label', value: 'Text to Speech' }],
+                    "events": [
+                        {
+                            "name": "click",
+                            "actions": [
+                                {
+                                    "name": "vibrate",
+                                    "inputs": [
+                                        {
+                                            "name": "duration",
+                                            "value": 500,
+                                            "variable": false,
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "speak",
+                                    "inputs": [
+                                        {
+                                            "name": "text",
+                                            "value": "SPEECH",
+                                            "variable": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "text-input",
+                    "x0": 3,
+                    "y0": 7,
+                    "x1": 5,
+                    "y1": 8,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "Hello there! Welcome to the squapp.",
+                            "variable": false
+                        },
+                        {
+                            "name": "output-text",
+                            "value": "SPEECH",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+                {
+                    "name": "number-input",
+                    "x0": 3,
+                    "y0": 4,
+                    "x1": 5,
+                    "y1": 5,
+                    "inputs": [
+                        {
+                            "name": "number",
+                            "value": "N",
+                            "variable": true
+                        },
+                        {
+                            "name": "output-number",
+                            "value": "N",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+                {
+                    "name": "button",
+                    "x0": 5,
+                    "y0": 4,
+                    "x1": 6,
+                    "y1": 5,
+                    "inputs": [
+                        {
+                            "name": "label",
+                            "value": "+",
+                            "variable": false
+                        }
+                    ],
+                    "events": [
+                        {
+                            "name": "click",
+                            "actions": [
+                                {
+                                    "name": "add",
+                                    "inputs": [
+                                        {
+                                            "name": "value1",
+                                            "value": "N",
+                                            "variable": true
+                                        },
+                                        {
+                                            "name": "value2",
+                                            "value": 1,
+                                            "variable": false
+                                        },
+                                        {
+                                            "name": "result",
+                                            "value": "N",
+                                            "variable": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "text-input",
+                    "x0": 1,
+                    "y0": 4,
+                    "x1": 3,
+                    "y1": 5,
+                    "inputs": [
+                        {
+                            "name": "placeholder",
+                            "value": "name",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                }
+            ]
+        };
+    </script>
     <script id="%APP_CONFIG%"></script>
 </body>
 

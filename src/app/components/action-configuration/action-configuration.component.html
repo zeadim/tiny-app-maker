@@ -13,11 +13,19 @@
         </div>
 
         <select class="select-menu" [(ngModel)]="SelectedActionType">
-            <optgroup *ngFor="let group of actionGroups" [label]="group.name">
-                <option *ngFor="let option of group.options" [value]="option.name">
-                    {{option.label}}
-                </option>
-            </optgroup>
+            <ng-container *ngFor="let group of actionGroups">
+                <optgroup [label]="group.name" *ngIf="group.name">
+                    <option *ngFor="let option of group.options" [value]="option.name">
+                        {{option.label}}
+                    </option>
+                </optgroup>
+
+                <ng-container *ngIf="!group.name">
+                    <option *ngFor="let option of group.options" [value]="option.name">
+                        {{option.label}}
+                    </option>
+                </ng-container>
+            </ng-container>
         </select>
     </div>
 </div>

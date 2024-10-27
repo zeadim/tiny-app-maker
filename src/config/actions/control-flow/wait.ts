@@ -1,9 +1,9 @@
-import { ActionConfiguration } from "../types";
+import { ActionConfiguration } from "../../types";
 
 export const wait: ActionConfiguration = {
     name: 'wait',
     label: 'Wait',
-    group: 'control',
+    group: 'control flow',
     inputs: [
         {
             name: 'duration',

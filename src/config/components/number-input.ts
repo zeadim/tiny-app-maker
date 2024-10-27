@@ -1,8 +1,8 @@
 import { ComponentConfiguration } from "../types";
 
-export const textInput: ComponentConfiguration = {
-    name: 'text-input',
-    label: 'Text Input',
+export const numberInput: ComponentConfiguration = {
+    name: 'number-input',
+    label: 'Number Input',
     group: 'input',
     inputs: [
         {
@@ -11,13 +11,13 @@ export const textInput: ComponentConfiguration = {
             type: 'string',
         },
         {
-            name: 'text',
-            label: 'Text',
-            type: 'string',
+            name: 'number',
+            label: 'Number',
+            type: 'number',
         },
         {
-            name: 'output-text',
-            label: 'Current Text',
+            name: 'output-number',
+            label: 'Current Number',
             type: 'variable',
         },
     ],

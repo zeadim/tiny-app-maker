@@ -70,7 +70,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this.input && this.input.value == null) {
+        if (this.input && this.input.value == null) { // TODO: also omit empty string if type is string?
             const index = this.inputs.indexOf(this.input);
             this.inputs.splice(index, 1);
         }

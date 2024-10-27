@@ -1,5 +1,5 @@
-import { App } from "./app";
-import { InputState } from "./types";
+import { App } from "../app";
+import { InputState } from "../types";
 
 export class Action {
     protected app: App;
@@ -34,7 +34,7 @@ export class Action {
         return undefined;
     }
 
-    public async execute(): Promise<boolean> {
-        return false;
+    public async execute(): Promise<number | undefined> {
+        return undefined;
     }
 }

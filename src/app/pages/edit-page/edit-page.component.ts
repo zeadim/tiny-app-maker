@@ -4,6 +4,16 @@ import { StateService } from '../../services/state.service';
 import { GridEditor } from './grid-editor/grid-editor';
 import { ComponentState, State } from '../../types/state';
 
+/*
+TODO:
+- omit inputs when the default type value is set + automatically set default type value at instantation in app (not undefined)?
+- do we want a "alwaysVariable" kind of input parameter, e.g. in case of websocket ID input?
+- can "required" input parameter be removed, or should it be implemented?
+- how to work with booleans (conditions, truthy/falsy values as well as checkbox inputs)? Separate type or 0 and 1?
+- add padding to app - unfortunately it is already part of container containing iframe also (via negative margin?)
+- check TODOs
+*/
+
 @Component({
     selector: 'app-edit-page',
     templateUrl: './edit-page.component.html',

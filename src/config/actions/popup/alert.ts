@@ -1,9 +1,9 @@
-import { ActionConfiguration } from "../types";
+import { ActionConfiguration } from "../../types";
 
 export const alert: ActionConfiguration = {
     name: 'alert',
     label: 'Alert',
-    group: 'control',
+    group: 'popup',
     inputs: [
         {
             name: 'message',

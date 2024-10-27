@@ -1,7 +1,7 @@
-import { Action } from "./action";
-import { actionMap } from "./action-map";
-import { App } from "./app";
-import { EventState, InputState } from "./types";
+import { Action } from "../actions/action";
+import { actionMap } from "../action-map";
+import { App } from "../app";
+import { EventState, InputState } from "../types";
 
 export class Component {
     protected app: App;
@@ -10,6 +10,7 @@ export class Component {
     protected x1: number;
     protected y1: number;
 
+    private inputListeners = new Map<string, (value: any) => unknown>();
     private inputConstants = new Map<string, any>();
     private inputVariables = new Map<string, string>();
     private inputVariablesReversed = new Map<string, string>();
@@ -42,6 +43,9 @@ export class Component {
             for (const actionConfig of event.actions) {
                 const { name, inputs } = actionConfig;
 
+                if (name === 'do-nothing')
+                    continue;
+
                 const ActionClass = actionMap.get(name);
                 if (!ActionClass) {
                     console.warn(`Unsupported action type in config: ${name}`);
@@ -63,9 +67,14 @@ export class Component {
         this.htmlElement.style.gridColumnEnd = `${this.x1}`;
         this.htmlElement.style.gridRowEnd = `${this.y1}`;
 
-        for (const [name, value] of this.inputConstants) {
-            this.onInputUpdate(name, value);
+        for (const [name, _] of this.inputListeners) {
+            const value = this.getInput(name);
+            this.notifyInputUpdate(name, value);
         }
+    }
+
+    public addInputListener(name: string, listener: (value: any) => unknown): void {
+        this.inputListeners.set(name, listener);
     }
 
     public getInput(name: string): any {
@@ -80,37 +89,40 @@ export class Component {
         return undefined;
     }
 
-    public async triggerEvent(name: string): Promise<boolean> {
+    public async triggerEvent(name: string): Promise<void> {
         if (!this.events.has(name))
-            return false;
+            return;
 
         const actions = this.events.get(name)!;
         
-        for (const action of actions) {
-            const stop = await action.execute();
-            if (stop)
-                return true;
-
+        for (let i = 0; i < actions.length; i++) {
+            const action = actions[i];
+            const index = await action.execute();
+            if (index !== undefined)
+                i = index - 1;
+            
             await new Promise((resolve) => setTimeout(resolve, 0));
         }
-
-        return false;
     }
 
     protected createHtmlElement(): HTMLElement {
         return document.createElement('div');
     }
 
-    protected onInputUpdate(name: string, value: any): void {
-        //
-    }
-
     private onVariableChange(event: CustomEvent): void {
         const { variable, value } = event.detail;
-        
+
         if (this.inputVariablesReversed.has(variable)) {
             const name = this.inputVariablesReversed.get(variable)!;
-            this.onInputUpdate(name, value);
+            this.notifyInputUpdate(name, value);
         }
+    }
+
+    private notifyInputUpdate(name: string, value: any): void {
+        if (!this.inputListeners.has(name))
+            return;
+
+        const listener = this.inputListeners.get(name)!;
+        listener(value);
     }
 }

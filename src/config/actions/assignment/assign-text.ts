@@ -1,9 +1,9 @@
-import { ActionConfiguration } from "../types";
+import { ActionConfiguration } from "../../types";
 
 export const assignText: ActionConfiguration = {
     name: 'assign-text',
     label: 'Assign Text',
-    group: 'variables',
+    group: 'assignment',
     inputs: [
         {
             name: 'value',

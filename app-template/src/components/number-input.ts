@@ -1,25 +1,25 @@
 import { Component } from "./component";
 
-export class $TextInput extends Component {
+export class $NumberInput extends Component {
     private input!: HTMLInputElement;
     
     protected override createHtmlElement(): HTMLElement {
         this.input = document.createElement('input');
 
-        this.input.setAttribute('type', 'text');
+        this.input.setAttribute('type', 'number');
         this.input.style.minWidth = '0';
         this.input.style.minHeight = '0';
         
         this.input.addEventListener('input', () => {
-            this.updateOutputText();
+            this.updateOutputNumber();
         });
 
-        this.addInputListener('text', (value) => {
-            if (this.input.value === value)
+        this.addInputListener('number', (value) => {
+            if (this.input.valueAsNumber === value)
                 return;
-            
-            this.input.value = value ?? '';
-            this.updateOutputText();
+
+            this.input.value = value ?? 0;
+            this.updateOutputNumber();
         });
 
         this.addInputListener('placeholder', (value) => {
@@ -29,8 +29,8 @@ export class $TextInput extends Component {
         return this.input;
     }
 
-    private updateOutputText(): void {
-        const outputVariable = this.getInput('output-text');
-        this.app.setVariableValue(outputVariable, this.input.value);
+    private updateOutputNumber(): void {
+        const outputVariable = this.getInput('output-number');
+        this.app.setVariableValue(outputVariable, this.input.valueAsNumber);
     }
 }

@@ -20,7 +20,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
-  <script type="module" crossorigin>(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))i(s);new MutationObserver(s=>{for(const a of s)if(a.type==="childList")for(const r of a.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&i(r)}).observe(document,{childList:!0,subtree:!0});function e(s){const a={};return s.integrity&&(a.integrity=s.integrity),s.referrerPolicy&&(a.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?a.credentials="include":s.crossOrigin==="anonymous"?a.credentials="omit":a.credentials="same-origin",a}function i(s){if(s.ep)return;s.ep=!0;const a=e(s);fetch(s.href,a)}})();class v extends EventTarget{constructor(t){super(),this.components=[],this.variables=new Map,this.externalObjects=new Map,this.gridElement=t}addComponent(t){this.components.push(t),this.gridElement.appendChild(t.htmlElement)}getVariableValue(t){return t?this.variables.get(t):void 0}setVariableValue(t,e){if(!t)return;this.variables.set(t,e);const i=new CustomEvent("update",{detail:{variable:t,value:e}});this.dispatchEvent(i)}getExternalObject(t){return t?this.externalObjects.get(t):void 0}setExternalObject(t,e){t&&this.externalObjects.set(t,e)}}class f{constructor(t,e){this.inputConstants=new Map,this.inputVariables=new Map,this.app=t;for(const i of e)i.value!=null&&(i.variable?this.inputVariables.set(i.name,i.value):this.inputConstants.set(i.name,i.value))}getInput(t){if(this.inputConstants.has(t))return this.inputConstants.get(t);if(this.inputVariables.has(t)){const e=this.inputVariables.get(t);return this.app.getVariableValue(e)}}async execute(){return!1}}class b extends f{async execute(){const t=this.getInput("message");return window.alert(t),!1}}class y extends f{async execute(){const t=this.getInput("variable"),e=this.getInput("value");return this.app.setVariableValue(t,e),!1}}class w extends f{async execute(){const t=this.getInput("duration");return await new Promise(e=>setTimeout(e,t)),!1}}const x=new Map([["wait",w],["alert",b],["assign-text",y]]);class g{constructor(t,e,i,s,a,r,l){this.inputConstants=new Map,this.inputVariables=new Map,this.inputVariablesReversed=new Map,this.events=new Map,this.app=t,this.x0=e,this.y0=i,this.x1=s,this.y1=a;for(const n of r)n.value!=null&&(n.variable?(this.inputVariables.set(n.name,n.value),this.inputVariablesReversed.set(n.value,n.name)):this.inputConstants.set(n.name,n.value));for(const n of l){const u=[];for(const h of n.actions){const{name:c,inputs:d}=h,p=x.get(c);if(!p){console.warn(`Unsupported action type in config: ${c}`);continue}const m=new p(this.app,d);u.push(m)}this.events.set(n.name,u)}this.app.addEventListener("update",n=>this.onVariableChange(n)),this.htmlElement=this.createHtmlElement(),this.htmlElement.style.gridColumnStart=`${this.x0}`,this.htmlElement.style.gridRowStart=`${this.y0}`,this.htmlElement.style.gridColumnEnd=`${this.x1}`,this.htmlElement.style.gridRowEnd=`${this.y1}`;for(const[n,u]of this.inputConstants)this.onInputUpdate(n,u)}getInput(t){if(this.inputConstants.has(t))return this.inputConstants.get(t);if(this.inputVariables.has(t)){const e=this.inputVariables.get(t);return this.app.getVariableValue(e)}}async triggerEvent(t){if(!this.events.has(t))return!1;const e=this.events.get(t);for(const i of e){if(await i.execute())return!0;await new Promise(a=>setTimeout(a,0))}return!1}createHtmlElement(){return document.createElement("div")}onInputUpdate(t,e){}onVariableChange(t){const{variable:e,value:i}=t.detail;if(this.inputVariablesReversed.has(e)){const s=this.inputVariablesReversed.get(e);this.onInputUpdate(s,i)}}}class E extends g{createHtmlElement(){return this.button=document.createElement("button"),this.button.addEventListener("click",async()=>{await this.triggerEvent("click")}),this.button}onInputUpdate(t,e){t==="label"&&(this.button.textContent=e)}}class C extends g{createHtmlElement(){return this.input=document.createElement("input"),this.input.setAttribute("type","text"),this.input.style.minWidth="0",this.input.style.minHeight="0",this.input.addEventListener("input",()=>{const t=this.getInput("output-text");this.app.setVariableValue(t,this.input.value)}),this.input}onInputUpdate(t,e){t==="text"&&(this.input.value=e),t==="placeholder"&&this.input.setAttribute("placeholder",e)}}const V=new Map([["button",E],["text-input",C]]);window.xappConfig={width:4,height:8,components:[{name:"button",x0:2,y0:6,x1:4,y1:8,inputs:[{name:"label",value:"Just click here!",variable:!1}],events:[{name:"click",actions:[{name:"alert",inputs:[{name:"message",value:"In 3 seconds, I will tell you the textbox text.",variable:!1}]},{name:"wait",inputs:[{name:"duration",value:"3000",variable:!1}]},{name:"alert",inputs:[{name:"message",value:"TEST",variable:!0}]}]}]},{name:"text-input",x0:1,y0:3,x1:5,y1:4,inputs:[{name:"placeholder",value:"Please enter here...",variable:!1},{name:"output-text",value:"TEST",variable:!1}],events:[]}]};window.addEventListener("load",()=>I());function I(){const{width:o,height:t,components:e}=window.appConfig,i=document.getElementById("grid");i.style.gridTemplateColumns=`repeat(${o}, 1fr)`,i.style.gridTemplateRows=`repeat(${t}, 1fr)`;for(let a=0;a<o*t;a++){const r=a%o,l=Math.floor(a/o),n=document.createElement("div");n.style.gridColumnStart=`${r+1}`,n.style.gridColumnEnd=`${r+2}`,n.style.gridRowStart=`${l+1}`,n.style.gridRowEnd=`${l+2}`,n.classList.add("grid-cell"),i.appendChild(n)}const s=new v(i);for(const a of e){const{name:r,x0:l,y0:n,x1:u,y1:h,inputs:c,events:d}=a,p=V.get(r);if(!p){console.warn(`Unsupported component type in config: ${r}`);continue}const m=new p(s,l,n,u,h,c,d);s.addComponent(m)}}
+  <script type="module" crossorigin>(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const s of document.querySelectorAll('link[rel="modulepreload"]'))n(s);new MutationObserver(s=>{for(const i of s)if(i.type==="childList")for(const o of i.addedNodes)o.tagName==="LINK"&&o.rel==="modulepreload"&&n(o)}).observe(document,{childList:!0,subtree:!0});function e(s){const i={};return s.integrity&&(i.integrity=s.integrity),s.referrerPolicy&&(i.referrerPolicy=s.referrerPolicy),s.crossOrigin==="use-credentials"?i.credentials="include":s.crossOrigin==="anonymous"?i.credentials="omit":i.credentials="same-origin",i}function n(s){if(s.ep)return;s.ep=!0;const i=e(s);fetch(s.href,i)}})();class f extends EventTarget{constructor(t){super(),this.components=[],this.variables=new Map,this.externalObjects=new Map,this.gridElement=t}addComponent(t){this.components.push(t),this.gridElement.appendChild(t.htmlElement)}getVariableValue(t){return t?this.variables.get(t):void 0}setVariableValue(t,e){if(!t)return;this.variables.set(t,e);const n=new CustomEvent("update",{detail:{variable:t,value:e}});this.dispatchEvent(n)}getExternalObject(t){return t?this.externalObjects.get(t):void 0}setExternalObject(t,e){t&&this.externalObjects.set(t,e)}removeExternalObject(t){t&&this.externalObjects.delete(t)}static generateUniqueId(){const t="abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";let e="";for(let n=0;n<6;n++){const s=Math.floor(Math.random()*t.length);e+=t[s]}return e}}class u{constructor(t,e){this.inputConstants=new Map,this.inputVariables=new Map,this.app=t;for(const n of e)n.value!=null&&(n.variable?this.inputVariables.set(n.name,n.value):this.inputConstants.set(n.name,n.value))}getInput(t){if(this.inputConstants.has(t))return this.inputConstants.get(t);if(this.inputVariables.has(t)){const e=this.inputVariables.get(t);return this.app.getVariableValue(e)}}async execute(){}}class v extends u{async execute(){const t=this.getInput("message");window.alert(t)}}class x extends u{async execute(){const t=this.getInput("variable"),e=this.getInput("value");this.app.setVariableValue(t,e)}}class y extends u{async execute(){const t=this.getInput("duration");await new Promise(e=>setTimeout(e,t))}}class w extends u{async execute(){const t=this.getInput("url"),e=this.getInput("output-websocket"),n=this.getInput("output-last-message"),s=new WebSocket(t),i=`ws:${f.generateUniqueId()}`;return this.app.setVariableValue(e,i),this.app.setExternalObject(i,s),new Promise(o=>{s.onopen=()=>o(void 0),s.onerror=()=>o(void 0),s.onmessage=c=>{this.app.setVariableValue(n,c.data)}})}}class E extends u{async execute(){const t=this.getInput("text"),e=new SpeechSynthesisUtterance(t);window.speechSynthesis.speak(e)}}class I extends u{async execute(){const t=+this.getInput("duration");try{navigator.vibrate(t)}catch{}}}class V extends u{async execute(){const t=this.getInput("websocket"),e=this.getInput("message"),n=this.app.getExternalObject(t);try{n.send(e)}catch{}}}class C extends u{async execute(){const t=this.getInput("websocket"),e=this.app.getExternalObject(t);try{e.close()}catch{}finally{this.app.removeExternalObject(t)}}}class $ extends u{async execute(){const t=+this.getInput("index");return!!this.getInput("condition")?t:void 0}}class O extends u{async execute(){return Number.MAX_SAFE_INTEGER}}class L extends u{async execute(){const t=+this.getInput("value1"),e=+this.getInput("value2"),n=this.getInput("result");let s=t+e;Number.isNaN(s)&&(s=0),console.log(s,t,e,n),this.app.setVariableValue(n,s)}}const S=new Map([["vibrate",I],["speak",E],["alert",v],["open-websocket",w],["send-websocket",V],["close-websocket",C],["goto",$],["stop",O],["wait",y],["assign-text",x],["add",L]]);class b{constructor(t,e,n,s,i,o,c){this.inputListeners=new Map,this.inputConstants=new Map,this.inputVariables=new Map,this.inputVariablesReversed=new Map,this.events=new Map,this.app=t,this.x0=e,this.y0=n,this.x1=s,this.y1=i;for(const a of o)a.value!=null&&(a.variable?(this.inputVariables.set(a.name,a.value),this.inputVariablesReversed.set(a.value,a.name)):this.inputConstants.set(a.name,a.value));for(const a of c){const l=[];for(const p of a.actions){const{name:h,inputs:m}=p;if(h==="do-nothing")continue;const d=S.get(h);if(!d){console.warn(`Unsupported action type in config: ${h}`);continue}const g=new d(this.app,m);l.push(g)}this.events.set(a.name,l)}this.app.addEventListener("update",a=>this.onVariableChange(a)),this.htmlElement=this.createHtmlElement(),this.htmlElement.style.gridColumnStart=`${this.x0}`,this.htmlElement.style.gridRowStart=`${this.y0}`,this.htmlElement.style.gridColumnEnd=`${this.x1}`,this.htmlElement.style.gridRowEnd=`${this.y1}`;for(const[a,l]of this.inputListeners){const p=this.getInput(a);this.notifyInputUpdate(a,p)}}addInputListener(t,e){this.inputListeners.set(t,e)}getInput(t){if(this.inputConstants.has(t))return this.inputConstants.get(t);if(this.inputVariables.has(t)){const e=this.inputVariables.get(t);return this.app.getVariableValue(e)}}async triggerEvent(t){if(!this.events.has(t))return;const e=this.events.get(t);for(let n=0;n<e.length;n++){const i=await e[n].execute();i!==void 0&&(n=i-1),await new Promise(o=>setTimeout(o,0))}}createHtmlElement(){return document.createElement("div")}onVariableChange(t){const{variable:e,value:n}=t.detail;if(this.inputVariablesReversed.has(e)){const s=this.inputVariablesReversed.get(e);this.notifyInputUpdate(s,n)}}notifyInputUpdate(t,e){if(!this.inputListeners.has(t))return;this.inputListeners.get(t)(e)}}class M extends b{createHtmlElement(){return this.button=document.createElement("button"),this.button.addEventListener("click",async()=>{await this.triggerEvent("click")}),this.addInputListener("label",t=>{this.button.textContent=t??""}),this.button}}class k extends b{createHtmlElement(){return this.input=document.createElement("input"),this.input.setAttribute("type","text"),this.input.style.minWidth="0",this.input.style.minHeight="0",this.input.addEventListener("input",()=>{this.updateOutputText()}),this.addInputListener("text",t=>{this.input.value!==t&&(this.input.value=t??"",this.updateOutputText())}),this.addInputListener("placeholder",t=>{this.input.setAttribute("placeholder",t??"")}),this.input}updateOutputText(){const t=this.getInput("output-text");this.app.setVariableValue(t,this.input.value)}}class A extends b{createHtmlElement(){return this.input=document.createElement("input"),this.input.setAttribute("type","number"),this.input.style.minWidth="0",this.input.style.minHeight="0",this.input.addEventListener("input",()=>{this.updateOutputNumber()}),this.addInputListener("number",t=>{this.input.valueAsNumber!==t&&(this.input.value=t??0,this.updateOutputNumber())}),this.addInputListener("placeholder",t=>{this.input.setAttribute("placeholder",t??"")}),this.input}updateOutputNumber(){const t=this.getInput("output-number");this.app.setVariableValue(t,this.input.valueAsNumber)}}const N=new Map([["button",M],["text-input",k],["number-input",A]]);window.addEventListener("load",()=>j());function j(){const{width:r,height:t,components:e}=window.appConfig,n=document.getElementById("grid");n.style.gridTemplateColumns=`repeat(${r}, 1fr)`,n.style.gridTemplateRows=`repeat(${t}, 1fr)`;for(let i=0;i<r*t;i++){const o=i%r,c=Math.floor(i/r),a=document.createElement("div");a.style.gridColumnStart=`${o+1}`,a.style.gridColumnEnd=`${o+2}`,a.style.gridRowStart=`${c+1}`,a.style.gridRowEnd=`${c+2}`,a.classList.add("grid-cell"),n.appendChild(a)}const s=new f(n);for(const i of e){const{name:o,x0:c,y0:a,x1:l,y1:p,inputs:h,events:m}=i,d=N.get(o);if(!d){console.warn(`Unsupported component type in config: ${o}`);continue}const g=new d(s,c,a,l,p,h,m);s.addComponent(g)}}
 </script>
   <style rel="stylesheet" crossorigin>:root{--mainFont: Nunito, Inter, Raleway, -apple-system, BlinkMacSystemFont, Verdana, Geneva, Tahoma, sans-serif}html,body{width:100%;height:100%;margin:0;overflow:hidden;color:#333;background-color:#fff;font-family:var(--mainFont);font-size:15px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}*{font-family:var(--mainFont);box-sizing:border-box;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-touch-callout:none}.grid{width:100%;height:100%;display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(12,1fr);gap:3px;padding:0;box-shadow:0 0 4px #0003;background-color:#fdfdfd}.grid-cell{border:1px solid rgba(0,0,0,.05);border-radius:2px;background-color:#fff}
 </style>
@@ -28,6 +28,250 @@
 
 <body>
     <div id="grid" class="grid"></div>
+    <script>
+        // @ts-ignore
+        window.appConfig = { // TODO: remove, just for debugging
+            "width": 4,
+            "height": 8,
+            "components": [
+                {
+                    "name": "button",
+                    "x0": 2,
+                    "y0": 6,
+                    "x1": 4,
+                    "y1": 8,
+                    "inputs": [
+                        {
+                            "name": "label",
+                            "value": "TEST",
+                            "variable": true
+                        }
+                    ],
+                    "events": [
+                        {
+                            name: "click",
+                            actions: [
+                                {
+                                    name: "alert",
+                                    inputs: [
+                                        {
+                                            name: "message",
+                                            value: "In 3 seconds, I will tell you the textbox text.",
+                                            variable: false
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "wait",
+                                    inputs: [
+                                        {
+                                            name: "duration",
+                                            value: "3000",
+                                            variable: false
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "alert",
+                                    inputs: [
+                                        {
+                                            name: "message",
+                                            value: "TEST",
+                                            variable: true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                /*{
+                    "name": "text-input",
+                    "x0": 1,
+                    "y0": 5,
+                    "x1": 2,
+                    "y1": 6,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "first value",
+                            "variable": false
+                        },
+                        {
+                            "name": "output-text",
+                            "value": "YAY",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },*/
+                {
+                    "name": "text-input",
+                    "x0": 1,
+                    "y0": 3,
+                    "x1": 5,
+                    "y1": 4,
+                    "inputs": [
+                        {
+                            "name": "placeholder",
+                            "value": "Please enter here...",
+                            "variable": false
+                        },
+                        /*{
+                            "name": "text",
+                            "value": "YAY",
+                            "variable": true
+                        },*/
+                        {
+                            "name": "output-text",
+                            "value": "TEST",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+            ]
+        };
+
+        //@ts-ignore
+        window.appConfig = {
+            "width": 6,
+            "height": 10,
+            "components": [
+                {
+                    "name": "button",
+                    "x0": 3,
+                    "y0": 8,
+                    "x1": 5,
+                    "y1": 9,
+                    "inputs": [{ name: 'label', value: 'Text to Speech' }],
+                    "events": [
+                        {
+                            "name": "click",
+                            "actions": [
+                                {
+                                    "name": "vibrate",
+                                    "inputs": [
+                                        {
+                                            "name": "duration",
+                                            "value": 500,
+                                            "variable": false,
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "speak",
+                                    "inputs": [
+                                        {
+                                            "name": "text",
+                                            "value": "SPEECH",
+                                            "variable": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "text-input",
+                    "x0": 3,
+                    "y0": 7,
+                    "x1": 5,
+                    "y1": 8,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "Hello there! Welcome to the squapp.",
+                            "variable": false
+                        },
+                        {
+                            "name": "output-text",
+                            "value": "SPEECH",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+                {
+                    "name": "number-input",
+                    "x0": 3,
+                    "y0": 4,
+                    "x1": 5,
+                    "y1": 5,
+                    "inputs": [
+                        {
+                            "name": "number",
+                            "value": "N",
+                            "variable": true
+                        },
+                        {
+                            "name": "output-number",
+                            "value": "N",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+                {
+                    "name": "button",
+                    "x0": 5,
+                    "y0": 4,
+                    "x1": 6,
+                    "y1": 5,
+                    "inputs": [
+                        {
+                            "name": "label",
+                            "value": "+",
+                            "variable": false
+                        }
+                    ],
+                    "events": [
+                        {
+                            "name": "click",
+                            "actions": [
+                                {
+                                    "name": "add",
+                                    "inputs": [
+                                        {
+                                            "name": "value1",
+                                            "value": "N",
+                                            "variable": true
+                                        },
+                                        {
+                                            "name": "value2",
+                                            "value": 1,
+                                            "variable": false
+                                        },
+                                        {
+                                            "name": "result",
+                                            "value": "N",
+                                            "variable": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "text-input",
+                    "x0": 1,
+                    "y0": 4,
+                    "x1": 3,
+                    "y1": 5,
+                    "inputs": [
+                        {
+                            "name": "placeholder",
+                            "value": "name",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                }
+            ]
+        };
+    </script>
     <script id="%APP_CONFIG%"></script>
 </body>
 

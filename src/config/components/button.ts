@@ -9,7 +9,6 @@ export const button: ComponentConfiguration = {
             name: 'label',
             label: 'Label',
             type: 'string',
-            required: false,
         },
     ],
     events: [

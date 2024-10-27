@@ -1,4 +1,4 @@
-import { Component } from "./component";
+import { Component } from "./components/component";
 
 export class App extends EventTarget {
     private gridElement: HTMLElement;
@@ -38,5 +38,23 @@ export class App extends EventTarget {
             return;
 
         this.externalObjects.set(id, value);
+    }
+
+    public removeExternalObject(id: string | undefined): void {
+        if (!id)
+            return;
+
+        this.externalObjects.delete(id);
+    }
+
+    public static generateUniqueId(): string {
+        // TODO: use proper UUID algorithm
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let s = '';
+        for (let i = 0; i < 6; i++) {
+            const i = Math.floor(Math.random() * chars.length);
+            s += chars[i];
+        }
+        return s;
     }
 }

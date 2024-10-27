@@ -1,14 +1,42 @@
 import { ActionConfiguration } from "./types";
 import { doNothing } from "./actions/do-nothing";
-import { wait } from "./actions/wait";
-import { connectWebsocket } from "./actions/connect-websocket";
-import { alert } from "./actions/alert";
-import { assignText } from "./actions/assign-text";
+import { wait } from "./actions/control-flow/wait";
+import { openWebSocket } from "./actions/network/open-websocket";
+import { alert } from "./actions/popup/alert";
+import { assignText } from "./actions/assignment/assign-text";
+import { goto } from "./actions/control-flow/goto";
+import { stop } from "./actions/control-flow/stop";
+import { sendWebSocket } from "./actions/network/send-websocket";
+import { closeWebSocket } from "./actions/network/close-websocket";
+import { vibrate } from "./actions/other/vibrate";
+import { add } from "./actions/math/add";
+import { speak } from "./actions/audio/speak";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
-    wait,
-    connectWebsocket,
+
+    // other
+    vibrate,
+
+    // audio
+    speak,
+
+    // popup
     alert,
+
+    // network
+    openWebSocket,
+    sendWebSocket,
+    closeWebSocket,
+
+    // control flow
+    goto,
+    stop,
+    wait,
+
+    // assignment
     assignText,
+
+    // math
+    add,
 ];
