@@ -71,6 +71,10 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.appHtmlTemplateString = await response.text();
         } catch (err) {
             // TODO: retry?
+
+            // TODO: only added to make it work with GitHub Pages for now (to be removed)
+            const response = await fetch('./tiny-app-maker/assets/index.html');
+            this.appHtmlTemplateString = await response.text();
         }
     }
 
