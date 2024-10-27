@@ -12,7 +12,9 @@ import { ComponentState, State } from '../../types/state';
 export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public componentModalOpen: boolean = false;
+    public appRunning: boolean = false;
     public selectedComponentSnapshot: string = '';
+    public appHtmlTemplateString?: string;
 
     public gridEditor?: GridEditor;
     public gridEditorSubscription: Subscription = new Subscription();
@@ -38,8 +40,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngOnInit(): void {
         const initialState = {
-            width: 4,
-            height: 8,
+            width: 6,
+            height: 10,
             components: [
 
             ],
@@ -49,6 +51,17 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         fromEvent<KeyboardEvent>(window, 'keydown')
             .pipe(takeUntil(this.destroy$))
             .subscribe((event: KeyboardEvent) => this.onKeyDown(event));
+
+        this.loadAppTemplate();
+    }
+
+    private async loadAppTemplate(): Promise<void> {
+        try {
+            const response = await fetch('./assets/index.html');
+            this.appHtmlTemplateString = await response.text();
+        } catch (err) {
+            // TODO: retry?
+        }
     }
 
     public ngAfterViewInit(): void {
@@ -71,7 +84,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     public performRedo(): void {
         const changedComponent = this.stateService.redo();
         this.gridEditor?.syncState(this.State);
-        
+
         if (changedComponent)
             this.gridEditor?.highlightComponent(changedComponent);
     }
@@ -149,7 +162,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private createNewComponent(x: number, y: number): void {
         const component: ComponentState = {
-            type: 'button',
+            name: 'button',
             x0: x + 1,
             y0: y + 1,
             x1: x + 2,
@@ -191,5 +204,45 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.unselectSelectedComponent();
+    }
+
+    // TODO: remove, just for debugging
+    public test(): void {
+        console.log(this.State);
+    }
+
+    public runApp(): void {
+        if (this.appRunning) {
+            document.querySelector('iframe')?.remove();
+            this.gridEditor?.activate();
+            this.appRunning = false;
+            return;
+        }
+
+        if (!this.appHtmlTemplateString)
+            return;
+
+        const json = JSON.stringify(this.State);
+        const html = this.appHtmlTemplateString?.replace(' id="%APP_CONFIG%">', `>window.appConfig = ${json}`);
+        const blob = new Blob([html], { type: 'text/html' });
+        const src = URL.createObjectURL(blob);
+
+        if (false /*openInNewTab*/) {
+            window.open(src, '_blank');
+        } else {
+            const iframe = document.createElement('iframe');
+
+            iframe.setAttribute('frameBorder', '0');
+            iframe.setAttribute('src', src);
+            iframe.style.gridColumnStart = '1';
+            iframe.style.gridRowStart = '1';
+            iframe.style.gridColumnEnd = `${this.State.width + 1}`;
+            iframe.style.gridRowEnd = `${this.State.height + 1}`;
+            iframe.classList.add('app-frame');
+
+            this.gridEditor?.deactivate();
+            this.gridElementRef.nativeElement.appendChild(iframe);
+            this.appRunning = true;
+        }
     }
 }

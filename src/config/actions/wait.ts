@@ -1,7 +1,7 @@
 import { ActionConfiguration } from "../types";
 
 export const wait: ActionConfiguration = {
-    type: 'wait',
+    name: 'wait',
     label: 'Wait',
     group: 'control',
     inputs: [

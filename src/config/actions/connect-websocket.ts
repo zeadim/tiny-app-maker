@@ -1,7 +1,7 @@
 import { ActionConfiguration } from "../types";
 
 export const connectWebsocket: ActionConfiguration = {
-    type: 'connectWebsocket',
+    name: 'connect-websocket',
     label: 'Connect Websocket',
     group: 'network',
     inputs: [

@@ -5,7 +5,7 @@
             <div style="font-size: 14px">SQUAPPS</div>
         </div>
 
-        <app-fancy-button icon="☰" label="Menu"></app-fancy-button>
+        <app-fancy-button icon="☰" label="Menu" (onClick)="test()"></app-fancy-button>
         <app-fancy-button icon="⚙️" label="Settings"></app-fancy-button>
         <app-fancy-button icon="💾" label="Export"></app-fancy-button>
     </div>
@@ -14,7 +14,7 @@
         <div class="editor-grid" #grid></div>
     </div>
 
-    <div class="footer">
+    <div class="footer" *ngIf="!appRunning">
         <div class="hgroup-8">
             <app-fancy-button icon="⏪" label="" color="#e4e4e4" (onClick)="performUndo()"></app-fancy-button>
             <app-fancy-button icon="⏩" label="" color="#e4e4e4" (onClick)="performRedo()"></app-fancy-button>
@@ -22,7 +22,7 @@
 
         <ng-container *ngIf="!SelectedComponent">
             <app-fancy-button icon="⚡" color="#f4f4e4" label="Events"></app-fancy-button>
-            <app-fancy-button icon="▶️" color="#eeffff" label="Run App"></app-fancy-button>
+            <app-fancy-button icon="▶️" color="#eeffff" label="Run App" (onClick)="runApp()"></app-fancy-button>
         </ng-container>
 
         <ng-container *ngIf="SelectedComponent">
@@ -33,6 +33,10 @@
 
             <app-fancy-button icon="✅" label="Ok" color="#eeffee" (onClick)="unselectSelectedComponent()"></app-fancy-button>
         </ng-container>
+    </div>
+
+    <div class="footer footer-app-running" *ngIf="appRunning">
+        <app-fancy-button icon="⏹" color="#ffcccc" label="Stop App" (onClick)="runApp()"></app-fancy-button>
     </div>
 </div>
 

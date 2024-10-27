@@ -34,7 +34,7 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.event.actions = this.event.actions.filter(x => x.type !== 'do-nothing');
+        this.event.actions = this.event.actions.filter(x => x.name !== 'do-nothing');
 
         if (this.event.actions.length === 0) {
             const index = this.component.events.indexOf(this.event);
@@ -43,7 +43,7 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
     }
 
     public getActionLabel(action: ActionState): string {
-        return actionList.find(x => x.type === action.type)?.label ?? 'unknown';
+        return actionList.find(x => x.name === action.name)?.label ?? 'unknown';
     }
 
     public selectAction(index: number): void {
@@ -88,7 +88,7 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
 
     private addPlaceholderAction(onlyWhenEmpty: boolean): void {
         if (!onlyWhenEmpty || this.event.actions.length === 0)
-            this.event.actions.push({ type: 'do-nothing', inputs: [] });
+            this.event.actions.push({ name: 'do-nothing', inputs: [] });
     }
 
     private scrollSelectionActionEntryIntoView(): void {

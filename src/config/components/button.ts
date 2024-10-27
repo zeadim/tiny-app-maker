@@ -1,7 +1,7 @@
 import { ComponentConfiguration } from "../types";
 
 export const button: ComponentConfiguration = {
-    type: 'button',
+    name: 'button',
     label: 'Button',
     group: 'button',
     inputs: [

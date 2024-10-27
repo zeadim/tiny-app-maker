@@ -1,7 +1,7 @@
 import { ComponentConfiguration } from "../types";
 
 export const textInput: ComponentConfiguration = {
-    type: 'text input',
+    name: 'text-input',
     label: 'Text Input',
     group: 'input',
     inputs: [

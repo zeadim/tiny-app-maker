@@ -24,13 +24,13 @@ export class ActionConfigurationComponent implements OnInit {
     }
 
     public get SelectedActionType(): string {
-        return this.action.type;
+        return this.action.name;
     }
 
     public set SelectedActionType(type: string) {
-        this.savedActionStates.set(this.action.type, { ...this.action });
+        this.savedActionStates.set(this.action.name, { ...this.action });
 
-        this.action.type = type;
+        this.action.name = type;
 
         const action = this.savedActionStates.get(type);
         this.action.inputs = action?.inputs ?? [];
@@ -56,7 +56,7 @@ export class ActionConfigurationComponent implements OnInit {
     }
 
     public loadActionType(): void {
-        this.config = actionList.find(x => x.type === this.action.type)!;
+        this.config = actionList.find(x => x.name === this.action.name)!;
 
         // Copy input objects to let Angular detect difference in ngFor items
         // when switching between two actions of the same type (i.e. with same config)

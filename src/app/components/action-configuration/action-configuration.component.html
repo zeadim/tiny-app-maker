@@ -14,7 +14,7 @@
 
         <select class="select-menu" [(ngModel)]="SelectedActionType">
             <optgroup *ngFor="let group of actionGroups" [label]="group.name">
-                <option *ngFor="let option of group.options" [value]="option.type">
+                <option *ngFor="let option of group.options" [value]="option.name">
                     {{option.label}}
                 </option>
             </optgroup>

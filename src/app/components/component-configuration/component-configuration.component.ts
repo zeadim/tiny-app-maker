@@ -21,13 +21,13 @@ export class ComponentConfigurationComponent implements OnInit {
     @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();
 
     public get SelectedComponentType(): string {
-        return this.component.type;
+        return this.component.name;
     }
 
     public set SelectedComponentType(type: string) {
-        this.savedComponentStates.set(this.component.type, { ...this.component });
+        this.savedComponentStates.set(this.component.name, { ...this.component });
 
-        this.component.type = type;
+        this.component.name = type;
 
         const component = this.savedComponentStates.get(type);
         this.component.inputs = component?.inputs ?? [];
@@ -62,7 +62,7 @@ export class ComponentConfigurationComponent implements OnInit {
     }
 
     private loadComponentType(): void {
-        this.config = componentList.find(x => x.type === this.component.type)!;
+        this.config = componentList.find(x => x.name === this.component.name)!;
 
         this.events = [{
             name: 'settings',

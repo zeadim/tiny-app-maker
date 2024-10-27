@@ -1,7 +1,7 @@
 import { ActionConfiguration } from "../types";
 
 export const doNothing: ActionConfiguration = {
-    type: 'do-nothing',
+    name: 'do-nothing',
     label: 'Do Nothing',
     group: 'control',
     inputs: [],

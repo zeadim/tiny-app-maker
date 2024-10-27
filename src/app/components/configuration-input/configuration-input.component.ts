@@ -85,7 +85,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         this.input = {
             name: this.config.name,
             value: this.config.default,
-            variable: this.IsOutput,
+            variable: false,
         };
 
         this.inputs.push(this.input);

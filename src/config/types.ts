@@ -1,5 +1,5 @@
 export type ComponentConfiguration = {
-    type: string,
+    name: string,
     label: string,
     group?: string,
     inputs: InputConfiguration[],
@@ -20,7 +20,7 @@ export type EventConfiguration = {
 };
 
 export type ActionConfiguration = {
-    type: string,
+    name: string,
     label: string,
     group?: string,
     inputs: InputConfiguration[],

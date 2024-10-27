@@ -28,6 +28,10 @@
         padding: 16px;
     }
 
+    .footer-app-running {
+        justify-content: flex-end;
+    }
+
     .content {
         flex: 1;
         width: min(67vh, 100%);

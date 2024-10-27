@@ -36,7 +36,7 @@
 
             <select class="select-menu" [(ngModel)]="SelectedComponentType" autofocus>
                 <optgroup *ngFor="let group of componentGroups" [label]="group.name">
-                    <option *ngFor="let option of group.options" [value]="option.type">
+                    <option *ngFor="let option of group.options" [value]="option.name">
                         {{option.label}}
                     </option>
                 </optgroup>

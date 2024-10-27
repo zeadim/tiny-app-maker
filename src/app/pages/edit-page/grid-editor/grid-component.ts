@@ -22,7 +22,7 @@ export class GridComponent extends GridElement {
     }
 
     public update(): void {
-        const config = componentList.find(x => x.type === this.component.type)!;
+        const config = componentList.find(x => x.name === this.component.name)!;
         this.label.textContent = config.label;
     }
 
