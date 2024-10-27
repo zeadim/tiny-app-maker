@@ -9,7 +9,7 @@ export const wait: ActionConfiguration = {
             name: 'duration',
             label: 'Duration (milliseconds)',
             type: 'number',
-            default: 1000,
+            defaultValue: 1000,
         },
     ],
 };

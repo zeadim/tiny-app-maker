@@ -12,17 +12,19 @@ export class StateService {
     private historyPointer: number = -1;
     private currentState!: State;
     private variables: string[] = [];
-    private componentConfigurationVariables: Set<string>;
-    private actionConfigurationVariables: Set<string>;
+    private componentConfigurationVariables: Map<string, Set<string>> = new Map();
+    private actionConfigurationVariables: Map<string, Set<string>> = new Map();
 
     public constructor() {
-        this.componentConfigurationVariables = new Set(
-            componentList.flatMap(x => x.inputs.filter(y => y.type === 'variable')).map(x => x.name),
-        );
+        for (const component of componentList) {
+            const variables = new Set(component.inputs.filter(x => x.type === 'variable').map(x => x.name));
+            this.componentConfigurationVariables.set(component.name, variables);
+        }
 
-        this.actionConfigurationVariables = new Set(
-            actionList.flatMap(x => x.inputs.filter(y => y.type === 'variable')).map(x => x.name),
-        );
+        for (const action of actionList) {
+            const variables = new Set(action.inputs.filter(x => x.type === 'variable').map(x => x.name));
+            this.actionConfigurationVariables.set(action.name, variables);
+        }
     }
 
     public setInitialState(state: State): void {
@@ -86,17 +88,24 @@ export class StateService {
     }
 
     public updateVariables(): void {
-        this.variables = this.currentState.components.flatMap(component => {
-            const componentVariables = this.findVariablesInInputs(component.inputs, this.componentConfigurationVariables);
+        const variables = this.currentState.components.flatMap(component => {
+            const componentVariables = this.findVariablesInInputs(component.name, component.inputs, this.componentConfigurationVariables);
             const actionVariables = component.events
-                .flatMap(event => event.actions.flatMap(action => this.findVariablesInInputs(action.inputs, this.actionConfigurationVariables)));
+                .flatMap(event => event.actions
+                    .flatMap(action => this.findVariablesInInputs(action.name, action.inputs, this.actionConfigurationVariables)));
 
-            return [...componentVariables, ...actionVariables].sort((a, b) => a.localeCompare(b));
+            return [...componentVariables, ...actionVariables];
         });
+
+        this.variables = [...new Set(variables)].sort((a, b) => a.localeCompare(b));
     }
 
-    private findVariablesInInputs(inputs: InputState[], configurationVariables: Set<string>): string[] {
-        return inputs.filter(x => configurationVariables.has(x.name)).filter(x => x.value).map(x => x.value ?? '');
+    private findVariablesInInputs(name: string, inputs: InputState[], configurationVariables: Map<string, Set<string>>): string[] {
+        const variables = configurationVariables.get(name);
+        if (!variables)
+            return [];
+
+        return inputs.filter(x => variables.has(x.name)).filter(x => x.value).map(x => `${x.value}`);
     }
 
     private detectChangedComponent(previousState: State, currentState: State): ComponentState | undefined {
@@ -112,7 +121,7 @@ export class StateService {
                 }
             }
         }
-        
+
         return currentState.components.filter(x => !unchangedComponents.includes(x))[0];
     }
 }

@@ -3,14 +3,11 @@ import { Action } from "../action";
 export class $Add extends Action {
 
     public override async execute(): Promise<number | undefined> {
-        const value1 = +this.getInput('value1');
-        const value2 = +this.getInput('value2');
-        const variable = this.getInput('result');
+        const value1 = this.getInputNumber('value1');
+        const value2 = this.getInputNumber('value2');
+        const variable = this.getInputString('result');
 
-        let result = value1 + value2;
-        if (Number.isNaN(result))
-            result = 0;
-        console.log(result, value1, value2, variable);
+        const result = value1 + value2;
         this.app.setVariableValue(variable, result);
 
         return undefined;

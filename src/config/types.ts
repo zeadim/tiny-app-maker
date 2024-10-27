@@ -10,8 +10,8 @@ export type InputConfiguration = {
     name: string,
     label: string,
     type: 'variable' | 'string' | 'number' | 'boolean' | 'color',
-    default?: any,
-    required?: boolean,
+    defaultValue?: any,
+    defaultVariable?: boolean,
 };
 
 export type EventConfiguration = {

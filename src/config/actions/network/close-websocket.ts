@@ -7,8 +7,9 @@ export const closeWebSocket: ActionConfiguration = {
     inputs: [
         {
             name: 'websocket',
-            label: 'ID of WebSocket to close',
+            label: 'WebSocket to close',
             type: 'string',
+            defaultVariable: true,
         },
     ],
 };

@@ -14,23 +14,23 @@ export class $TextInput extends Component {
             this.updateOutputText();
         });
 
-        this.addInputListener('text', (value) => {
+        this.addInputStringListener('text', (value) => {
             if (this.input.value === value)
                 return;
-            
-            this.input.value = value ?? '';
+
+            this.input.value = value;
             this.updateOutputText();
         });
 
-        this.addInputListener('placeholder', (value) => {
-            this.input.setAttribute('placeholder', value ?? '');
+        this.addInputStringListener('placeholder', (value) => {
+            this.input.setAttribute('placeholder', value);
         });
         
         return this.input;
     }
 
     private updateOutputText(): void {
-        const outputVariable = this.getInput('output-text');
+        const outputVariable = this.getInputString('output-text');
         this.app.setVariableValue(outputVariable, this.input.value);
     }
 }

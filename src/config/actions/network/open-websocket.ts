@@ -12,7 +12,7 @@ export const openWebSocket: ActionConfiguration = {
         },
         {
             name: 'output-websocket',
-            label: 'WebSocket ID',
+            label: 'WebSocket',
             type: 'variable',
         },
         {

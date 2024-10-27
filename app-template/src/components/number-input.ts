@@ -14,23 +14,23 @@ export class $NumberInput extends Component {
             this.updateOutputNumber();
         });
 
-        this.addInputListener('number', (value) => {
+        this.addInputNumberListener('number', (value) => {
             if (this.input.valueAsNumber === value)
                 return;
 
-            this.input.value = value ?? 0;
+            this.input.valueAsNumber = value;
             this.updateOutputNumber();
         });
 
-        this.addInputListener('placeholder', (value) => {
-            this.input.setAttribute('placeholder', value ?? '');
+        this.addInputStringListener('placeholder', (value) => {
+            this.input.setAttribute('placeholder', value);
         });
         
         return this.input;
     }
 
     private updateOutputNumber(): void {
-        const outputVariable = this.getInput('output-number');
+        const outputVariable = this.getInputString('output-number');
         this.app.setVariableValue(outputVariable, this.input.valueAsNumber);
     }
 }

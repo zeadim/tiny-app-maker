@@ -9,7 +9,7 @@ export const vibrate: ActionConfiguration = {
             name: 'duration',
             label: 'Vibration Duration (milliseconds)',
             type: 'number',
-            default: 200,
+            defaultValue: 200,
         },
     ],
 };

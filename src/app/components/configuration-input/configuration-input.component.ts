@@ -10,7 +10,7 @@ import { StateService } from '../../services/state.service';
 })
 export class ConfigurationInputComponent implements OnInit, OnDestroy {
 
-    public input?: InputState;
+    public input!: InputState;
     public id: string = '';
     public variableOptions: string[] = [];
 
@@ -26,29 +26,23 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     }
 
     public get Value(): any {
-        return this.input?.value;
+        return this.input.value;
     }
 
     public set Value(value: any) {
-        if (!this.input)
-            this.input = this.addInput();
-
-        this.input.value = (this.IsOutput || this.input.variable) ? value?.toUpperCase() : value;
+        this.input.value = this.Variable ? value?.toUpperCase() : value;
 
         if (this.IsOutput)
             this.stateService.updateVariables();
     }
 
     public get Variable(): boolean {
-        return this.IsOutput || (this.input?.variable ?? false);
+        return this.IsOutput || this.input.variable;
     }
 
     public set Variable(value: boolean) {
         if (this.IsOutput)
             return;
-
-        if (!this.input)
-            this.input = this.addInput();
 
         this.input.value = this.config.type === 'string' ? this.input.value?.toUpperCase() : undefined;
         this.input.variable = value;
@@ -70,10 +64,23 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this.input && this.input.value == null) { // TODO: also omit empty string if type is string?
-            const index = this.inputs.indexOf(this.input);
-            this.inputs.splice(index, 1);
-        }
+        if (this.Variable && typeof this.input.value === 'string' && this.input.value != '')
+            return;
+
+        if (this.config.type === 'boolean' && this.input.value)
+            return;
+
+        if (this.config.type === 'string' && typeof this.input.value === 'string' && this.input.value !== '')
+            return;
+
+        if (this.config.type === 'number' && typeof this.input.value === 'number' && this.input.value !== 0)
+            return;
+
+        if (this.config.type === 'color')// && typeof this.input.value === 'string' && this.input.value !== '#000')
+            return;
+
+        const index = this.inputs.indexOf(this.input);
+        this.inputs.splice(index, 1);
     }
 
     public onVariableChange(event: Event): void {
@@ -84,8 +91,8 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     private addInput(): InputState {
         this.input = {
             name: this.config.name,
-            value: this.config.default,
-            variable: false,
+            value: this.config.defaultValue,
+            variable: this.config.defaultVariable ?? false,
         };
 
         this.inputs.push(this.input);

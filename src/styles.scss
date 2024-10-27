@@ -117,6 +117,39 @@ body {
 
     .corner {
         position: absolute;
+        background-color: rgba(255, 255, 100, 0);
+        box-sizing: border-box;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+    }
+
+    .corner-0 {
+        left: -28px;
+        top: -28px;
+        cursor: nw-resize;
+    }
+
+    .corner-1 {
+        left: -28px;
+        bottom: -28px;
+        cursor: sw-resize;
+    }
+
+    .corner-2 {
+        right: -28px;
+        top: -28px;
+        cursor: ne-resize;
+    }
+
+    .corner-3 {
+        right: -28px;
+        bottom: -28px;
+        cursor: se-resize;
+    }
+
+    .corner-disk {
+        position: absolute;
         background-color: rgb(255, 100, 100);
         box-sizing: border-box;
         border-radius: 50%;
@@ -124,28 +157,24 @@ body {
         height: 28px;
     }
 
-    .corner-0 {
-        left: -17px;
-        top: -17px;
-        cursor: nw-resize;
+    .corner-disk-0 {
+        left: 12px;
+        top: 12px;
     }
 
-    .corner-1 {
-        left: -17px;
-        bottom: -17px;
-        cursor: sw-resize;
+    .corner-disk-1 {
+        left: 12px;
+        bottom: 12px;
     }
 
-    .corner-2 {
-        right: -17px;
-        top: -17px;
-        cursor: ne-resize;
+    .corner-disk-2 {
+        right: 12px;
+        top: 12px;
     }
 
-    .corner-3 {
-        right: -17px;
-        bottom: -17px;
-        cursor: se-resize;
+    .corner-disk-3 {
+        right: 12px;
+        bottom: 12px;
     }
 }
 
@@ -153,8 +182,9 @@ body {
     z-index: 9999;
     /*border: 2px solid purple;*/
     /*box-sizing: border-box;*/
-    width: 100%;
-    height: 100%;
+    width: calc(100% + 6px);
+    height: calc(100% + 6px);
+    margin: -3px;
 }
 
 // TODO: add small intervals here (from font-size 15px to 10px or something)

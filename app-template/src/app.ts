@@ -16,11 +16,11 @@ export class App extends EventTarget {
         this.gridElement.appendChild(component.htmlElement);
     }
 
-    public getVariableValue(variable: string | undefined): unknown {
+    public getVariableValue(variable: string): unknown {
         return variable ? this.variables.get(variable) : undefined;
     }
 
-    public setVariableValue(variable: string | undefined, value: any): void {
+    public setVariableValue(variable: string, value: any): void {
         if (!variable)
             return;
 
@@ -29,25 +29,25 @@ export class App extends EventTarget {
         this.dispatchEvent(event);
     }
 
-    public getExternalObject(id: string | undefined): any {
+    public getExternalObject(id: string): any {
         return id ? this.externalObjects.get(id) : undefined;
     }
 
-    public setExternalObject(id: string | undefined, value: any): void {
+    public setExternalObject(id: string, value: any): void {
         if (!id)
             return;
 
         this.externalObjects.set(id, value);
     }
 
-    public removeExternalObject(id: string | undefined): void {
+    public removeExternalObject(id: string): void {
         if (!id)
             return;
 
         this.externalObjects.delete(id);
     }
 
-    public static generateUniqueId(): string {
+    public static generateUniqueId(prefix?: string): string {
         // TODO: use proper UUID algorithm
         const chars = 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         let s = '';
@@ -55,6 +55,31 @@ export class App extends EventTarget {
             const i = Math.floor(Math.random() * chars.length);
             s += chars[i];
         }
+
+        if (prefix) {
+            return `${prefix}(${s})`;
+        }
+
         return s;
+    }
+
+    public static parseBoolean(value: any): boolean {
+        return !!value;
+    }
+
+    public static parseString(value: any): string {
+        return value == null ? '' : `${value}`;
+    }
+
+    public static parseNumber(value: any): number {
+        const number = +value;
+        
+        if (Number.isNaN(number))
+            return 0;
+        
+        if (!Number.isFinite(number))
+            return number > 0 ? Number.MAX_VALUE : Number.MIN_VALUE;
+
+        return number;
     }
 }

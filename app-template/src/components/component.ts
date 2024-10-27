@@ -1,40 +1,30 @@
+import { InputHolder } from "../input-holder";
 import { Action } from "../actions/action";
 import { actionMap } from "../action-map";
 import { App } from "../app";
 import { EventState, InputState } from "../types";
 
-export class Component {
-    protected app: App;
+export class Component extends InputHolder {
     protected x0: number;
     protected y0: number;
     protected x1: number;
     protected y1: number;
 
     private inputListeners = new Map<string, (value: any) => unknown>();
-    private inputConstants = new Map<string, any>();
-    private inputVariables = new Map<string, string>();
     private inputVariablesReversed = new Map<string, string>();
     private events = new Map<string, Action[]>();
 
     public htmlElement: HTMLElement;
 
     public constructor(app: App, x0: number, y0: number, x1: number, y1: number, inputs: InputState[], events: EventState[]) {
-        this.app = app;
+        super(app, inputs);
         this.x0 = x0;
         this.y0 = y0;
         this.x1 = x1;
         this.y1 = y1;
 
-        for (const input of inputs) {
-            if (input.value == null)
-                continue;
-
-            if (input.variable) {
-                this.inputVariables.set(input.name, input.value);
-                this.inputVariablesReversed.set(input.value, input.name);
-            } else {
-                this.inputConstants.set(input.name, input.value);
-            }
+        for (const [name, variable] of this.inputVariables) {
+            this.inputVariablesReversed.set(variable, name);
         }
 
         for (const event of events) {
@@ -77,16 +67,16 @@ export class Component {
         this.inputListeners.set(name, listener);
     }
 
-    public getInput(name: string): any {
-        if (this.inputConstants.has(name))
-            return this.inputConstants.get(name);
+    public addInputBooleanListener(name: string, listener: (value: boolean) => unknown): void {
+        this.inputListeners.set(name, (value) => listener(App.parseBoolean(value)));
+    }
 
-        if (this.inputVariables.has(name)) {
-            const variable = this.inputVariables.get(name);
-            return this.app.getVariableValue(variable);
-        }
+    public addInputStringListener(name: string, listener: (value: string) => unknown): void {
+        this.inputListeners.set(name, (value) => listener(App.parseString(value)));
+    }
 
-        return undefined;
+    public addInputNumberListener(name: string, listener: (value: number) => unknown): void {
+        this.inputListeners.set(name, (value) => listener(App.parseNumber(value)));
     }
 
     public async triggerEvent(name: string): Promise<void> {
@@ -99,7 +89,7 @@ export class Component {
             const action = actions[i];
             const index = await action.execute();
             if (index !== undefined)
-                i = index - 1;
+                i = Math.max(0, index) - 1;
             
             await new Promise((resolve) => setTimeout(resolve, 0));
         }

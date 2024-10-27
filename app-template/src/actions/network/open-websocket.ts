@@ -4,13 +4,13 @@ import { Action } from "../action";
 export class $OpenWebSocket extends Action {
 
     public override async execute(): Promise<number | undefined> {
-        const url = this.getInput('url');
-        const webSocketVariable = this.getInput('output-websocket');
-        const lastMessageVariable = this.getInput('output-last-message');
+        const url = this.getInputString('url');
+        const webSocketVariable = this.getInputString('output-websocket');
+        const lastMessageVariable = this.getInputString('output-last-message');
 
         const webSocket = new WebSocket(url);
 
-        const id = `ws:${App.generateUniqueId()}`;
+        const id = App.generateUniqueId('websocket');
         this.app.setVariableValue(webSocketVariable, id);
         this.app.setExternalObject(id, webSocket);
 

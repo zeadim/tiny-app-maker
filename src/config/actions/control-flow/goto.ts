@@ -9,13 +9,13 @@ export const goto: ActionConfiguration = {
             name: 'index',
             label: 'Action Index',
             type: 'number',
-            default: 1,
+            defaultValue: 1,
         },
         {
             name: 'condition',
             label: 'Condition',
             type: 'boolean',
-            default: true,
+            defaultValue: true,
         }
     ],
 };

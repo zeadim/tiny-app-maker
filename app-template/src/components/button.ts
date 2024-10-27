@@ -10,8 +10,8 @@ export class $Button extends Component {
             await this.triggerEvent('click');
         });
 
-        this.addInputListener('label', (value) => {
-            this.button.textContent = value ?? '';
+        this.addInputStringListener('label', (value) => {
+            this.button.textContent = value;
         });
         
         return this.button;

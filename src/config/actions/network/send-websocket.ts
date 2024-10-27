@@ -7,9 +7,9 @@ export const sendWebSocket: ActionConfiguration = {
     inputs: [
         {
             name: 'websocket',
-            label: 'ID of WebSocket to send message over',
+            label: 'WebSocket to send message over',
             type: 'string',
-            //alwaysVariable: true / defaultVariable: true (?)
+            defaultVariable: true,
         },
         {
             name: 'message',
