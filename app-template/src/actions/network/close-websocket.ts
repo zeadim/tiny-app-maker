@@ -3,15 +3,15 @@ import { Action } from "../action";
 export class $CloseWebSocket extends Action {
 
     public override async execute(): Promise<number | undefined> {
-        const websocketId = this.getInputString('websocket');
+        const webSocketId = this.getInputString('websocket');
 
-        const webSocket = this.app.getExternalObject(websocketId) as WebSocket;
         try {
-            webSocket.close();
+            const webSocket = this.app.getAddressableObject<WebSocket>(webSocketId, 'websocket');
+            webSocket?.close();
         } catch (err) {
             //
         } finally {
-            this.app.removeExternalObject(websocketId);
+            this.app.removeAddressable(webSocketId);
         }
         
         return undefined;

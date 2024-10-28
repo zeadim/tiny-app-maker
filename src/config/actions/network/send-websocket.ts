@@ -3,11 +3,12 @@ import { ActionConfiguration } from "../../types";
 export const sendWebSocket: ActionConfiguration = {
     name: 'send-websocket',
     label: 'Send WebSocket',
-    group: 'network',
+    group: 'internet',
     inputs: [
         {
             name: 'websocket',
-            label: 'WebSocket to send message over',
+            label: 'WebSocket ID',
+            note: 'Obtain via open',
             type: 'string',
             defaultVariable: true,
         },

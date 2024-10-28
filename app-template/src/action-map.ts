@@ -12,6 +12,9 @@ import { $Stop } from "./actions/control-flow/stop";
 import { $Add } from "./actions/math/add";
 import { $PlayAudio } from "./actions/audio/play-audio";
 import { $DownloadText } from "./actions/network/download-text";
+import { $DownloadFile } from "./actions/network/download-file";
+import { $LoadAudio } from "./actions/audio/load-audio";
+import { $PauseAudio } from "./actions/audio/pause-audio";
 
 // Maps name of action as used in configuration to its class implementation
 export const actionMap = new Map<string, typeof Action>([
@@ -19,14 +22,17 @@ export const actionMap = new Map<string, typeof Action>([
     ["vibrate", $Vibrate],
 
     // audio
-    ["play-audio", $PlayAudio],
     ["speak", $Speak],
+    ["load-audio", $LoadAudio],
+    ["play-audio", $PlayAudio],
+    ["pause-audio", $PauseAudio],
 
     // popup
     ["alert", $Alert],
 
     // network
     ["download-text", $DownloadText],
+    ["download-file", $DownloadFile],
     ["open-websocket", $OpenWebSocket],
     ["send-websocket", $SendWebSocket],
     ["close-websocket", $CloseWebSocket],

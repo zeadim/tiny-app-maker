@@ -3,7 +3,7 @@ import { ActionConfiguration } from "../../types";
 export const openWebSocket: ActionConfiguration = {
     name: 'open-websocket',
     label: 'Open WebSocket',
-    group: 'network',
+    group: 'internet',
     inputs: [
         {
             name: 'url',
@@ -12,7 +12,7 @@ export const openWebSocket: ActionConfiguration = {
         },
         {
             name: 'output-websocket',
-            label: 'WebSocket',
+            label: 'WebSocket ID',
             type: 'variable',
         },
         {

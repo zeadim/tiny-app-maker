@@ -13,7 +13,7 @@ export const goto: ActionConfiguration = {
         },
         {
             name: 'condition',
-            label: 'Go To Action Index If Not',
+            label: 'Only Go To If Not',
             type: 'boolean',
             defaultVariable: true,
         }

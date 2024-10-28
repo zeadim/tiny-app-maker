@@ -64,28 +64,29 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        if (this.Variable && typeof this.input.value === 'string' && this.input.value != '')
+        // Uncommented, because not entirely correct - e.g. for booleans, if false but defaultValue is true, then incorrect behavior
+        // Would probably need to use defaultValue from config when initial value set in app (but currently config not copied)
+
+        /*
+        // Remove inputs from state object where value is the same as the value that will be used in app anyways
+
+        if (this.Variable && typeof this.input.value === 'string' && this.input.value !== '')
             return;
 
-        if (this.config.type === 'boolean' && this.input.value)
+        if (this.config.type === 'boolean' && this.input.value !== (this.config.defaultValue ?? false))
             return;
 
-        if (this.config.type === 'string' && typeof this.input.value === 'string' && this.input.value !== '')
+        if (this.config.type === 'string' && typeof this.input.value === 'string' && this.input.value !== (this.config.defaultValue ?? ''))
             return;
 
-        if (this.config.type === 'number' && typeof this.input.value === 'number' && this.input.value !== 0)
+        if (this.config.type === 'number' && typeof this.input.value === 'number' && this.input.value !== (this.config.defaultValue ?? 0))
             return;
 
         if (this.config.type === 'color' || this.config.type === 'datetime' || this.config.type === 'options')
             return;
 
         const index = this.inputs.indexOf(this.input);
-        this.inputs.splice(index, 1);
-    }
-
-    public onVariableChange(event: Event): void {
-        // @ts-ignore - needed to keep checkbox checked for forced variables
-        event.target.checked = this.Variable;
+        this.inputs.splice(index, 1);*/
     }
 
     private addInput(): InputState {

@@ -9,6 +9,7 @@ export type ComponentConfiguration = {
 export type InputConfiguration = {
     name: string,
     label: string,
+    note?: string,
     type: 'variable' | 'boolean' | 'string' | 'number' | 'color' | 'datetime' | 'options',
     defaultValue?: any,
     defaultVariable?: boolean,

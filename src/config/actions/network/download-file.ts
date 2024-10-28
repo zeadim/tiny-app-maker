@@ -1,8 +1,8 @@
 import { ActionConfiguration } from "../../types";
 
-export const downloadText: ActionConfiguration = {
-    name: 'download-text',
-    label: 'Download Text',
+export const downloadFile: ActionConfiguration = {
+    name: 'download-file',
+    label: 'Download File',
     group: 'internet',
     inputs: [
         {
@@ -12,8 +12,8 @@ export const downloadText: ActionConfiguration = {
             type: 'string',
         },
         {
-            name: 'output-text-content',
-            label: 'text content',
+            name: 'output-file-id',
+            label: 'File ID',
             type: 'variable',
         },
     ],

@@ -1,28 +1,32 @@
 import { ActionConfiguration } from "../../types";
 
-export const playAudio: ActionConfiguration = {
-    name: 'play-audio',
-    label: 'Play Audio',
+export const loadAudio: ActionConfiguration = {
+    name: 'load-audio',
+    label: 'Load Audio',
     group: 'audio',
     inputs: [
         {
-            name: 'id',
-            label: 'Audio/File ID',
-            note: 'Obtain via (down)load',
+            name: 'url',
+            label: 'Audio URL',
             type: 'string',
-            defaultVariable: true,
         },
         {
-            name: 'restart',
-            label: 'Restart From Beginning',
+            name: 'autoplay',
+            label: 'Autoplay',
             type: 'boolean',
             defaultValue: true,
         },
         {
             name: 'async',
             label: 'Play Asynchronously',
+            note: 'If autoplay',
             type: 'boolean',
             defaultValue: true,
+        },
+        {
+            name: 'output-audio',
+            label: 'Audio ID',
+            type: 'variable',
         },
     ],
 };

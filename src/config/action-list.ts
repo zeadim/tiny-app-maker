@@ -13,6 +13,9 @@ import { add } from "./actions/math/add";
 import { speak } from "./actions/audio/speak";
 import { downloadText } from "./actions/network/download-text";
 import { playAudio } from "./actions/audio/play-audio";
+import { downloadFile } from "./actions/network/download-file";
+import { loadAudio } from "./actions/audio/load-audio";
+import { pauseAudio } from "./actions/audio/pause-audio";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -22,13 +25,16 @@ export const actionList: ActionConfiguration[] = [
 
     // audio
     speak,
+    loadAudio,
     playAudio,
+    pauseAudio,
 
     // popup
     alert,
 
     // network
     downloadText,
+    downloadFile,
     openWebSocket,
     sendWebSocket,
     closeWebSocket,

@@ -7,7 +7,7 @@ export const stop: ActionConfiguration = {
     inputs: [
         {
             name: 'condition',
-            label: 'Stop If Not',
+            label: 'Only Stop If Not',
             type: 'boolean',
             defaultVariable: true,
         },

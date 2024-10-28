@@ -3,11 +3,14 @@ import { fromEvent, Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { StateService } from '../../services/state.service';
 import { GridEditor } from './grid-editor/grid-editor';
 import { ComponentState, State } from '../../types/state';
+import { initialState as debugInitialState } from '../initial-state';
 
 /*
 TODO:
 - how to work with booleans (conditions, truthy/falsy values as well as checkbox inputs)? Separate type or 0 and 1?
 - how to handle different app types, like file (image/video/audio) etc.? Also via ID like web sockets?
+- improve UI: more uniform colors (inputs <-> action list + event buttons, background, header/footer buttons etc.)
+- use proper icons from a package/svgs instead of emojis/unicode
 - check TODOs
 */
 
@@ -47,88 +50,11 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngOnInit(): void {
         const initialState = {
-            "width": 6,
-            "height": 10,
-            "components": [
-                {
-                    "name": "button",
-                    "x0": 2,
-                    "y0": 9,
-                    "x1": 6,
-                    "y1": 10,
-                    "inputs": [
-                        {
-                            "name": "label",
-                            "value": "Gimme a dad joke!",
-                            "variable": false
-                        }
-                    ],
-                    "events": [
-                        {
-                            "name": "click",
-                            "actions": [
-                                {
-                                    "name": "download-text",
-                                    "inputs": [
-                                        {
-                                            "name": "url",
-                                            "value": "https://icanhazdadjoke.com/",
-                                            "variable": false
-                                        },
-                                        {
-                                            "name": "output-text-content",
-                                            "value": "JOKE",
-                                            "variable": false
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "speak",
-                                    "inputs": [
-                                        {
-                                            "name": "text",
-                                            "value": "JOKE",
-                                            "variable": true
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "play-audio",
-                                    "inputs": [
-                                        {
-                                            "name": "url",
-                                            "value": "https://bigsoundbank.com/UPLOAD/mp3/0433.mp3?v=m",
-                                            "variable": false
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "name": "label",
-                    "x0": 2,
-                    "y0": 2,
-                    "x1": 6,
-                    "y1": 8,
-                    "inputs": [
-                        {
-                            "name": "text",
-                            "value": "JOKE",
-                            "variable": true
-                        },
-                        {
-                            "name": "font-size",
-                            "value": 18,
-                            "variable": false
-                        }
-                    ],
-                    "events": []
-                }
-            ]
+            width: 6,
+            height: 10,
+            components: [],
         };
-        this.stateService.setInitialState(initialState);
+        this.stateService.setInitialState(debugInitialState);
 
         fromEvent<KeyboardEvent>(window, 'keydown')
             .pipe(takeUntil(this.destroy$))

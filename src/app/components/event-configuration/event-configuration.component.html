@@ -10,7 +10,7 @@
         <div class="action-list-container">
             <div class="action-list" #actionList>
                 <div class="action-entry" [class.selected]="selectedActionIndex === i"
-                    (pointerdown)="selectAction(i)"
+                    (click)="selectAction(i)"
                     *ngFor="let action of event.actions; let i = index">
                     {{i + 1}}. {{ getActionLabel(action) }}
                 </div>

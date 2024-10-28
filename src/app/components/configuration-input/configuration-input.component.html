@@ -1,8 +1,10 @@
 <div class="container">
     <div class="input-container" [ngSwitch]="Variable ? 'variable' : config.type">
-        <div class="label-group" *ngIf="!IsOutput">
+        <div class="label-note" *ngIf="!IsOutput">
             <div class="label">{{config.label}}</div>
+            <div class="note" *ngIf="config.note">{{config.note}}</div>
         </div>
+
         <div class="label-group" *ngIf="IsOutput">
             <div class="label">variable to put&nbsp;</div>
             <div class="label identifier">{{config.label}}</div>

@@ -29,3 +29,19 @@ export type ActionState = {
     name: string,
     inputs: InputState[],
 };
+
+export type Addressable = {
+    id: string,
+    type: AddressableType,
+    object: any,
+};
+
+export type AddressableType =
+    | 'nothing'
+    | 'unknown'
+    | 'text'
+    | 'json'
+    | 'image'
+    | 'audio'
+    | 'video'
+    | 'websocket';

@@ -1,4 +1,3 @@
-import { App } from "../../app";
 import { Action } from "../action";
 
 export class $DownloadText extends Action {
@@ -7,7 +6,8 @@ export class $DownloadText extends Action {
         const url = this.getInputString('url');
         const outputVariable = this.getInputString('output-text-content');
 
-        let output: string;
+        let output = '';
+
         try {
             const response = await fetch(url, {
                 headers: {
@@ -15,9 +15,10 @@ export class $DownloadText extends Action {
                 },
             });
 
-            output = response.ok ? await response.text() : '';
+            if (response.ok)
+                output = await response.text();
         } catch (err) {
-            output = '';
+            //
         }
 
         this.app.setVariableValue(outputVariable, output);

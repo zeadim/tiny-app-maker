@@ -6,9 +6,9 @@ export class $SendWebSocket extends Action {
         const webSocketId = this.getInputString('websocket');
         const message = this.getInputString('message');
 
-        const webSocket = this.app.getExternalObject(webSocketId) as WebSocket;
         try {
-            webSocket.send(message);
+            const webSocket = this.app.getAddressableObject<WebSocket>(webSocketId, 'websocket');
+            webSocket?.send(message);
         } catch (err) {
             //
         }
