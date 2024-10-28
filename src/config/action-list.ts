@@ -11,6 +11,8 @@ import { closeWebSocket } from "./actions/network/close-websocket";
 import { vibrate } from "./actions/other/vibrate";
 import { add } from "./actions/math/add";
 import { speak } from "./actions/audio/speak";
+import { downloadText } from "./actions/network/download-text";
+import { playAudio } from "./actions/audio/play-audio";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -20,11 +22,13 @@ export const actionList: ActionConfiguration[] = [
 
     // audio
     speak,
+    playAudio,
 
     // popup
     alert,
 
     // network
+    downloadText,
     openWebSocket,
     sendWebSocket,
     closeWebSocket,

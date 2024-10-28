@@ -120,31 +120,31 @@ body {
         background-color: rgba(255, 255, 100, 0);
         box-sizing: border-box;
         border-radius: 50%;
-        width: 42px;
-        height: 42px;
+        width: 54px;
+        height: 54px;
     }
 
     .corner-0 {
-        left: -28px;
-        top: -28px;
+        left: -36px;
+        top: -36px;
         cursor: nw-resize;
     }
 
     .corner-1 {
-        left: -28px;
-        bottom: -28px;
+        left: -36px;
+        bottom: -36px;
         cursor: sw-resize;
     }
 
     .corner-2 {
-        right: -28px;
-        top: -28px;
+        right: -36px;
+        top: -36px;
         cursor: ne-resize;
     }
 
     .corner-3 {
-        right: -28px;
-        bottom: -28px;
+        right: -36px;
+        bottom: -36px;
         cursor: se-resize;
     }
 
@@ -158,23 +158,23 @@ body {
     }
 
     .corner-disk-0 {
-        left: 12px;
-        top: 12px;
+        left: 20px;
+        top: 20px;
     }
 
     .corner-disk-1 {
-        left: 12px;
-        bottom: 12px;
+        left: 20px;
+        bottom: 20px;
     }
 
     .corner-disk-2 {
-        right: 12px;
-        top: 12px;
+        right: 20px;
+        top: 20px;
     }
 
     .corner-disk-3 {
-        right: 12px;
-        bottom: 12px;
+        right: 20px;
+        bottom: 20px;
     }
 }
 

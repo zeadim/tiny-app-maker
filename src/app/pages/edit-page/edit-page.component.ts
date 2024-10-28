@@ -7,6 +7,8 @@ import { ComponentState, State } from '../../types/state';
 /*
 TODO:
 - how to work with booleans (conditions, truthy/falsy values as well as checkbox inputs)? Separate type or 0 and 1?
+- more input types: like color, date, number range slider, select menu (one out of fixed number) ...
+- how to handle different app types, like file (image/video/audio) etc.? Also via ID like web sockets?
 - check TODOs
 */
 
@@ -46,11 +48,86 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngOnInit(): void {
         const initialState = {
-            width: 6,
-            height: 10,
-            components: [
-
-            ],
+            "width": 6,
+            "height": 10,
+            "components": [
+                {
+                    "name": "button",
+                    "x0": 2,
+                    "y0": 9,
+                    "x1": 6,
+                    "y1": 10,
+                    "inputs": [
+                        {
+                            "name": "label",
+                            "value": "Gimme a dad joke!",
+                            "variable": false
+                        }
+                    ],
+                    "events": [
+                        {
+                            "name": "click",
+                            "actions": [
+                                {
+                                    "name": "download-text",
+                                    "inputs": [
+                                        {
+                                            "name": "url",
+                                            "value": "https://icanhazdadjoke.com/",
+                                            "variable": false
+                                        },
+                                        {
+                                            "name": "output-text-content",
+                                            "value": "JOKE",
+                                            "variable": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "speak",
+                                    "inputs": [
+                                        {
+                                            "name": "text",
+                                            "value": "JOKE",
+                                            "variable": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "play-audio",
+                                    "inputs": [
+                                        {
+                                            "name": "url",
+                                            "value": "https://bigsoundbank.com/UPLOAD/mp3/0433.mp3?v=m",
+                                            "variable": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "label",
+                    "x0": 2,
+                    "y0": 2,
+                    "x1": 6,
+                    "y1": 8,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "JOKE",
+                            "variable": true
+                        },
+                        {
+                            "name": "font-size",
+                            "value": 18,
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                }
+            ]
         };
         this.stateService.setInitialState(initialState);
 
@@ -157,7 +234,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ngZone.runOutsideAngular(() => {
             this.gridEditor?.destroy();
             this.gridEditor = new GridEditor(this.gridElementRef.nativeElement, this.State);
-            //this.addGridEditorSubscription(this.gridEditor.selectedComponentChange$, x => this.onSelectedComponentChange(x));
+            this.addGridEditorSubscription(this.gridEditor.selectedComponentChange$, x => this.onSelectedComponentChange(x));
             this.addGridEditorSubscription(this.gridEditor.cellClick$, x => this.createNewComponent(x.x, x.y));
             this.addGridEditorSubscription(this.gridEditor.moveOrResizeEnd$, () => this.stateService.push());
             this.addGridEditorSubscription(this.gridEditor.componentRightClick$, (x) => this.deleteComponent(x));
@@ -169,10 +246,9 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.gridEditorSubscription.add(observable.subscribe(x => this.ngZone.run(() => callback(x))));
     }
 
-    /*private onSelectedComponentChange(component?: ComponentState): void {
-        if (!component)
-            this.componentModalOpen = false;
-    }*/
+    private onSelectedComponentChange(component?: ComponentState): void {
+        // Keep this subscription to trigger change detection!
+    }
 
     private createNewComponent(x: number, y: number): void {
         const component: ComponentState = {

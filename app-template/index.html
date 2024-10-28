@@ -137,6 +137,106 @@
             "components": [
                 {
                     "name": "button",
+                    "x0": 1,
+                    "y0": 1,
+                    "x1": 2,
+                    "y1": 2,
+                    "inputs": [{ name: 'label', value: 'Gimme a dad joke!', variable: false }],
+                    "events": [
+                        {
+                            "name": "click",
+                            "actions": [
+                                {
+                                    "name": "download-text",
+                                    "inputs": [
+                                        {
+                                            "name": "url",
+                                            "value": "https://icanhazdadjoke.com/",
+                                            "variable": false
+                                        },
+                                        {
+                                            "name": "output-text-content",
+                                            "value": "JOKE",
+                                            "variable": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "speak",
+                                    "inputs": [
+                                        {
+                                            "name": "text",
+                                            "value": "JOKE",
+                                            "variable": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "wait",
+                                    "inputs": [
+                                        {
+                                            "name": "duration",
+                                            "value": 1,
+                                            "variable": false,
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "play-audio",
+                                    "inputs": [
+                                        {
+                                            "name": "url",
+                                            "value": "https://bigsoundbank.com/UPLOAD/mp3/0433.mp3?v=m",
+                                            "variable": false,
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "label",
+                    "x0": 3,
+                    "y0": 1,
+                    "x1": 5,
+                    "y1": 3,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "JOKE",
+                            "variable": true
+                        },
+                        {
+                            "name": "font-size",
+                            "value": 18,
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+                {
+                    "name": "text-input",
+                    "x0": 3,
+                    "y0": 7,
+                    "x1": 5,
+                    "y1": 8,
+                    "inputs": [
+                        {
+                            "name": "text",
+                            "value": "Hello there! Welcome to the squapp.",
+                            "variable": false
+                        },
+                        {
+                            "name": "output-text",
+                            "value": "SPEECH",
+                            "variable": false
+                        }
+                    ],
+                    "events": []
+                },
+                {
+                    "name": "button",
                     "x0": 3,
                     "y0": 8,
                     "x1": 5,
@@ -169,26 +269,6 @@
                             ]
                         }
                     ]
-                },
-                {
-                    "name": "text-input",
-                    "x0": 3,
-                    "y0": 7,
-                    "x1": 5,
-                    "y1": 8,
-                    "inputs": [
-                        {
-                            "name": "text",
-                            "value": "Hello there! Welcome to the squapp.",
-                            "variable": false
-                        },
-                        {
-                            "name": "output-text",
-                            "value": "SPEECH",
-                            "variable": false
-                        }
-                    ],
-                    "events": []
                 },
                 {
                     "name": "number-input",

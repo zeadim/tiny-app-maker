@@ -7,7 +7,7 @@ export const speak: ActionConfiguration = {
     inputs: [
         {
             name: 'text',
-            label: 'Text',
+            label: 'Text to Say',
             type: 'string',
         },
     ],
