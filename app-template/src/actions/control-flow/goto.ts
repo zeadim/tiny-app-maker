@@ -6,6 +6,6 @@ export class $GoTo extends Action {
         const index = this.getInputNumber('index');
         const condition = this.getInputBoolean('condition');
         
-        return condition ? index - 1 : undefined;
+        return !condition ? index - 1 : undefined;
     }
 }

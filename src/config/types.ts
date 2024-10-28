@@ -9,9 +9,16 @@ export type ComponentConfiguration = {
 export type InputConfiguration = {
     name: string,
     label: string,
-    type: 'variable' | 'string' | 'number' | 'boolean' | 'color',
+    type: 'variable' | 'boolean' | 'string' | 'number' | 'color' | 'datetime' | 'options',
     defaultValue?: any,
     defaultVariable?: boolean,
+
+    // boolean only
+    trueLabel?: string,
+    falseLabel?: string,
+
+    // options only
+    options?: { label: string, value: any }[],
 };
 
 export type EventConfiguration = {

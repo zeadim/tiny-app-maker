@@ -43,6 +43,9 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
     }
 
     public getActionLabel(action: ActionState): string {
+        if (action.name === 'goto')
+            return `go to ${action.inputs[0].value ?? 1}`; // special case
+
         return actionList.find(x => x.name === action.name)?.label ?? 'unknown';
     }
 

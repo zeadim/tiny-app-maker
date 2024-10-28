@@ -1,22 +1,12 @@
 <div class="container">
     <div class="input-container" [ngSwitch]="Variable ? 'variable' : config.type">
-        <div class="label-group" *ngIf="!IsOutput"><div class="label">{{config.label}}</div></div>
+        <div class="label-group" *ngIf="!IsOutput">
+            <div class="label">{{config.label}}</div>
+        </div>
         <div class="label-group" *ngIf="IsOutput">
             <div class="label">variable to put&nbsp;</div>
             <div class="label identifier">{{config.label}}</div>
             <div class="label">&nbsp;into</div>
-        </div>
-
-        <div *ngSwitchCase="'number'" class="input">
-            <input type="number" [(ngModel)]="Value" />
-        </div>
-
-        <div *ngSwitchCase="'boolean'" class="input">
-            <input type="checkbox" [(ngModel)]="Value" />
-        </div>
-
-        <div *ngSwitchCase="'color'" class="input">
-            <input type="color" [(ngModel)]="Value" />
         </div>
 
         <div *ngSwitchCase="'variable'" class="input">
@@ -28,8 +18,38 @@
             </datalist>
         </div>
 
-        <div *ngSwitchDefault class="input">
+        <div *ngSwitchCase="'boolean'" class="input">
+            <div class="boolean-input">
+                <div class="choice" [class.selected]="Value" (pointerdown)="Value = true">
+                    {{ config.trueLabel ?? "true" }}
+                </div>
+
+                <div class="choice" [class.selected]="!Value" (pointerdown)="Value = false">
+                    {{ config.falseLabel ?? "false" }}
+                </div>
+            </div>
+        </div>
+
+        <div *ngSwitchCase="'string'" class="input">
             <input type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off" [class.variable]="Variable" />
+        </div>
+
+        <div *ngSwitchCase="'number'" class="input">
+            <input type="number" [(ngModel)]="Value" />
+        </div>
+
+        <div *ngSwitchCase="'color'" class="input">
+            <input type="color" [(ngModel)]="Value" />
+        </div>
+
+        <div *ngSwitchCase="'datetime'" class="input">
+            <input type="datetime-local" [(ngModel)]="Value" />
+        </div>
+
+        <div *ngSwitchCase="'options'" class="input">
+            <select class="options-input" [(ngModel)]="Value">
+                <option *ngFor="let option of config.options" [ngValue]="option.value">{{option.label}}</option>
+            </select>
         </div>
     </div>
 

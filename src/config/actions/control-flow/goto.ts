@@ -13,9 +13,9 @@ export const goto: ActionConfiguration = {
         },
         {
             name: 'condition',
-            label: 'Condition',
+            label: 'Go To Action Index If Not',
             type: 'boolean',
-            defaultValue: true,
+            defaultVariable: true,
         }
     ],
 };

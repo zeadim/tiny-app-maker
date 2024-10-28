@@ -76,7 +76,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         if (this.config.type === 'number' && typeof this.input.value === 'number' && this.input.value !== 0)
             return;
 
-        if (this.config.type === 'color')// && typeof this.input.value === 'string' && this.input.value !== '#000')
+        if (this.config.type === 'color' || this.config.type === 'datetime' || this.config.type === 'options')
             return;
 
         const index = this.inputs.indexOf(this.input);
