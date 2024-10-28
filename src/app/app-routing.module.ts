@@ -4,13 +4,13 @@ import { EditPageComponent } from './pages/edit-page/edit-page.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: '**',
         component: EditPageComponent,
     },
-    {
+    /*{
         path: '**',
         redirectTo: '',
-    }
+    }*/
 ];
 
 @NgModule({
