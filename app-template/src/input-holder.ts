@@ -35,14 +35,14 @@ export class InputHolder {
     }
 
     public getInputBoolean(name: string): boolean {
-        return App.parseBoolean(this.getInput(name));
+        return App.parseBoolean(this.getInput(name)) ?? false;
     }
 
     public getInputString(name: string): string {
-        return App.parseString(this.getInput(name));
+        return App.parseString(this.getInput(name)) ?? '';
     }
 
     public getInputNumber(name: string): number {
-        return App.parseNumber(this.getInput(name));
+        return App.parseNumber(this.getInput(name)) ?? 0;
     }
 }

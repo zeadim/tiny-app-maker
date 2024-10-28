@@ -11,8 +11,8 @@ export const numberInput: ComponentConfiguration = {
             type: 'string',
         },
         {
-            name: 'number',
-            label: 'Number',
+            name: 'initial-number',
+            label: 'Initial Number',
             type: 'number',
         },
         {

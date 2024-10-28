@@ -14,11 +14,11 @@ export class $Label extends Component {
         this.container.style.backgroundColor = 'white';
 
         this.addInputStringListener('text', (value) => {
-            this.container.textContent = value;
+            this.container.textContent = value ?? '';
         });
         
         this.addInputNumberListener('font-size', (value) => {
-            this.container.style.fontSize = `${Math.floor(value)}px`;
+            this.container.style.fontSize = `${Math.floor(value ?? 18)}px`;
         });
         
         return this.container;

@@ -59,6 +59,7 @@ export class Component extends InputHolder {
 
         for (const [name, _] of this.inputListeners) {
             const value = this.getInput(name);
+            console.log(name, value);
             this.notifyInputUpdate(name, value);
         }
     }
@@ -67,15 +68,15 @@ export class Component extends InputHolder {
         this.inputListeners.set(name, listener);
     }
 
-    public addInputBooleanListener(name: string, listener: (value: boolean) => unknown): void {
+    public addInputBooleanListener(name: string, listener: (value?: boolean) => unknown): void {
         this.inputListeners.set(name, (value) => listener(App.parseBoolean(value)));
     }
 
-    public addInputStringListener(name: string, listener: (value: string) => unknown): void {
+    public addInputStringListener(name: string, listener: (value?: string) => unknown): void {
         this.inputListeners.set(name, (value) => listener(App.parseString(value)));
     }
 
-    public addInputNumberListener(name: string, listener: (value: number) => unknown): void {
+    public addInputNumberListener(name: string, listener: (value?: number) => unknown): void {
         this.inputListeners.set(name, (value) => listener(App.parseNumber(value)));
     }
 

@@ -2,35 +2,57 @@ import { Component } from "./component";
 
 export class $NumberInput extends Component {
     private input!: HTMLInputElement;
-    
+    private outputVariable!: string;
+    private initialValueSet!: boolean;
+
     protected override createHtmlElement(): HTMLElement {
         this.input = document.createElement('input');
 
         this.input.setAttribute('type', 'number');
         this.input.style.minWidth = '0';
         this.input.style.minHeight = '0';
-        
-        this.input.addEventListener('input', () => {
-            this.updateOutputNumber();
-        });
 
-        this.addInputNumberListener('number', (value) => {
-            if (this.input.valueAsNumber === value)
-                return;
+        this.outputVariable = this.getInputString('output-number');
+        this.initialValueSet = false;
 
-            this.input.valueAsNumber = value;
-            this.updateOutputNumber();
-        });
+        // setTimeout to let variable values be propagated once
+        setTimeout(() => this.initialValueSet = true, 0);
 
         this.addInputStringListener('placeholder', (value) => {
-            this.input.setAttribute('placeholder', value);
+            this.input.setAttribute('placeholder', value ?? '');
         });
-        
+
+        this.addInputNumberListener('initial-number', (value) => {
+            if (this.initialValueSet)
+                return;
+
+            this.updateInputValue(value);
+            this.updateOutputVariable();
+        });
+
+        this.app.addEventListener('update', (event) => {
+            const { variable, value } = (event as CustomEvent).detail;
+
+            if (variable === this.outputVariable)
+                this.updateInputValue(value);
+        });
+
+        this.input.addEventListener('input', () => {
+            this.updateOutputVariable();
+        });
+
         return this.input;
     }
 
-    private updateOutputNumber(): void {
-        const outputVariable = this.getInputString('output-number');
-        this.app.setVariableValue(outputVariable, this.input.valueAsNumber);
+    private updateInputValue(value: number | undefined): void {
+        if (value === undefined)
+            this.input.value = '';
+        else
+            this.input.valueAsNumber = value;
+    }
+
+    private updateOutputVariable(): void {
+        const value = this.input.valueAsNumber;
+        this.app.setVariableValue(this.outputVariable, Number.isFinite(value) ? value : undefined);
     }
 }

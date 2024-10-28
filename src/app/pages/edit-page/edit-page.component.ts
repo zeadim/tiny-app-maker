@@ -7,7 +7,6 @@ import { ComponentState, State } from '../../types/state';
 /*
 TODO:
 - how to work with booleans (conditions, truthy/falsy values as well as checkbox inputs)? Separate type or 0 and 1?
-- more input types: like color, date, number range slider, select menu (one out of fixed number) ...
 - how to handle different app types, like file (image/video/audio) etc.? Also via ID like web sockets?
 - check TODOs
 */

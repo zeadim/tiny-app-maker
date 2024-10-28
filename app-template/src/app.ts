@@ -63,15 +63,24 @@ export class App extends EventTarget {
         return s;
     }
 
-    public static parseBoolean(value: any): boolean {
+    public static parseBoolean(value: any): boolean | undefined {
+        if (value === undefined)
+            return undefined;
+        
         return !!value;
     }
 
-    public static parseString(value: any): string {
+    public static parseString(value: any): string | undefined {
+        if (value === undefined)
+            return undefined;
+
         return value == null ? '' : `${value}`;
     }
 
-    public static parseNumber(value: any): number {
+    public static parseNumber(value: any): number | undefined {
+        if (value === undefined)
+            return undefined;
+
         const number = +value;
         
         if (Number.isNaN(number))

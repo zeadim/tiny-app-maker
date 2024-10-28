@@ -16,15 +16,17 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-    /*border: 2px solid rgba(0, 0, 0, 0.4);*/
-}
-
 * {
     font-family: var(--mainFont);
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
+}
+
+button {
+    overflow-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .grid {

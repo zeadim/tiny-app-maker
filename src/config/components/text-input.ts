@@ -11,8 +11,8 @@ export const textInput: ComponentConfiguration = {
             type: 'string',
         },
         {
-            name: 'text',
-            label: 'Text',
+            name: 'initial-text',
+            label: 'Initial Text',
             type: 'string',
         },
         {

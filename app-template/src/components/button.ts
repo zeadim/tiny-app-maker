@@ -11,7 +11,7 @@ export class $Button extends Component {
         });
 
         this.addInputStringListener('label', (value) => {
-            this.button.textContent = value;
+            this.button.textContent = value ?? '';
         });
         
         return this.button;
