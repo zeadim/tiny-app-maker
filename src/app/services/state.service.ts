@@ -105,7 +105,9 @@ export class StateService {
         if (!variables)
             return [];
 
-        return inputs.filter(x => variables.has(x.name)).filter(x => x.value).map(x => `${x.value}`);
+        return inputs
+            .filter(x => variables.has(x.name) && typeof x.value === 'string' && x.value.trim() !== '')
+            .map(x => x.value.trim().toUpperCase());
     }
 
     private detectChangedComponent(previousState: State, currentState: State): ComponentState | undefined {

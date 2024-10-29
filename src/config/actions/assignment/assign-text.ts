@@ -11,7 +11,7 @@ export const assignText: ActionConfiguration = {
             type: 'string',
         },
         {
-            name: 'variable',
+            name: 'output-variable',
             label: 'Value',
             type: 'variable',
         },

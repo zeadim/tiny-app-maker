@@ -59,7 +59,6 @@ export class Component extends InputHolder {
 
         for (const [name, _] of this.inputListeners) {
             const value = this.getInput(name);
-            console.log(name, value);
             this.notifyInputUpdate(name, value);
         }
     }
@@ -78,6 +77,10 @@ export class Component extends InputHolder {
 
     public addInputNumberListener(name: string, listener: (value?: number) => unknown): void {
         this.inputListeners.set(name, (value) => listener(App.parseNumber(value)));
+    }
+
+    public addInputColorListener(name: string, listener: (value?: string) => unknown): void {
+        this.inputListeners.set(name, (value) => listener(App.parseColor(value)));
     }
 
     public async triggerEvent(name: string): Promise<void> {

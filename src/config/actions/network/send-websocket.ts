@@ -8,7 +8,6 @@ export const sendWebSocket: ActionConfiguration = {
         {
             name: 'websocket',
             label: 'WebSocket ID',
-            note: 'Obtain via open',
             type: 'string',
             defaultVariable: true,
         },

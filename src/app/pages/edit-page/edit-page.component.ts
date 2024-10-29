@@ -177,7 +177,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private createNewComponent(x: number, y: number): void {
         const component: ComponentState = {
-            name: 'button',
+            name: 'cell',
             x0: x + 1,
             y0: y + 1,
             x1: x + 2,

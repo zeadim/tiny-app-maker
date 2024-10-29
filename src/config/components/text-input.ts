@@ -21,5 +21,10 @@ export const textInput: ComponentConfiguration = {
             type: 'variable',
         },
     ],
-    events: [],
+    events: [
+        {
+            name: 'change',
+            label: 'On Change',
+        }
+    ],
 };

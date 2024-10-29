@@ -21,8 +21,4 @@ export class EditComponentOverlayComponent implements AfterViewInit {
     public closeModal(): void {
         this.onClose.emit();
     }
-
-    public test(): void {
-        console.log(this.component); // TODO: remove, just to debug component state
-    }
 }

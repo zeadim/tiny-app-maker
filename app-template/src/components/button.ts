@@ -6,8 +6,8 @@ export class $Button extends Component {
     protected override createHtmlElement(): HTMLElement {
         this.button = document.createElement('button');
         
-        this.button.addEventListener('click', async () => {
-            await this.triggerEvent('click');
+        this.button.addEventListener('click', () => {
+            this.triggerEvent('click');
         });
 
         this.addInputStringListener('label', (value) => {

@@ -4,8 +4,8 @@ export class $OpenWebSocket extends Action {
 
     public override async execute(): Promise<number | undefined> {
         const url = this.getInputString('url');
-        const webSocketVariable = this.getInputString('output-websocket');
-        const lastMessageVariable = this.getInputString('output-last-message');
+        const webSocketVariable = this.getInputVariable('output-websocket');
+        const lastMessageVariable = this.getInputVariable('output-last-message');
 
         const webSocket = new WebSocket(url);
         const addressable = this.app.createAddressable('websocket', webSocket);

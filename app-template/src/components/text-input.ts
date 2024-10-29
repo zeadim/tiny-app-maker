@@ -33,8 +33,10 @@ export class $TextInput extends Component {
         this.app.addEventListener('update', (event) => {
             const { variable, value } = (event as CustomEvent).detail;
 
-            if (variable === this.outputVariable)
+            if (variable === this.outputVariable) {
                 this.input.value = value;
+                this.triggerEvent('change');
+            }
         });
 
         this.input.addEventListener('input', () => {

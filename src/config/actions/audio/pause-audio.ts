@@ -7,8 +7,7 @@ export const pauseAudio: ActionConfiguration = {
     inputs: [
         {
             name: 'id',
-            label: 'Audio/File ID',
-            note: 'Obtain via (down)load',
+            label: 'Audio / File ID',
             type: 'string',
             defaultVariable: true,
         },

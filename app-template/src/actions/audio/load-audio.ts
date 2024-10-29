@@ -12,7 +12,7 @@ export class $LoadAudio extends Action {
         this.audioElement = new Audio();
         this.audioElement.preload = 'auto';
 
-        const outputVariable = this.getInputString('output-audio');
+        const outputVariable = this.getInputVariable('output-audio');
         if (outputVariable) {
             const addressable = this.app.createAddressable('audio', this.audioElement);
             this.app.setVariableValue(outputVariable, addressable.id); // TODO: create abstraction for this?

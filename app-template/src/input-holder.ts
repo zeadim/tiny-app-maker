@@ -11,11 +11,11 @@ export class InputHolder {
         this.app = app;
 
         for (const input of inputs) {
-            if (input.value == null)
+            if (input.value == null) // TODO: perhaps add undefined in map instead, and assert getInput()s use existing name?
                 continue;
 
             if (input.variable) {
-                this.inputVariables.set(input.name, input.value);
+                this.inputVariables.set(input.name, input.value.toUpperCase());
             } else {
                 this.inputConstants.set(input.name, input.value);
             }
@@ -32,6 +32,10 @@ export class InputHolder {
         }
 
         return undefined;
+    }
+
+    public getInputVariable(name: string): string {
+        return this.getInputString(name).toUpperCase();
     }
 
     public getInputBoolean(name: string): boolean {

@@ -7,7 +7,7 @@ export const button: ComponentConfiguration = {
     inputs: [
         {
             name: 'label',
-            label: 'Label',
+            label: 'Text Label',
             type: 'string',
         },
     ],

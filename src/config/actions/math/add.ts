@@ -16,7 +16,7 @@ export const add: ActionConfiguration = {
             type: 'number',
         },
         {
-            name: 'result',
+            name: 'output-result',
             label: 'Result',
             type: 'variable',
         }

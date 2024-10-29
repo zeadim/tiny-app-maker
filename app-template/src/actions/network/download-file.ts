@@ -5,7 +5,7 @@ export class $DownloadFile extends Action {
 
     public override async execute(): Promise<number | undefined> {
         const url = this.getInputString('url');
-        const outputVariable = this.getInputString('output-file-id');
+        const outputVariable = this.getInputVariable('output-file-id');
 
         let type: AddressableType = 'nothing';
         let object;

@@ -21,5 +21,10 @@ export const numberInput: ComponentConfiguration = {
             type: 'variable',
         },
     ],
-    events: [],
+    events: [
+        {
+            name: 'change',
+            label: 'On Change',
+        }
+    ],
 };

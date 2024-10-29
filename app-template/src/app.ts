@@ -100,4 +100,11 @@ export class App extends EventTarget {
 
         return number;
     }
+
+    public static parseColor(value: any): string | undefined {
+        if (value === undefined)
+            return undefined;
+
+        return typeof value !== 'string' || !value.trim().startsWith('#') || value.trim().length < 7 ? '' : value.trim().slice(0, 7);
+    }
 }

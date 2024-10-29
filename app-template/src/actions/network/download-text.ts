@@ -4,7 +4,7 @@ export class $DownloadText extends Action {
 
     public override async execute(): Promise<number | undefined> {
         const url = this.getInputString('url');
-        const outputVariable = this.getInputString('output-text-content');
+        const outputVariable = this.getInputVariable('output-text-content');
 
         let output = '';
 

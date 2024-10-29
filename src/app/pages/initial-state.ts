@@ -67,7 +67,7 @@ export const initialState: State = {
             ]
         },
         {
-            "name": "label",
+            "name": "cell",
             "x0": 2,
             "y0": 5,
             "x1": 6,
@@ -142,7 +142,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "SONG PLAYING",
                                     "variable": false
                                 }
@@ -233,7 +233,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "SONG PLAYING",
                                     "variable": false
                                 }
@@ -294,7 +294,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "SONG PLAYING",
                                     "variable": false
                                 }
@@ -375,7 +375,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "RESET",
                                     "variable": false
                                 }
@@ -390,7 +390,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "RESET LABEL",
                                     "variable": false
                                 }
@@ -401,7 +401,7 @@ export const initialState: State = {
                             "inputs": [
                                 {
                                     "name": "condition",
-                                    "value": false,
+                                    "value": "",
                                     "variable": true
                                 }
                             ]
@@ -415,7 +415,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "RESET",
                                     "variable": false
                                 }
@@ -430,7 +430,7 @@ export const initialState: State = {
                                     "variable": false
                                 },
                                 {
-                                    "name": "variable",
+                                    "name": "output-variable",
                                     "value": "RESET LABEL",
                                     "variable": false
                                 }

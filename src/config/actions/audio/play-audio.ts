@@ -7,8 +7,7 @@ export const playAudio: ActionConfiguration = {
     inputs: [
         {
             name: 'id',
-            label: 'Audio/File ID',
-            note: 'Obtain via (down)load',
+            label: 'Audio URL / Audio ID / File ID',
             type: 'string',
             defaultVariable: true,
         },

@@ -13,6 +13,8 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     public input!: InputState;
     public id: string = '';
     public variableOptions: string[] = [];
+    public currentConstantValue?: any;
+    public currentVariableValue?: string;
 
     @Input('config') public config!: InputConfiguration;
     @Input('inputs') public inputs!: InputState[];
@@ -30,9 +32,18 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     }
 
     public set Value(value: any) {
-        this.input.value = this.Variable ? value?.toUpperCase() : value;
+        this.input.value = value;
 
-        if (this.IsOutput)
+        if (this.Variable) {
+            this.currentVariableValue = this.input.value;
+        } else {
+            this.currentConstantValue = this.input.value;
+
+            if (this.config.type === 'string')
+                this.currentVariableValue = this.input.value;
+        }
+
+        if (this.IsOutput) // TODO: debounce?
             this.stateService.updateVariables();
     }
 
@@ -44,8 +55,12 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         if (this.IsOutput)
             return;
 
-        this.input.value = this.config.type === 'string' ? this.input.value?.toUpperCase() : undefined;
         this.input.variable = value;
+
+        if (this.input.variable)
+            this.input.value = this.currentVariableValue;
+        else
+            this.input.value = this.currentConstantValue;
     }
 
     public constructor(
@@ -61,6 +76,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
 
         this.input = input;
         this.id = `id--${this.config.name.replaceAll(' ', '-')}`;
+        this.Value = this.input.value; // initialize state
     }
 
     public ngOnDestroy(): void {
