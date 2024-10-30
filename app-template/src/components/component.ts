@@ -88,13 +88,13 @@ export class Component extends InputHolder {
             return;
 
         const actions = this.events.get(name)!;
-        
+
         for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
             const index = await action.execute();
             if (index !== undefined)
                 i = Math.max(0, index) - 1;
-            
+
             await new Promise((resolve) => setTimeout(resolve, 0));
         }
     }

@@ -7,7 +7,7 @@ export class $AssignVariable extends Action {
         const variableName = this.getInputVariable('output-variable');
 
         this.app.setVariableValue(variableName, value);
-        
+
         return undefined;
     }
 }

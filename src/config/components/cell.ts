@@ -46,7 +46,7 @@ export const cell: ComponentConfiguration = {
         },
         {
             name: 'font-size',
-            label: 'Text Size',
+            label: 'Text Font Size',
             type: 'number',
             defaultValue: 18,
         },
@@ -61,6 +61,10 @@ export const cell: ComponentConfiguration = {
         {
             name: 'click',
             label: 'On Click',
+        },
+        {
+            name: 'touch',
+            label: 'On Touch',
         },
     ],
 };

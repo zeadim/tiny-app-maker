@@ -9,6 +9,11 @@ function initializeApp() {
     const { width, height, components } = window.appConfig;
     const gridElement = document.getElementById('grid')!;
 
+    
+    gridElement.addEventListener('gotpointercapture', (event) => {
+        gridElement.releasePointerCapture(event.pointerId);
+    });
+
     // Create app page grid
     gridElement.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
     gridElement.style.gridTemplateRows = `repeat(${height}, 1fr)`;
@@ -23,6 +28,10 @@ function initializeApp() {
         cell.style.gridRowEnd = `${y + 2}`;
         cell.classList.add('grid-cell');
         gridElement.appendChild(cell);
+
+        cell.addEventListener('gotpointercapture', (event) => {
+            cell.releasePointerCapture(event.pointerId);
+        });
     }
 
     // Set up app with components and events
@@ -38,7 +47,6 @@ function initializeApp() {
         }
 
         const component = new ComponentClass(app, x0, y0, x1, y1, inputs, events);
-        // TODO: configure events (with actions)
         app.addComponent(component);
     }
 }

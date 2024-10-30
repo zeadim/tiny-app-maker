@@ -12,7 +12,7 @@ export class $TextInput extends Component {
         this.input.style.minWidth = '0';
         this.input.style.minHeight = '0';
 
-        this.outputVariable = this.getInputString('output-text');
+        this.outputVariable = this.getInputVariable('output-text');
         this.initialValueSet = false;
 
         // setTimeout to let variable values be propagated once

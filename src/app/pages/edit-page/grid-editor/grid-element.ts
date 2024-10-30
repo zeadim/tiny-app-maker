@@ -5,6 +5,7 @@ export class GridElement {
 
     public constructor(htmlElement: HTMLElement) {
         this.htmlElement = htmlElement;
+        this.htmlElement.style.touchAction = 'none';
 
         this.events = new Map();
     }

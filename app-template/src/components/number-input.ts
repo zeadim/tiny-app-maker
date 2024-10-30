@@ -12,7 +12,7 @@ export class $NumberInput extends Component {
         this.input.style.minWidth = '0';
         this.input.style.minHeight = '0';
 
-        this.outputVariable = this.getInputString('output-number');
+        this.outputVariable = this.getInputVariable('output-number');
         this.initialValueSet = false;
 
         // setTimeout to let variable values be propagated once

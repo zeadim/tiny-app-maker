@@ -48,12 +48,8 @@ export class GridEditor {
     }
 
     public activate(): void {
-        this.setEventListener(window, 'pointermove', (event: MouseEvent) => this.onPointerMove(event));
-        this.setEventListener(window, 'touchmove', (event: TouchEvent) => this.onPointerMove(event));
-        this.setEventListener(window, 'mouseup', () => this.onPointerCancel());
+        this.setEventListener(window, 'pointermove', (event: PointerEvent) => this.onPointerMove(event));
         this.setEventListener(window, 'pointerup', () => this.onPointerCancel());
-        this.setEventListener(window, 'touchcancel', () => this.onPointerCancel());
-        this.setEventListener(window, 'touchend', () => this.onPointerCancel());
     }
 
     public deactivate(): void {
@@ -148,21 +144,14 @@ export class GridEditor {
         element.addEventListener(eventName, handler, { passive: false });
     }
 
-    private onPointerMove(event: MouseEvent | TouchEvent): void {
+    private onPointerMove(event: PointerEvent): void {
         event.preventDefault();
         event.stopImmediatePropagation();
 
-        if (event instanceof MouseEvent) {
-            this.pointerPosition.x = event.pageX;
-            this.pointerPosition.y = event.pageY;
-            this.moveCorner();
-            this.moveSelection();
-        } else if (event.touches[0]) {
-            this.pointerPosition.x = event.touches[0].pageX;
-            this.pointerPosition.y = event.touches[0].pageY;
-            this.moveCorner();
-            this.moveSelection();
-        }
+        this.pointerPosition.x = event.clientX;
+        this.pointerPosition.y = event.clientY;
+        this.moveCorner();
+        this.moveSelection();
     }
 
     private onPointerCancel(): void {
@@ -206,7 +195,6 @@ export class GridEditor {
             return;
 
         this.gridSelectionBox?.destroy();
-        this.selectedGridComponent?.unselect();
         this.selectedGridComponent = gridComponent;
         this.gridSelectionBox = undefined;
         this.gridSelectionBoxCorner = undefined;
@@ -217,7 +205,6 @@ export class GridEditor {
             return;
         }
 
-        this.selectedGridComponent.select();
         this.gridSelectionBox = new GridSelectionBox(this.selectedGridComponent);
 
         // TODO: dblclick seems to behave weirdly on mobile sometimes?
@@ -249,6 +236,10 @@ export class GridEditor {
             });
         }
 
+        // Put selected component on top of other components
+        this.containerElement.removeChild(this.selectedGridComponent.htmlElement);
+        this.containerElement.appendChild(this.selectedGridComponent.htmlElement);
+        
         this.containerElement.appendChild(this.gridSelectionBox.htmlElement);
         this.selectedComponentChange$.next(this.selectedGridComponent.component);
     }

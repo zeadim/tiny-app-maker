@@ -1,14 +1,14 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
 import { ActionState, ComponentState, EventState } from '../../types/state';
-import { ActionConfiguration, EventConfiguration } from '../../../config/types';
-import { actionList } from 'src/config/action-list';
+import { EventConfiguration } from '../../../config/types';
+import { actionList } from '../../../config/action-list';
 
 @Component({
     selector: 'app-event-configuration',
     templateUrl: './event-configuration.component.html',
     styleUrls: ['./event-configuration.component.scss']
 })
-export class EventConfigurationComponent implements OnInit, OnDestroy {
+export class EventConfigurationComponent implements OnChanges, OnDestroy {
 
     public selectedActionIndex: number = 0;
     public event!: EventState;
@@ -22,7 +22,9 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
         return this.event.actions[this.selectedActionIndex];
     }
 
-    public ngOnInit(): void {
+    // ngOnChanges instead of ngOnInit because update required each time input changes
+    // (similar to using setter on @Input('config') with same body as ngOnInit, I suppose)
+    public ngOnChanges(): void {
         let event = this.component.events.find(x => x.name === this.config.name);
         if (!event) {
             event = { name: this.config.name, actions: [] };
@@ -30,6 +32,7 @@ export class EventConfigurationComponent implements OnInit, OnDestroy {
         }
 
         this.event = event;
+        this.selectedActionIndex = 0;
         this.addPlaceholderAction(true);
     }
 

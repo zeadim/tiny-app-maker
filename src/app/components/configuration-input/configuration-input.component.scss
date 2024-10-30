@@ -82,6 +82,10 @@
             }
         }
 
+        .options-input {
+            text-transform: lowercase;
+        }
+
         .boolean-input {
             display: flex;
             flex-direction: row;

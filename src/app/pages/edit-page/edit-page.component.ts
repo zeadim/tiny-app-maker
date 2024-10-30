@@ -172,7 +172,17 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private onSelectedComponentChange(component?: ComponentState): void {
-        // Keep this subscription to trigger change detection!
+        // Keep this subscription to trigger change detection! 
+        // (TODO: fix this so it is not *needed* for change detection)
+        if (!component)
+            return;
+
+        const index = this.State.components.indexOf(component);
+        if (index < 0)
+            return;
+
+        this.State.components.splice(index, 1);
+        this.State.components.push(component);
     }
 
     private createNewComponent(x: number, y: number): void {
@@ -196,14 +206,12 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private onKeyDown(event: KeyboardEvent): void {
         if (event.ctrlKey && event.key === 'z') {
             event.preventDefault();
-            this.stateService.undo();
-            this.gridEditor?.syncState(this.State);
+            this.performUndo();
         }
 
         if (event.ctrlKey && event.key === 'y') {
             event.preventDefault();
-            this.stateService.redo();
-            this.gridEditor?.syncState(this.State);
+            this.performRedo();
         }
 
         if (event.key === 'Escape') {
