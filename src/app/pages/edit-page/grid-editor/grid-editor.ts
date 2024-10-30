@@ -1,4 +1,3 @@
-
 import { Subject } from "rxjs";
 import { ComponentState, State } from "../../../types/state";
 import { GridCell } from "./grid-cell";
@@ -239,7 +238,7 @@ export class GridEditor {
         // Put selected component on top of other components
         this.containerElement.removeChild(this.selectedGridComponent.htmlElement);
         this.containerElement.appendChild(this.selectedGridComponent.htmlElement);
-        
+
         this.containerElement.appendChild(this.gridSelectionBox.htmlElement);
         this.selectedComponentChange$.next(this.selectedGridComponent.component);
     }

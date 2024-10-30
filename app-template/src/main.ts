@@ -9,11 +9,6 @@ function initializeApp() {
     const { width, height, components } = window.appConfig;
     const gridElement = document.getElementById('grid')!;
 
-    
-    gridElement.addEventListener('gotpointercapture', (event) => {
-        gridElement.releasePointerCapture(event.pointerId);
-    });
-
     // Create app page grid
     gridElement.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
     gridElement.style.gridTemplateRows = `repeat(${height}, 1fr)`;
@@ -28,10 +23,6 @@ function initializeApp() {
         cell.style.gridRowEnd = `${y + 2}`;
         cell.classList.add('grid-cell');
         gridElement.appendChild(cell);
-
-        cell.addEventListener('gotpointercapture', (event) => {
-            cell.releasePointerCapture(event.pointerId);
-        });
     }
 
     // Set up app with components and events
@@ -39,7 +30,7 @@ function initializeApp() {
 
     for (const componentConfig of components) {
         const { name, x0, y0, x1, y1, inputs, events } = componentConfig;
-        
+
         const ComponentClass = componentMap.get(name);
         if (!ComponentClass) {
             console.warn(`Unsupported component type in config: ${name}`);

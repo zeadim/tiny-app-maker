@@ -62,9 +62,5 @@ export const cell: ComponentConfiguration = {
             name: 'click',
             label: 'On Click',
         },
-        {
-            name: 'touch',
-            label: 'On Touch',
-        },
     ],
 };

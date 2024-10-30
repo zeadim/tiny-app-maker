@@ -15,10 +15,6 @@ export class App extends EventTarget {
     public addComponent(component: Component): void {
         this.components.push(component);
         this.gridElement.appendChild(component.htmlElement);
-
-        component.htmlElement.addEventListener('gotpointercapture', (event) => {
-            component.htmlElement.releasePointerCapture(event.pointerId);
-        });
     }
 
     public getVariableValue(variable: string): unknown {

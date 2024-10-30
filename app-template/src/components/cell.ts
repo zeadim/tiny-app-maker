@@ -9,12 +9,8 @@ export class $Cell extends Component {
         this.container.style.display = 'flex';
         this.container.style.flexDirection = 'row';
 
-        this.container.addEventListener('pointerdown', () => {
+        this.container.addEventListener('click', () => {
             this.triggerEvent('click');
-        });
-
-        this.container.addEventListener('pointerenter', (event) => {
-            this.triggerEvent('touch');
         });
 
         this.addInputStringListener('text', (value) => {
