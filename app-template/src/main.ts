@@ -3,6 +3,7 @@ import { componentMap } from './component-map';
 import './style.css';
 
 window.addEventListener('load', () => initializeApp());
+window.addEventListener('beforeunload', () => window.speechSynthesis.cancel());
 
 function initializeApp() {
     // @ts-ignore

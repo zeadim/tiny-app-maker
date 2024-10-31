@@ -1,3 +1,4 @@
+import { getAcceptedMimeTypesFromFileType } from "../../common";
 import { Action } from "../action";
 
 export class $DownloadText extends Action {
@@ -11,14 +12,16 @@ export class $DownloadText extends Action {
         try {
             const response = await fetch(url, {
                 headers: {
-                    'accept': 'text/plain'
+                    'accept': getAcceptedMimeTypesFromFileType('text'),
                 },
             });
 
-            if (response.ok)
-                output = await response.text();
+            if (!response.ok)
+                return undefined;
+            
+            output = await response.text();
         } catch (err) {
-            //
+            return undefined;
         }
 
         this.app.setVariableValue(outputVariable, output);

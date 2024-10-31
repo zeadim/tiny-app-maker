@@ -1,62 +1,41 @@
-import { AddressableType } from "../../types";
+import { createFileObject, getAcceptedMimeTypesFromFileType } from "../../common";
+import { FileObject } from "../../file-objects/file-object";
+import { FileType } from "../../types";
 import { Action } from "../action";
 
 export class $DownloadFile extends Action {
 
     public override async execute(): Promise<number | undefined> {
         const url = this.getInputString('url');
+        const fileType = this.getInputString('file-type') as FileType ?? 'buffer';
         const outputVariable = this.getInputVariable('output-file-id');
 
-        let type: AddressableType = 'nothing';
-        let object;
+        let object: FileObject;
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                headers: {
+                    'accept': getAcceptedMimeTypesFromFileType(fileType),
+                },
+            });
 
-            if (response.ok) {
-                const blob = await response.blob();
-                ([type, object] = await this.parseBlob(blob));
-            }
+            if (!response.ok)
+                return undefined;
+
+            const blob = await response.blob();
+            
+            const { pathname } = new URL(url);
+            const index = pathname?.lastIndexOf('/') ?? -1;
+            const name = index < 0 ? '' : pathname.slice(index + 1);
+
+            object = await createFileObject(this.app, fileType, blob, name);
         } catch (err) {
-            //
+            return undefined;
         }
 
-        const addressable = this.app.createAddressable(type, object);
+        const addressable = this.app.createAddressable(fileType, object);
         this.app.setVariableValue(outputVariable, addressable.id);
 
         return undefined;
-    }
-
-    private async parseBlob(blob: Blob): Promise<[AddressableType, any]> {
-        if (blob.type === 'application/json') {
-            const json = await blob.text();
-            const data = JSON.parse(json);
-            return ['json', data];
-        }
-
-        if (blob.type.startsWith('text/')) {
-            const text = await blob.text();
-            return ['text', text];
-        }
-
-        if (blob.type.startsWith('image/')) {
-            const image = new Image();
-            image.src = URL.createObjectURL(blob);
-            return ['image', image];
-        }
-
-        if (blob.type.startsWith('audio/')) {
-            const audio = new Audio();
-            audio.src = URL.createObjectURL(blob);
-            return ['audio', audio];
-        }
-
-        if (blob.type.startsWith('video/')) {
-            const video = document.createElement('video');
-            video.src = URL.createObjectURL(blob);
-            return ['video', video];
-        }
-
-        return ['unknown', blob];
     }
 }

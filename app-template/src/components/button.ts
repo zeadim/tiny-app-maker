@@ -13,6 +13,14 @@ export class $Button extends Component {
         this.addInputStringListener('label', (value) => {
             this.button.textContent = value ?? '';
         });
+
+        this.addInputBooleanListener('disabled', (value) => {
+            if (value) {
+                this.button.setAttribute('disabled', 'true');
+            } else {
+                this.button.removeAttribute('disabled');
+            }
+        });
         
         return this.button;
     }

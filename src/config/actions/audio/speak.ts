@@ -10,5 +10,11 @@ export const speak: ActionConfiguration = {
             label: 'Text to Say',
             type: 'string',
         },
+        {
+            name: 'async',
+            label: 'Asynchronous',
+            type: 'boolean',
+            defaultValue: false,
+        },
     ],
 };

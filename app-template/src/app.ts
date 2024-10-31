@@ -7,9 +7,13 @@ export class App extends EventTarget {
     private variables: Map<string, any> = new Map();
     private addressables: Map<string, Addressable> = new Map();
 
+    public audioContext: AudioContext;
+
     public constructor(gridElement: HTMLElement) {
         super();
         this.gridElement = gridElement;
+
+        this.audioContext = new AudioContext();
     }
 
     public addComponent(component: Component): void {
@@ -30,14 +34,11 @@ export class App extends EventTarget {
         this.dispatchEvent(event);
     }
 
-    public getAddressable(id: string): Addressable | undefined {
-        if (id === 'id:nothing()')
-            return undefined;
-
-        return this.addressables.get(id);
+    public getAddressable(id: string | undefined): Addressable | undefined {
+        return id ? this.addressables.get(id) : undefined;
     }
 
-    public getAddressableObject<T>(id: string, expectedType: AddressableType): T | undefined {
+    public getAddressableObject<T>(id: string | undefined, expectedType: AddressableType): T | undefined {
         const addressable = this.getAddressable(id);
         if (!addressable || addressable.type !== expectedType)
             return undefined;
@@ -45,10 +46,16 @@ export class App extends EventTarget {
         return addressable.object as T;
     }
 
-    public createAddressable(type: AddressableType, object: any): Addressable {
-        if (type === 'nothing')
-            return { id: 'id:nothing()', type, object: undefined };
+    public getAllAddressables(type?: AddressableType): Addressable[] {
+        let list = Array.from(this.addressables.values());
+        
+        if (type)
+            list = list.filter(x => x.type === type);
 
+        return list;
+    }
+
+    public createAddressable(type: AddressableType, object: any): Addressable {
         const id = `id:${type}(${App.generateUniqueId()})`;
         const addressable = { id, type, object };
 
@@ -57,7 +64,10 @@ export class App extends EventTarget {
         return addressable;
     }
 
-    public removeAddressable(id: string): void {
+    public removeAddressable(id: string | undefined): void {
+        if (!id)
+            return;
+
         this.addressables.delete(id);
     }
 

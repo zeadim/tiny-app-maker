@@ -15,7 +15,7 @@ export const goto: ActionConfiguration = {
             name: 'condition',
             label: 'Only Go To If Not',
             type: 'boolean',
-            defaultVariable: true,
+            defaultValue: false,
         }
     ],
 };

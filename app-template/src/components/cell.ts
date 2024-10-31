@@ -1,47 +1,52 @@
 import { Component } from "./component";
 
 export class $Cell extends Component {
-    private container!: HTMLDivElement;
+    private cell!: HTMLDivElement;
+    private textContainer!: HTMLDivElement;
 
     protected override createHtmlElement(): HTMLElement {
-        this.container = document.createElement('div');
+        this.cell = document.createElement('div');
+        this.textContainer = document.createElement('div');
+        this.cell.appendChild(this.textContainer);
 
-        this.container.style.display = 'flex';
-        this.container.style.flexDirection = 'row';
+        this.cell.style.display = 'flex';
+        this.cell.style.flexDirection = 'row';
+        this.textContainer.style.display = 'inline-block';
+        this.textContainer.style.flex = '1';
 
-        this.container.addEventListener('click', () => {
+        this.cell.addEventListener('click', () => {
             this.triggerEvent('click');
         });
 
         this.addInputStringListener('text', (value) => {
-            this.container.textContent = value ?? '';
+            this.textContainer.textContent = value ?? '';
         });
 
         this.addInputColorListener('text-color', (value) => {
-            this.container.style.color = value ?? '#000000';
+            this.cell.style.color = value ?? '#000000';
         });
 
         this.addInputNumberListener('text-padding', (value) => {
-            this.container.style.padding = `${Math.floor(value ?? 8)}px`;
+            this.cell.style.padding = `${Math.floor(value ?? 8)}px`;
         });
 
         this.addInputStringListener('text-horizontal-alignment', (value) => {
-            this.container.style.textAlign = value ?? 'center';
+            this.cell.style.textAlign = value ?? 'center';
         });
 
         this.addInputStringListener('text-vertical-alignment', (value) => {
             const alignment = value === 'top' ? 'flex-start' : value === 'bottom' ? 'flex-end' : 'center';
-            this.container.style.alignItems = alignment;
+            this.cell.style.alignItems = alignment;
         });
 
         this.addInputNumberListener('font-size', (value) => {
-            this.container.style.fontSize = `${Math.floor(value ?? 18)}px`;
+            this.cell.style.fontSize = `${Math.floor(value ?? 18)}px`;
         });
 
         this.addInputColorListener('background-color', (value) => {
-            this.container.style.backgroundColor = value ?? '#e0eeee';
+            this.cell.style.backgroundColor = value ?? '#e0eeee';
         });
 
-        return this.container;
+        return this.cell;
     }
 }

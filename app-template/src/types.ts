@@ -36,12 +36,13 @@ export type Addressable = {
     object: any,
 };
 
-export type AddressableType =
-    | 'nothing'
-    | 'unknown'
+export type FileType =
     | 'text'
-    | 'json'
     | 'image'
-    | 'audio'
     | 'video'
-    | 'websocket';
+    | 'audio'
+    | 'buffer'
+
+export type AddressableType =
+    | 'websocket'
+    | FileType

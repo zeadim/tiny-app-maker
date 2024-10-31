@@ -6,16 +6,15 @@ export const playAudio: ActionConfiguration = {
     group: 'audio',
     inputs: [
         {
-            name: 'id',
-            label: 'Audio URL / Audio ID / File ID',
+            name: 'url-or-file-id',
+            label: 'Audio URL or File ID',
             type: 'string',
-            defaultVariable: true,
         },
         {
-            name: 'restart',
-            label: 'Restart From Beginning',
-            type: 'boolean',
-            defaultValue: true,
+            name: 'start-offset',
+            label: 'Start Time Offset (seconds)',
+            type: 'number',
+            defaultValue: 0,
         },
         {
             name: 'async',

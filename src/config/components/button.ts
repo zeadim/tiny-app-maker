@@ -10,6 +10,12 @@ export const button: ComponentConfiguration = {
             label: 'Text Label',
             type: 'string',
         },
+        {
+            name: 'disabled',
+            label: 'Disabled',
+            type: 'boolean',
+            defaultValue: false,
+        },
     ],
     events: [
         {

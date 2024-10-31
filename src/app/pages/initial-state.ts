@@ -7,6 +7,81 @@ export const initialState: State = {
     "components": [
         {
             "name": "button",
+            "x0": 1,
+            "y0": 1,
+            "x1": 3,
+            "y1": 2,
+            "inputs": [
+                {
+                    "name": "label",
+                    "value": "SONG 1",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "click",
+                    "actions": [
+                        {
+                            "name": "goto",
+                            "inputs": [
+                                {
+                                    "name": "index",
+                                    "value": 3,
+                                    "variable": false
+                                },
+                                {
+                                    "name": "condition",
+                                    "value": "SONG PLAYING",
+                                    "variable": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "stop-all-audio",
+                            "inputs": []
+                        },
+                        {
+                            "name": "assign-text",
+                            "inputs": [
+                                {
+                                    "name": "value",
+                                    "value": "1",
+                                    "variable": false
+                                },
+                                {
+                                    "name": "output-variable",
+                                    "value": "SONG PLAYING",
+                                    "variable": false
+                                }
+                            ]
+                        },
+                        {
+                            "name": "play-audio",
+                            "inputs": [
+                                {
+                                    "name": "url-or-file-id",
+                                    "value": "https://cdn.pixabay.com/audio/2024/09/09/audio_7556bb3a41.mp3",
+                                    "variable": false
+                                },
+                                {
+                                    "name": "start-offset",
+                                    "value": 0,
+                                    "variable": false
+                                },
+                                {
+                                    "name": "async",
+                                    "value": true,
+                                    "variable": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "button",
             "x0": 2,
             "y0": 9,
             "x1": 6,
@@ -48,15 +123,20 @@ export const initialState: State = {
                             ]
                         },
                         {
-                            "name": "load-audio",
+                            "name": "play-audio",
                             "inputs": [
                                 {
-                                    "name": "url",
+                                    "name": "url-or-file-id",
                                     "value": "https://bigsoundbank.com/UPLOAD/mp3/0433.mp3?v=m",
                                     "variable": false
                                 },
                                 {
-                                    "name": "autoplay",
+                                    "name": "start-offset",
+                                    "value": 0,
+                                    "variable": false
+                                },
+                                {
+                                    "name": "async",
                                     "value": true,
                                     "variable": false
                                 }
@@ -69,7 +149,7 @@ export const initialState: State = {
         {
             "name": "cell",
             "x0": 2,
-            "y0": 5,
+            "y0": 4,
             "x1": 6,
             "y1": 8,
             "inputs": [
@@ -80,7 +160,32 @@ export const initialState: State = {
                 },
                 {
                     "name": "font-size",
-                    "value": 18,
+                    "value": 16,
+                    "variable": false
+                },
+                {
+                    "name": "text-color",
+                    "value": "#000000",
+                    "variable": false
+                },
+                {
+                    "name": "text-padding",
+                    "value": 8,
+                    "variable": false
+                },
+                {
+                    "name": "text-horizontal-alignment",
+                    "value": "center",
+                    "variable": false
+                },
+                {
+                    "name": "text-vertical-alignment",
+                    "value": "center",
+                    "variable": false
+                },
+                {
+                    "name": "background-color",
+                    "value": "#e0eeee",
                     "variable": false
                 }
             ],
@@ -88,14 +193,14 @@ export const initialState: State = {
         },
         {
             "name": "button",
-            "x0": 1,
-            "y0": 1,
-            "x1": 3,
-            "y1": 2,
+            "x0": 4,
+            "y0": 2,
+            "x1": 7,
+            "y1": 3,
             "inputs": [
                 {
                     "name": "label",
-                    "value": "SONG 1",
+                    "value": "Play Music",
                     "variable": false
                 }
             ],
@@ -104,71 +209,21 @@ export const initialState: State = {
                     "name": "click",
                     "actions": [
                         {
-                            "name": "goto",
+                            "name": "play-audio",
                             "inputs": [
                                 {
-                                    "name": "index",
-                                    "value": 3,
-                                    "variable": false
-                                },
-                                {
-                                    "name": "condition",
-                                    "value": "SONG PLAYING",
-                                    "variable": true
-                                }
-                            ]
-                        },
-                        {
-                            "name": "pause-audio",
-                            "inputs": [
-                                {
-                                    "name": "id",
-                                    "value": "SONG 2",
+                                    "name": "url-or-file-id",
+                                    "value": "MUSIC",
                                     "variable": true
                                 },
                                 {
-                                    "name": "reset",
-                                    "value": false,
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
-                            "name": "assign-text",
-                            "inputs": [
-                                {
-                                    "name": "value",
-                                    "value": "1",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-variable",
-                                    "value": "SONG PLAYING",
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
-                            "name": "load-audio",
-                            "inputs": [
-                                {
-                                    "name": "url",
-                                    "value": "https://cdn.pixabay.com/audio/2024/09/09/audio_7556bb3a41.mp3",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "autoplay",
-                                    "value": true,
+                                    "name": "start-offset",
+                                    "value": 0,
                                     "variable": false
                                 },
                                 {
                                     "name": "async",
                                     "value": true,
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-audio",
-                                    "value": "SONG 1",
                                     "variable": false
                                 }
                             ]
@@ -179,14 +234,19 @@ export const initialState: State = {
         },
         {
             "name": "button",
-            "x0": 5,
+            "x0": 3,
             "y0": 1,
             "x1": 7,
             "y1": 2,
             "inputs": [
                 {
                     "name": "label",
-                    "value": "SONG 2",
+                    "value": "STOP ALL AUDIO",
+                    "variable": false
+                },
+                {
+                    "name": "disabled",
+                    "value": false,
                     "variable": false
                 }
             ],
@@ -195,41 +255,11 @@ export const initialState: State = {
                     "name": "click",
                     "actions": [
                         {
-                            "name": "goto",
-                            "inputs": [
-                                {
-                                    "name": "index",
-                                    "value": 3,
-                                    "variable": false
-                                },
-                                {
-                                    "name": "condition",
-                                    "value": "SONG PLAYING",
-                                    "variable": true
-                                }
-                            ]
-                        },
-                        {
-                            "name": "pause-audio",
-                            "inputs": [
-                                {
-                                    "name": "id",
-                                    "value": "SONG 1",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "reset",
-                                    "value": false,
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
                             "name": "assign-text",
                             "inputs": [
                                 {
                                     "name": "value",
-                                    "value": "1",
+                                    "value": "",
                                     "variable": false
                                 },
                                 {
@@ -240,29 +270,8 @@ export const initialState: State = {
                             ]
                         },
                         {
-                            "name": "load-audio",
-                            "inputs": [
-                                {
-                                    "name": "url",
-                                    "value": "https://cdn.pixabay.com/audio/2024/09/09/audio_6b1edef254.mp3",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "autoplay",
-                                    "value": true,
-                                    "variable": false
-                                },
-                                {
-                                    "name": "async",
-                                    "value": true,
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-audio",
-                                    "value": "SONG 2",
-                                    "variable": false
-                                }
-                            ]
+                            "name": "stop-all-audio",
+                            "inputs": []
                         }
                     ]
                 }
@@ -272,13 +281,18 @@ export const initialState: State = {
             "name": "button",
             "x0": 1,
             "y0": 2,
-            "x1": 7,
+            "x1": 4,
             "y1": 3,
             "inputs": [
                 {
                     "name": "label",
-                    "value": "STOP PLAYING SONG",
+                    "value": "Load Music",
                     "variable": false
+                },
+                {
+                    "name": "disabled",
+                    "value": "MUSIC LOADED",
+                    "variable": true
                 }
             ],
             "events": [
@@ -286,97 +300,21 @@ export const initialState: State = {
                     "name": "click",
                     "actions": [
                         {
-                            "name": "assign-text",
+                            "name": "download-file",
                             "inputs": [
                                 {
-                                    "name": "value",
-                                    "value": "",
+                                    "name": "url",
+                                    "value": "https://cdn.pixabay.com/audio/2023/04/03/audio_047543feac.mp3",
                                     "variable": false
                                 },
                                 {
-                                    "name": "output-variable",
-                                    "value": "SONG PLAYING",
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
-                            "name": "pause-audio",
-                            "inputs": [
-                                {
-                                    "name": "id",
-                                    "value": "SONG 1",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "reset",
-                                    "value": "RESET",
-                                    "variable": true
-                                }
-                            ]
-                        },
-                        {
-                            "name": "pause-audio",
-                            "inputs": [
-                                {
-                                    "name": "id",
-                                    "value": "SONG 2",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "reset",
-                                    "value": "RESET",
-                                    "variable": true
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "button",
-            "x0": 4,
-            "y0": 3,
-            "x1": 7,
-            "y1": 4,
-            "inputs": [
-                {
-                    "name": "label",
-                    "value": "TOGGLE RESET",
-                    "variable": false
-                }
-            ],
-            "events": [
-                {
-                    "name": "click",
-                    "actions": [
-                        {
-                            "name": "goto",
-                            "inputs": [
-                                {
-                                    "name": "index",
-                                    "value": 5,
+                                    "name": "file-type",
+                                    "value": "audio",
                                     "variable": false
                                 },
                                 {
-                                    "name": "condition",
-                                    "value": "RESET",
-                                    "variable": true
-                                }
-                            ]
-                        },
-                        {
-                            "name": "assign-text",
-                            "inputs": [
-                                {
-                                    "name": "value",
-                                    "value": "",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-variable",
-                                    "value": "RESET",
+                                    "name": "output-file-id",
+                                    "value": "MUSIC",
                                     "variable": false
                                 }
                             ]
@@ -386,52 +324,12 @@ export const initialState: State = {
                             "inputs": [
                                 {
                                     "name": "value",
-                                    "value": "NO",
+                                    "value": "1",
                                     "variable": false
                                 },
                                 {
                                     "name": "output-variable",
-                                    "value": "RESET LABEL",
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
-                            "name": "stop",
-                            "inputs": [
-                                {
-                                    "name": "condition",
-                                    "value": "",
-                                    "variable": true
-                                }
-                            ]
-                        },
-                        {
-                            "name": "assign-text",
-                            "inputs": [
-                                {
-                                    "name": "value",
-                                    "value": "YES",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-variable",
-                                    "value": "RESET",
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
-                            "name": "assign-text",
-                            "inputs": [
-                                {
-                                    "name": "value",
-                                    "value": "YES",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-variable",
-                                    "value": "RESET LABEL",
+                                    "value": "MUSIC LOADED",
                                     "variable": false
                                 }
                             ]
@@ -439,51 +337,6 @@ export const initialState: State = {
                     ]
                 }
             ]
-        },
-        {
-            "name": "label",
-            "x0": 1,
-            "y0": 3,
-            "x1": 3,
-            "y1": 4,
-            "inputs": [
-                {
-                    "name": "text",
-                    "value": "Reset On Stop?",
-                    "variable": false
-                },
-                {
-                    "name": "font-size",
-                    "value": 14,
-                    "variable": false
-                }
-            ],
-            "events": []
-        },
-        {
-            "name": "text-input",
-            "x0": 3,
-            "y0": 3,
-            "x1": 4,
-            "y1": 4,
-            "inputs": [
-                {
-                    "name": "placeholder",
-                    "value": "",
-                    "variable": false
-                },
-                {
-                    "name": "initial-text",
-                    "value": "NO",
-                    "variable": false
-                },
-                {
-                    "name": "output-text",
-                    "value": "RESET LABEL",
-                    "variable": false
-                }
-            ],
-            "events": []
         }
     ]
 };

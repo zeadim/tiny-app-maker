@@ -1,16 +1,10 @@
-import { ActionConfiguration } from "../../types";
+import { ComponentConfiguration } from "../types";
 
-export const downloadFile: ActionConfiguration = {
-    name: 'download-file',
-    label: 'Download File',
-    group: 'internet',
+export const fileInput: ComponentConfiguration = {
+    name: 'file-input',
+    label: 'File Input',
+    group: 'input',
     inputs: [
-        {
-            name: 'url',
-            label: 'Download URL',
-            note: 'CORS required!',
-            type: 'string',
-        },
         {
             name: 'file-type',
             label: 'File Type',
@@ -22,12 +16,18 @@ export const downloadFile: ActionConfiguration = {
                 { label: 'video', value: 'video' },
                 { label: 'binary', value: 'buffer' },
             ],
-            defaultValue: 'text',
+            defaultValue: 'audio',
         },
         {
             name: 'output-file-id',
             label: 'File ID',
             type: 'variable',
         },
+    ],
+    events: [
+        {
+            name: 'load',
+            label: 'On Load',
+        }
     ],
 };

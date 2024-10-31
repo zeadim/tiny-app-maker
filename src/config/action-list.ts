@@ -14,8 +14,8 @@ import { speak } from "./actions/audio/speak";
 import { downloadText } from "./actions/network/download-text";
 import { playAudio } from "./actions/audio/play-audio";
 import { downloadFile } from "./actions/network/download-file";
-import { loadAudio } from "./actions/audio/load-audio";
-import { pauseAudio } from "./actions/audio/pause-audio";
+import { stopAllAudio } from "./actions/audio/stop-all-audio";
+import { stopAudio } from "./actions/audio/stop-audio";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -25,9 +25,9 @@ export const actionList: ActionConfiguration[] = [
 
     // audio
     speak,
-    loadAudio,
     playAudio,
-    pauseAudio,
+    stopAudio,
+    stopAllAudio,
 
     // popup
     alert,

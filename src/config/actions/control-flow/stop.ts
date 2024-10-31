@@ -9,7 +9,7 @@ export const stop: ActionConfiguration = {
             name: 'condition',
             label: 'Only Stop If Not',
             type: 'boolean',
-            defaultVariable: true,
+            defaultValue: false,
         },
     ],
 };

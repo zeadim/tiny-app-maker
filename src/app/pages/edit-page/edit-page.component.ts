@@ -236,7 +236,12 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public runApp(): void {
         if (this.appRunning) {
-            document.querySelector('iframe')?.remove();
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                iframe.src = ''; // needed to trigger onbeforeunload event in iframe
+                iframe.remove();
+            }
+
             this.gridEditor?.activate();
             this.appRunning = false;
             return;
