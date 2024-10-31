@@ -15,6 +15,8 @@ import { $DownloadText } from "./actions/network/download-text";
 import { $DownloadFile } from "./actions/network/download-file";
 import { $StopAudio } from "./actions/audio/stop-audio";
 import { $StopAllAudio } from "./actions/audio/stop-all-audio";
+import { $LoadAudio } from "./actions/audio/load-audio";
+import { $TuneAudio } from "./actions/audio/tune-audio";
 
 // Maps name of action as used in configuration to its class implementation
 export const actionMap = new Map<string, typeof Action>([
@@ -26,6 +28,8 @@ export const actionMap = new Map<string, typeof Action>([
     ["play-audio", $PlayAudio],
     ["stop-audio", $StopAudio],
     ["stop-all-audio", $StopAllAudio],
+    ["load-audio", $LoadAudio],
+    ["tune-audio", $TuneAudio],
 
     // popup
     ["alert", $Alert],

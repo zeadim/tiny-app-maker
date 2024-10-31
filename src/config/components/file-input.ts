@@ -19,6 +19,11 @@ export const fileInput: ComponentConfiguration = {
             defaultValue: 'audio',
         },
         {
+            name: 'output-file-name',
+            label: 'File Name',
+            type: 'variable',
+        },
+        {
             name: 'output-file-id',
             label: 'File ID',
             type: 'variable',

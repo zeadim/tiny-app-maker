@@ -2,6 +2,8 @@
 
 :root {
     --mainFont: Nunito, Inter, Raleway, -apple-system, BlinkMacSystemFont, Verdana, Geneva, Tahoma, sans-serif;
+    --verticalPadding: 24px;
+    --verticalInputPadding: 16px;
 }
 
 html,
@@ -187,8 +189,35 @@ body {
 
 // TODO: add small intervals here (from font-size 15px to 10px or something)
 @media (max-height: 700px) {
+    :root {
+        --verticalPadding: 18px;
+        --verticalInputPadding: 14px;
+    }
+
     body {
         font-size: 12px;
+    }
+}
+
+@media (max-height: 650px) {
+    :root {
+        --verticalPadding: 12px;
+        --verticalInputPadding: 12px;
+    }
+
+    body {
+        font-size: 12px;
+    }
+}
+
+@media (max-height: 615px) {
+    :root {
+        --verticalPadding: 10px;
+        --verticalInputPadding: 10px;
+    }
+
+    body {
+        font-size: 10px;
     }
 }
 

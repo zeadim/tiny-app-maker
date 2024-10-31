@@ -3,6 +3,8 @@ import { $Button } from "./components/button";
 import { $TextInput } from "./components/text-input";
 import { $NumberInput } from "./components/number-input";
 import { $Cell } from "./components/cell";
+import { $FileInput } from "./components/file-input";
+import { $AudioPlayer } from "./components/audio-player";
 
 // Maps name of component as used in configuration to its class implementation
 export const componentMap = new Map<string, typeof Component>([
@@ -10,4 +12,6 @@ export const componentMap = new Map<string, typeof Component>([
     ["text-input", $TextInput],
     ["number-input", $NumberInput],
     ["cell", $Cell],
+    ["file-input", $FileInput],
+    ["audio-player", $AudioPlayer],
 ]);

@@ -9,8 +9,6 @@ export class $StopAllAudio extends Action {
         for (const { object } of audioAddressables) {
             if (object instanceof AudioFile)
                 object.stop();
-            else if (object instanceof HTMLAudioElement)
-                object.pause();
         }
 
         return undefined;

@@ -28,7 +28,7 @@ export class $DownloadFile extends Action {
             const index = pathname?.lastIndexOf('/') ?? -1;
             const name = index < 0 ? '' : pathname.slice(index + 1);
 
-            object = await createFileObject(this.app, fileType, blob, name);
+            object = await createFileObject(this.app, fileType, blob);
         } catch (err) {
             return undefined;
         }

@@ -1,85 +1,99 @@
+import { App } from "../app";
 import { FileObject } from "./file-object";
 
+// TODO: add loop support
 export class AudioFile extends FileObject {
-    private audioBufferLoadingPromise?: Promise<void>;
-    private audioBuffer?: AudioBuffer;
-    private pannerNode!: StereoPannerNode;
-    private gainNode!: GainNode;
-    private primaryBufferSourceNode?: AudioBufferSourceNode;
-    private otherBufferSourceNodes: AudioBufferSourceNode[] = [];
+    public audioElement: HTMLAudioElement;
+
+    /*private sourceNode: MediaElementAudioSourceNode;
+    private pannerNode: StereoPannerNode;*/
+    private audioUrl?: string;
+
+    public constructor(app: App) {
+        super(app);
+
+        this.audioElement = document.createElement('audio');
+        this.audioElement.preload = 'auto';
+        this.audioElement.preservesPitch = false;
+        this.audioElement.controls = true;
+
+        // TODO: if no CORS, then this (createMediaElementSource) prevents audio from playing it seems
+        // so might not want to use audioContext, or at least only when coming from proper file (input or download)
+
+        /*this.sourceNode = this.app.audioContext.createMediaElementSource(this.audioElement);
+        this.pannerNode = this.app.audioContext.createStereoPanner();
+        this.sourceNode.connect(this.pannerNode);
+        this.pannerNode.connect(this.app.audioContext.destination);*/
+    }
 
     public override async loadFromBlob(blob: Blob): Promise<void> {
         await super.loadFromBlob(blob);
-        const arrayBuffer = await blob.arrayBuffer();
-
-        // start loading audio buffer asynchronously
-        this.loadAudioBuffer(arrayBuffer);
+        await this.loadUrl(URL.createObjectURL(blob));
     }
 
-    private async loadAudioBuffer(arrayBuffer: ArrayBuffer): Promise<void> {
-        if (this.audioBufferLoadingPromise)
+    public async loadUrl(url: string): Promise<void> {
+        if (this.audioUrl === url)
             return;
 
-        this.audioBufferLoadingPromise = new Promise(async (resolve) => {
-            // TODO: is it possible to have same functionality without decoding all audio data, ie via createMediaElementSource)?
-            // Could be used for "audio url" audio as well + HTML5 audio player (https://stackoverflow.com/a/13416719)
-            // Though createMediaElementSource might not support playing source multiple times simultaneously?
-            this.audioBuffer = await this.app.audioContext.decodeAudioData(arrayBuffer);
+        this.audioUrl = url;
 
-            this.pannerNode = this.app.audioContext.createStereoPanner();
-            this.gainNode = this.app.audioContext.createGain();
+        return new Promise<void>((resolve) => {
+            const onSuccess = () => {
+                this.audioElement.removeEventListener('canplay', onSuccess);
+                resolve();
+            };
 
-            this.pannerNode?.connect(this.gainNode);
-            this.gainNode.connect(this.app.audioContext.destination);
+            const onError = () => {
+                this.audioElement.removeEventListener('error', onError);
+                resolve();
+            };
 
-            resolve();
+            this.audioElement.src = url;
+            this.audioElement.addEventListener('canplay', onSuccess);
+            this.audioElement.addEventListener('error', onError);
         });
     }
 
     public async play(startOffset: number): Promise<void> {
-        if (!this.audioBufferLoadingPromise)
+        if (this.audioElement.readyState < HTMLMediaElement.HAVE_FUTURE_DATA)
             return;
 
-        if (!this.audioBuffer)
-            await this.audioBufferLoadingPromise;
+        const duration = Number.isFinite(this.audioElement.duration) ? this.audioElement.duration : 0;
+        this.audioElement.currentTime = Math.max(0, Math.min(startOffset < 0 ? duration - startOffset : startOffset, duration));
+        this.audioElement.play();
 
-        if (this.primaryBufferSourceNode)
-            this.otherBufferSourceNodes.push(this.primaryBufferSourceNode);
+        if (this.audioElement.ended)
+            return;
 
-        const duration = this.audioBuffer!.duration;
-        const offset = Math.max(0, Math.min(startOffset < 0 ? duration - startOffset : startOffset, duration));
-
-        this.primaryBufferSourceNode = this.app.audioContext.createBufferSource();
-        this.primaryBufferSourceNode.buffer = this.audioBuffer!;
-        this.primaryBufferSourceNode.connect(this.pannerNode);
-        this.primaryBufferSourceNode.start(0, offset);
-
-        return new Promise<void>((resolve) => {
-            const source = this.primaryBufferSourceNode!;
-
-            source.onended = () => {
-                if (this.primaryBufferSourceNode === source) {
-                    this.primaryBufferSourceNode = undefined;
-                } else {
-                    const index = this.otherBufferSourceNodes.indexOf(source);
-                    if (index >= 0)
-                        this.otherBufferSourceNodes.splice(index, 1);
-                }
-
+        await new Promise<void>((resolve) => {
+            const onEnded = () => {
+                this.audioElement.removeEventListener('ended', onEnded);
                 resolve();
             };
+
+            const onPause = () => {
+                this.audioElement.removeEventListener('pause', onPause);
+                resolve();
+            };
+
+            this.audioElement.addEventListener('ended', onEnded);
+            this.audioElement.addEventListener('pause', onPause);
         });
     }
 
     public stop(): void {
-        if (!this.audioBuffer)
-            return;
+        this.audioElement.pause();
+    }
 
-        this.primaryBufferSourceNode?.stop();
-        for (const source of this.otherBufferSourceNodes)
-            source.stop();
+    public setVolume(volume: number): void {
+        this.audioElement.volume = Math.max(0.0, Math.min(volume / 100, 1.0));
+    }
 
-        this.primaryBufferSourceNode = undefined;
-        this.otherBufferSourceNodes = [];
+    public setPan(pan: number): void {
+        //this.pannerNode.pan.value = Math.max(-1.0, Math.min(pan / 100, 1.0));
+    }
+
+    public setPitch(pitch: number): void {
+        this.audioElement.playbackRate = Math.max(0.25, Math.min(pitch / 100, 2.0));
     }
 }

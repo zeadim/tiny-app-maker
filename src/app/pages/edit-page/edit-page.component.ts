@@ -11,6 +11,7 @@ TODO:
 - how to handle different app types, like file (image/video/audio) etc.? Also via ID like web sockets?
 - improve UI: more uniform colors (inputs <-> action list + event buttons, background, header/footer buttons etc.)
 - use proper icons from a package/svgs instead of emojis/unicode
+- check error handling in app components & actions (always try-catch, or also put it where invoked?)
 - check TODOs
 */
 

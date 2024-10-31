@@ -82,117 +82,6 @@ export const initialState: State = {
         },
         {
             "name": "button",
-            "x0": 2,
-            "y0": 9,
-            "x1": 6,
-            "y1": 10,
-            "inputs": [
-                {
-                    "name": "label",
-                    "value": "Gimme a dad joke!",
-                    "variable": false
-                }
-            ],
-            "events": [
-                {
-                    "name": "click",
-                    "actions": [
-                        {
-                            "name": "download-text",
-                            "inputs": [
-                                {
-                                    "name": "url",
-                                    "value": "https://icanhazdadjoke.com/",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "output-text-content",
-                                    "value": "JOKE",
-                                    "variable": false
-                                }
-                            ]
-                        },
-                        {
-                            "name": "speak",
-                            "inputs": [
-                                {
-                                    "name": "text",
-                                    "value": "JOKE",
-                                    "variable": true
-                                }
-                            ]
-                        },
-                        {
-                            "name": "play-audio",
-                            "inputs": [
-                                {
-                                    "name": "url-or-file-id",
-                                    "value": "https://bigsoundbank.com/UPLOAD/mp3/0433.mp3?v=m",
-                                    "variable": false
-                                },
-                                {
-                                    "name": "start-offset",
-                                    "value": 0,
-                                    "variable": false
-                                },
-                                {
-                                    "name": "async",
-                                    "value": true,
-                                    "variable": false
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "cell",
-            "x0": 2,
-            "y0": 4,
-            "x1": 6,
-            "y1": 8,
-            "inputs": [
-                {
-                    "name": "text",
-                    "value": "JOKE",
-                    "variable": true
-                },
-                {
-                    "name": "font-size",
-                    "value": 16,
-                    "variable": false
-                },
-                {
-                    "name": "text-color",
-                    "value": "#000000",
-                    "variable": false
-                },
-                {
-                    "name": "text-padding",
-                    "value": 8,
-                    "variable": false
-                },
-                {
-                    "name": "text-horizontal-alignment",
-                    "value": "center",
-                    "variable": false
-                },
-                {
-                    "name": "text-vertical-alignment",
-                    "value": "center",
-                    "variable": false
-                },
-                {
-                    "name": "background-color",
-                    "value": "#e0eeee",
-                    "variable": false
-                }
-            ],
-            "events": []
-        },
-        {
-            "name": "button",
             "x0": 4,
             "y0": 2,
             "x1": 7,
@@ -337,6 +226,300 @@ export const initialState: State = {
                     ]
                 }
             ]
+        },
+        {
+            "name": "number-input",
+            "x0": 5,
+            "y0": 3,
+            "x1": 6,
+            "y1": 4,
+            "inputs": [
+                {
+                    "name": "placeholder",
+                    "value": "",
+                    "variable": false
+                },
+                {
+                    "name": "initial-number",
+                    "value": 100,
+                    "variable": false
+                },
+                {
+                    "name": "output-number",
+                    "value": "PITCH",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "change",
+                    "actions": [
+                        {
+                            "name": "tune-audio",
+                            "inputs": [
+                                {
+                                    "name": "file-id",
+                                    "value": "MUSIC",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "volume",
+                                    "value": "VOLUME",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "pan",
+                                    "value": "PAN",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "pitch",
+                                    "value": "PITCH",
+                                    "variable": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "number-input",
+            "x0": 4,
+            "y0": 3,
+            "x1": 5,
+            "y1": 4,
+            "inputs": [
+                {
+                    "name": "placeholder",
+                    "value": "",
+                    "variable": false
+                },
+                {
+                    "name": "initial-number",
+                    "value": 0,
+                    "variable": false
+                },
+                {
+                    "name": "output-number",
+                    "value": "pan",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "change",
+                    "actions": [
+                        {
+                            "name": "tune-audio",
+                            "inputs": [
+                                {
+                                    "name": "file-id",
+                                    "value": "MUSIC",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "volume",
+                                    "value": "VOLUME",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "pan",
+                                    "value": "pan",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "pitch",
+                                    "value": "PITCH",
+                                    "variable": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "number-input",
+            "x0": 6,
+            "y0": 3,
+            "x1": 7,
+            "y1": 4,
+            "inputs": [
+                {
+                    "name": "placeholder",
+                    "value": "",
+                    "variable": false
+                },
+                {
+                    "name": "initial-number",
+                    "value": 100,
+                    "variable": false
+                },
+                {
+                    "name": "output-number",
+                    "value": "VOLUME",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "change",
+                    "actions": [
+                        {
+                            "name": "tune-audio",
+                            "inputs": [
+                                {
+                                    "name": "file-id",
+                                    "value": "MUSIC",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "volume",
+                                    "value": "VOLUME",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "pan",
+                                    "value": "PAN",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "pitch",
+                                    "value": "PITCH",
+                                    "variable": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "audio-player",
+            "x0": 1,
+            "y0": 4,
+            "x1": 7,
+            "y1": 6,
+            "inputs": [
+                {
+                    "name": "url-or-file-id",
+                    "value": "music",
+                    "variable": true
+                }
+            ],
+            "events": []
+        },
+        {
+            "name": "button",
+            "x0": 2,
+            "y0": 9,
+            "x1": 6,
+            "y1": 10,
+            "inputs": [
+                {
+                    "name": "label",
+                    "value": "Gimme a dad joke!",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "click",
+                    "actions": [
+                        {
+                            "name": "download-text",
+                            "inputs": [
+                                {
+                                    "name": "url",
+                                    "value": "https://icanhazdadjoke.com/",
+                                    "variable": false
+                                },
+                                {
+                                    "name": "output-text-content",
+                                    "value": "JOKE",
+                                    "variable": false
+                                }
+                            ]
+                        },
+                        {
+                            "name": "speak",
+                            "inputs": [
+                                {
+                                    "name": "text",
+                                    "value": "JOKE",
+                                    "variable": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "play-audio",
+                            "inputs": [
+                                {
+                                    "name": "url-or-file-id",
+                                    "value": "https://bigsoundbank.com/UPLOAD/mp3/0433.mp3?v=m",
+                                    "variable": false
+                                },
+                                {
+                                    "name": "start-offset",
+                                    "value": 0,
+                                    "variable": false
+                                },
+                                {
+                                    "name": "async",
+                                    "value": true,
+                                    "variable": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "cell",
+            "x0": 2,
+            "y0": 6,
+            "x1": 6,
+            "y1": 9,
+            "inputs": [
+                {
+                    "name": "text",
+                    "value": "JOKE",
+                    "variable": true
+                },
+                {
+                    "name": "font-size",
+                    "value": 16,
+                    "variable": false
+                },
+                {
+                    "name": "text-color",
+                    "value": "#000000",
+                    "variable": false
+                },
+                {
+                    "name": "text-padding",
+                    "value": 8,
+                    "variable": false
+                },
+                {
+                    "name": "text-horizontal-alignment",
+                    "value": "center",
+                    "variable": false
+                },
+                {
+                    "name": "text-vertical-alignment",
+                    "value": "center",
+                    "variable": false
+                },
+                {
+                    "name": "background-color",
+                    "value": "#e0eeee",
+                    "variable": false
+                }
+            ],
+            "events": []
         }
     ]
 };
