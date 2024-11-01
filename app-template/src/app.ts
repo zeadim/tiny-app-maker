@@ -1,6 +1,10 @@
 import { Component } from "./components/component";
 import { Addressable, AddressableType } from "./types";
 
+// TODO:
+// - instead of passing app instance through classes, make it global/static
+// - move static methods here to common.ts file
+
 export class App extends EventTarget {
     private gridElement: HTMLElement;
     private components: Component[] = [];
@@ -56,7 +60,7 @@ export class App extends EventTarget {
     }
 
     public createAddressable(type: AddressableType, object: any): Addressable {
-        const id = `id:${type}(${App.generateUniqueId()})`;
+        const id = `id:${type}/${App.generateUniqueId()}`;
         const addressable = { id, type, object };
 
         this.addressables.set(id, addressable);
@@ -115,6 +119,7 @@ export class App extends EventTarget {
         if (value === undefined)
             return undefined;
 
-        return typeof value !== 'string' || !value.trim().startsWith('#') || value.trim().length < 7 ? '' : value.trim().slice(0, 7);
+        const isInvalidColor = typeof value !== 'string' || !value.trim().startsWith('#') || value.trim().length < 7;
+        return isInvalidColor ? '#000000' : value.trim().slice(0, 7);
     }
 }

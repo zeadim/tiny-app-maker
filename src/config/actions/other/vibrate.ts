@@ -7,7 +7,8 @@ export const vibrate: ActionConfiguration = {
     inputs: [
         {
             name: 'duration',
-            label: 'Vibration Duration (milliseconds)',
+            label: 'Duration (milliseconds)',
+            note: 'Mobile Only',
             type: 'number',
             defaultValue: 200,
         },

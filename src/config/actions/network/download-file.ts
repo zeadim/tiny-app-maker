@@ -25,6 +25,12 @@ export const downloadFile: ActionConfiguration = {
             defaultValue: 'text',
         },
         {
+            name: 'async',
+            label: 'Download Asynchronously',
+            type: 'boolean',
+            defaultValue: false,
+        },
+        {
             name: 'output-file-id',
             label: 'File ID',
             type: 'variable',

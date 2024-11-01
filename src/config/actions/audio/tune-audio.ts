@@ -17,12 +17,12 @@ export const tuneAudio: ActionConfiguration = {
             type: 'number', // TODO: slider
             defaultValue: 100,
         },
-        {
-            name: 'pan',
+        /*{
+            name: 'pan', // TODO: remove this? since only supported for CORS
             label: 'Pan (between -100 and 100)',
             type: 'number', // TODO: slider
             defaultValue: 0,
-        },
+        },*/
         {
             name: 'pitch',
             label: 'Pitch (between 0 and 200)',

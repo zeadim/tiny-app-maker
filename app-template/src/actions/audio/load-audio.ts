@@ -12,7 +12,7 @@ export class $LoadAudio extends Action {
         super(app, inputs);
 
         this.firstExecution = true;
-        this.fileIdVariable = this.getInputString('output-file-id');
+        this.fileIdVariable = this.getInputVariable('output-file-id');
     }
 
     public override async execute(): Promise<number | undefined> {

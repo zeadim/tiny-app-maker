@@ -39,8 +39,8 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         } else {
             this.currentConstantValue = this.input.value;
 
-            if (this.config.type === 'string')
-                this.currentVariableValue = this.input.value;
+            //if (this.config.type === 'string')
+            //    this.currentVariableValue = this.input.value;
         }
 
         if (this.IsOutput) // TODO: debounce?
