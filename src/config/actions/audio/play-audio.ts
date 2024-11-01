@@ -17,6 +17,12 @@ export const playAudio: ActionConfiguration = {
             defaultValue: 0,
         },
         {
+            name: 'loop',
+            label: 'Loop (restart automatically)',
+            type: 'boolean',
+            defaultValue: false,
+        },
+        {
             name: 'async',
             label: 'Play Asynchronously',
             type: 'boolean',

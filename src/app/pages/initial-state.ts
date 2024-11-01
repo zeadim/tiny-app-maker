@@ -6,21 +6,6 @@ export const initialState: State = {
     "height": 10,
     "components": [
         {
-            "name": "audio-player",
-            "x0": 1,
-            "y0": 4,
-            "x1": 7,
-            "y1": 6,
-            "inputs": [
-                {
-                    "name": "url-or-file-id",
-                    "value": "music",
-                    "variable": true
-                }
-            ],
-            "events": []
-        },
-        {
             "name": "button",
             "x0": 2,
             "y0": 9,
@@ -363,118 +348,6 @@ export const initialState: State = {
             "events": []
         },
         {
-            "name": "number-input",
-            "x0": 6,
-            "y0": 2,
-            "x1": 7,
-            "y1": 3,
-            "inputs": [
-                {
-                    "name": "placeholder",
-                    "value": "",
-                    "variable": false
-                },
-                {
-                    "name": "initial-number",
-                    "value": 100,
-                    "variable": false
-                },
-                {
-                    "name": "output-number",
-                    "value": "PITCH",
-                    "variable": false
-                }
-            ],
-            "events": [
-                {
-                    "name": "change",
-                    "actions": [
-                        {
-                            "name": "tune-audio",
-                            "inputs": [
-                                {
-                                    "name": "file-id",
-                                    "value": "MUSIC",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "volume",
-                                    "value": "VOLUME",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "pan",
-                                    "value": "PAN",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "pitch",
-                                    "value": "PITCH",
-                                    "variable": true
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "number-input",
-            "x0": 6,
-            "y0": 3,
-            "x1": 7,
-            "y1": 4,
-            "inputs": [
-                {
-                    "name": "placeholder",
-                    "value": "",
-                    "variable": false
-                },
-                {
-                    "name": "initial-number",
-                    "value": 100,
-                    "variable": false
-                },
-                {
-                    "name": "output-number",
-                    "value": "VOLUME",
-                    "variable": false
-                }
-            ],
-            "events": [
-                {
-                    "name": "change",
-                    "actions": [
-                        {
-                            "name": "tune-audio",
-                            "inputs": [
-                                {
-                                    "name": "file-id",
-                                    "value": "MUSIC",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "volume",
-                                    "value": "VOLUME",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "pan",
-                                    "value": "PAN",
-                                    "variable": true
-                                },
-                                {
-                                    "name": "pitch",
-                                    "value": "PITCH",
-                                    "variable": true
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "slider",
             "x0": 2,
             "y0": 2,
@@ -574,6 +447,128 @@ export const initialState: State = {
                 {
                     "name": "background-color",
                     "value": "#ffffff",
+                    "variable": false
+                }
+            ],
+            "events": []
+        },
+        {
+            "name": "number-input",
+            "x0": 6,
+            "y0": 2,
+            "x1": 7,
+            "y1": 3,
+            "inputs": [
+                {
+                    "name": "placeholder",
+                    "value": "",
+                    "variable": false
+                },
+                {
+                    "name": "initial-number",
+                    "value": 100,
+                    "variable": false
+                },
+                {
+                    "name": "output-number",
+                    "value": "PITCH",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "change",
+                    "actions": [
+                        {
+                            "name": "change-playback-rate",
+                            "inputs": [
+                                {
+                                    "name": "file-id",
+                                    "value": "music",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "playback-rate",
+                                    "value": "pitch",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "preserve-pitch",
+                                    "value": false,
+                                    "variable": false
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "number-input",
+            "x0": 6,
+            "y0": 3,
+            "x1": 7,
+            "y1": 4,
+            "inputs": [
+                {
+                    "name": "placeholder",
+                    "value": "",
+                    "variable": false
+                },
+                {
+                    "name": "initial-number",
+                    "value": 100,
+                    "variable": false
+                },
+                {
+                    "name": "output-number",
+                    "value": "VOLUME",
+                    "variable": false
+                }
+            ],
+            "events": [
+                {
+                    "name": "change",
+                    "actions": [
+                        {
+                            "name": "change-volume",
+                            "inputs": [
+                                {
+                                    "name": "file-id",
+                                    "value": "MUSIC",
+                                    "variable": true
+                                },
+                                {
+                                    "name": "volume",
+                                    "value": "volume",
+                                    "variable": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "audio-player",
+            "x0": 1,
+            "y0": 4,
+            "x1": 7,
+            "y1": 6,
+            "inputs": [
+                {
+                    "name": "url-or-file-id",
+                    "value": "music",
+                    "variable": true
+                },
+                {
+                    "name": "output-current-time",
+                    "value": undefined,
+                    "variable": false
+                },
+                {
+                    "name": "output-volume",
+                    "value": "volume",
                     "variable": false
                 }
             ],

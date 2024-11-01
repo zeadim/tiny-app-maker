@@ -52,6 +52,17 @@ export class Component extends InputHolder {
         this.app.addEventListener('update', (event) => this.onVariableChange(event as CustomEvent));
 
         this.htmlElement = this.createHtmlElement();
+        /*const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.minWidth = '0';
+        div.style.maxWidth = '100%';
+        div.style.overflow = 'hidden';
+        div.style.backgroundColor = 'white';
+        div.style.boxShadow = '0 0 1px 0px rgba(0, 0, 0, 0.2)';
+        //div.style.border = '1px solid black';
+        div.appendChild(this.htmlElement);
+        this.htmlElement.style.flex = '1';
+        this.htmlElement = div;*/
         this.htmlElement.style.gridColumnStart = `${this.x0}`;
         this.htmlElement.style.gridRowStart = `${this.y0}`;
         this.htmlElement.style.gridColumnEnd = `${this.x1}`;

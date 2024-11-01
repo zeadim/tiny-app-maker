@@ -1,8 +1,8 @@
 import { ActionConfiguration } from "../../types";
 
-export const stopAudio: ActionConfiguration = {
-    name: 'stop-audio',
-    label: 'Stop Audio',
+export const changeVolume: ActionConfiguration = {
+    name: 'change-volume',
+    label: 'Change Volume',
     group: 'audio',
     inputs: [
         {
@@ -12,9 +12,10 @@ export const stopAudio: ActionConfiguration = {
             defaultVariable: true,
         },
         {
-            name: 'output-current-time',
-            label: 'Current Time',
-            type: 'variable',
+            name: 'volume',
+            label: 'Volume (between 0 and 100)',
+            type: 'number', // TODO: slider
+            defaultValue: 100,
         },
     ],
 };

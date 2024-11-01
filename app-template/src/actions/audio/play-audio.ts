@@ -24,6 +24,7 @@ export class $PlayAudio extends Action {
     public override async execute(): Promise<number | undefined> {
         const urlOrFileId = this.getInputString('url-or-file-id');
         const startOffset = this.getInputNumber('start-offset');
+        const loop = this.getInputBoolean('loop');
         const async = this.getInputBoolean('async');
 
         let audioFile: AudioFile;
@@ -47,7 +48,7 @@ export class $PlayAudio extends Action {
         }
 
         try {
-            const promise = audioFile.play(startOffset);
+            const promise = audioFile.play(startOffset, loop);
 
             if (!async)
                 await promise;

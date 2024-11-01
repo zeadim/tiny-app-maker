@@ -54,29 +54,31 @@ export class AudioFile extends FileObject {
         });
     }
 
-    public async play(startOffset: number): Promise<void> {
+    public async play(startOffset: number, loop: boolean): Promise<void> {
         if (this.audioElement.readyState < HTMLMediaElement.HAVE_FUTURE_DATA)
             return;
 
         const duration = Number.isFinite(this.audioElement.duration) ? this.audioElement.duration : 0;
         this.audioElement.currentTime = Math.max(0, Math.min(startOffset < 0 ? duration - startOffset : startOffset, duration));
+        this.audioElement.loop = loop;
         this.audioElement.play();
 
         if (this.audioElement.ended)
             return;
 
         await new Promise<void>((resolve) => {
-            const onEnded = () => {
-                this.audioElement.removeEventListener('ended', onEnded);
-                resolve();
-            };
+            if (!loop) {
+                const onEnded = () => {
+                    this.audioElement.removeEventListener('ended', onEnded);
+                    resolve();
+                };
+                this.audioElement.addEventListener('ended', onEnded);
+            }
 
             const onPause = () => {
                 this.audioElement.removeEventListener('pause', onPause);
                 resolve();
             };
-
-            this.audioElement.addEventListener('ended', onEnded);
             this.audioElement.addEventListener('pause', onPause);
         });
     }
@@ -93,7 +95,17 @@ export class AudioFile extends FileObject {
         //this.pannerNode.pan.value = Math.max(-1.0, Math.min(pan / 100, 1.0));
     }
 
-    public setPitch(pitch: number): void {
-        this.audioElement.playbackRate = Math.max(0.25, Math.min(pitch / 100, 2.0));
+    public setPlaybackRate(playbackRate: number, preservePitch: boolean): void {
+        console.log('preservepitch', preservePitch, playbackRate);
+        this.audioElement.preservesPitch = preservePitch;
+        this.audioElement.playbackRate = Math.max(0.25, Math.min(playbackRate / 100, 2.0));
+    }
+
+    public getCurrentTime(): number {
+        return this.audioElement.currentTime;
+    }
+
+    public getVolume(): number {
+        return Math.max(0, Math.min(this.audioElement.volume * 100, 100))
     }
 }

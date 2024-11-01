@@ -7,12 +7,30 @@ export const audioPlayer: ComponentConfiguration = {
     inputs: [
         {
             name: 'url-or-file-id',
-            label: 'Audio URL of File ID',
+            label: 'Audio URL or File ID',
             type: 'string',
+        },
+        {
+            name: 'output-current-time',
+            label: 'Current Time',
+            type: 'variable',
+        },
+        {
+            name: 'output-volume',
+            label: 'Current Volume',
+            type: 'variable',
         },
         // TODO: add autoplay?
     ],
     events: [
+        {
+            name: 'play',
+            label: 'On Play'
+        },
+        {
+            name: 'pause',
+            label: 'On Pause',
+        }
         /*{
             name: 'seek',
             label: 'On Seek',
