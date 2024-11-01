@@ -12,5 +12,14 @@ export const audioPlayer: ComponentConfiguration = {
         },
         // TODO: add autoplay?
     ],
-    events: [], // TODO: on-start/on-end?
+    events: [
+        /*{
+            name: 'seek',
+            label: 'On Seek',
+        },
+        {
+            name: 'volume',
+            label: 'On Volume', // does this make, sense - perhaps better as output variable?
+        }*/
+    ],
 };
