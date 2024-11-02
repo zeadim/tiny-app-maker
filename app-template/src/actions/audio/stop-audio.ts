@@ -13,7 +13,7 @@ export class $StopAudio extends Action {
                 return;
 
             audioFile.stop();
-            this.app.setVariableValue(currentTimeVariable, audioFile.audioElement.currentTime);
+            this.app.setVariableValue(currentTimeVariable, audioFile.getCurrentTime());
         } catch (err) {
             //
         }

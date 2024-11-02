@@ -6,6 +6,7 @@ import { cell } from "./components/cell";
 import { fileInput } from "./components/file-input";
 import { audioPlayer } from "./components/audio-player";
 import { slider } from "./components/slider";
+import { videoPlayer } from "./components/video-player";
 
 export const componentList: ComponentConfiguration[] = [
     cell,
@@ -15,4 +16,5 @@ export const componentList: ComponentConfiguration[] = [
     fileInput,
     audioPlayer,
     slider,
+    videoPlayer,
 ];

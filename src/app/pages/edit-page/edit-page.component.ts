@@ -62,6 +62,13 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe((event: KeyboardEvent) => this.onKeyDown(event));
 
         this.loadAppTemplate();
+
+        // TODO: for debugging
+        // @ts-ignore
+        window.setState = (state) => {
+            this.stateService.setInitialState(state);
+            this.gridEditor?.syncState(state);
+        };
     }
 
     private async loadAppTemplate(): Promise<void> {
