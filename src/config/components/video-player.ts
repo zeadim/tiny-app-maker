@@ -6,11 +6,20 @@ export const videoPlayer: ComponentConfiguration = {
     group: 'button',
     inputs: [
         {
-            name: 'url',
-            label: 'Video URL',
+            name: 'url-or-file-id',
+            label: 'Video URL or File ID',
             type: 'string',
         },
-        // TODO: add autoplay?
+        {
+            name: 'output-current-time',
+            label: 'Current Time',
+            type: 'variable',
+        },
+        {
+            name: 'output-volume',
+            label: 'Current Volume',
+            type: 'variable',
+        },
     ],
     events: [
         {

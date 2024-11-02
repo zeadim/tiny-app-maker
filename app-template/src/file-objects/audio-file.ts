@@ -16,6 +16,7 @@ export class AudioFile extends FileObject {
         this.audioElement.preload = 'auto';
         this.audioElement.preservesPitch = false;
         this.audioElement.controls = true;
+        this.audioElement.style.width = '100%';
 
         // TODO: if no CORS, then this (createMediaElementSource) prevents audio from playing it seems
         // so might not want to use audioContext, or at least only when coming from proper file (input or download)
@@ -36,6 +37,7 @@ export class AudioFile extends FileObject {
             return;
 
         this.audioUrl = url;
+        this.audioElement.src = url;
 
         return new Promise<void>((resolve) => {
             const onSuccess = () => {
@@ -48,7 +50,6 @@ export class AudioFile extends FileObject {
                 resolve();
             };
 
-            this.audioElement.src = url;
             this.audioElement.addEventListener('canplay', onSuccess);
             this.audioElement.addEventListener('error', onError);
         });
@@ -87,25 +88,24 @@ export class AudioFile extends FileObject {
         this.audioElement.pause();
     }
 
+    public getCurrentTime(): number {
+        return this.audioElement.currentTime;
+    }
+    
+    public setCurrentTime(currentTime: number): number {
+        return this.audioElement.currentTime = currentTime;
+    }
+
+    public getVolume(): number {
+        return Math.max(0, Math.min(this.audioElement.volume * 100, 100));
+    }
+
     public setVolume(volume: number): void {
         this.audioElement.volume = Math.max(0.0, Math.min(volume / 100, 1.0));
     }
 
-    public setPan(pan: number): void {
-        //this.pannerNode.pan.value = Math.max(-1.0, Math.min(pan / 100, 1.0));
-    }
-
     public setPlaybackRate(playbackRate: number, preservePitch: boolean): void {
-        console.log('preservepitch', preservePitch, playbackRate);
         this.audioElement.preservesPitch = preservePitch;
         this.audioElement.playbackRate = Math.max(0.25, Math.min(playbackRate / 100, 2.0));
-    }
-
-    public getCurrentTime(): number {
-        return this.audioElement.currentTime;
-    }
-
-    public getVolume(): number {
-        return Math.max(0, Math.min(this.audioElement.volume * 100, 100))
     }
 }

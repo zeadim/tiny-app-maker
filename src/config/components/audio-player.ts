@@ -7,7 +7,7 @@ export const audioPlayer: ComponentConfiguration = {
     inputs: [
         {
             name: 'url-or-file-id',
-            label: 'Audio URL or File ID',
+            label: 'Audio/Video URL or File ID',
             type: 'string',
         },
         {
@@ -20,7 +20,6 @@ export const audioPlayer: ComponentConfiguration = {
             label: 'Current Volume',
             type: 'variable',
         },
-        // TODO: add autoplay?
     ],
     events: [
         {
@@ -31,13 +30,5 @@ export const audioPlayer: ComponentConfiguration = {
             name: 'pause',
             label: 'On Pause',
         }
-        /*{
-            name: 'seek',
-            label: 'On Seek',
-        },
-        {
-            name: 'volume',
-            label: 'On Volume', // does this make, sense - perhaps better as output variable?
-        }*/
     ],
 };

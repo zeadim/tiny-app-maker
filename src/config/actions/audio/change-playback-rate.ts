@@ -3,11 +3,11 @@ import { ActionConfiguration } from "../../types";
 export const changePlaybackRate: ActionConfiguration = {
     name: 'change-playback-rate',
     label: 'Change Playback Rate',
-    group: 'audio',
+    group: 'media',
     inputs: [
         {
             name: 'file-id',
-            label: 'Audio File ID',
+            label: 'Audio/Video File ID',
             type: 'string',
             defaultVariable: true,
         },

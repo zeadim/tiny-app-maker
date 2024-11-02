@@ -1,6 +1,7 @@
 import { App } from "../../app";
 import { isAddressableId } from "../../common";
 import { AudioFile } from "../../file-objects/audio-file";
+import { VideoFile } from "../../file-objects/video-file";
 import { InputState } from "../../types";
 import { Action } from "../action";
 
@@ -27,14 +28,15 @@ export class $PlayAudio extends Action {
         const loop = this.getInputBoolean('loop');
         const async = this.getInputBoolean('async');
 
-        let audioFile: AudioFile;
+        let mediaFile: AudioFile | VideoFile;
 
         if (isAddressableId(urlOrFileId)) {
-            const audioFileFromId = this.app.getAddressableObject<AudioFile>(urlOrFileId, 'audio');
-            if (!audioFileFromId)
+            let file: AudioFile | VideoFile | undefined;
+            file = this.app.getAddressableObject<AudioFile>(urlOrFileId, 'audio') ?? this.app.getAddressableObject<VideoFile>(urlOrFileId, 'video');
+            if (!file)
                 return;
 
-            audioFile = audioFileFromId;
+            mediaFile = file;
         } else {
             if (!this.audioFile) {
                 this.audioFile = new AudioFile(this.app);
@@ -44,11 +46,11 @@ export class $PlayAudio extends Action {
             this.audioFile.stop();
             await this.audioFile.loadUrl(urlOrFileId);
 
-            audioFile = this.audioFile;
+            mediaFile = this.audioFile;
         }
 
         try {
-            const promise = audioFile.play(startOffset, loop);
+            const promise = mediaFile.play(startOffset, loop);
 
             if (!async)
                 await promise;

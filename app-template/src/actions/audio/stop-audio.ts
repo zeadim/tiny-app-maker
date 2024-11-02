@@ -1,4 +1,5 @@
 import { AudioFile } from "../../file-objects/audio-file";
+import { VideoFile } from "../../file-objects/video-file";
 import { Action } from "../action";
 
 export class $StopAudio extends Action {
@@ -8,12 +9,13 @@ export class $StopAudio extends Action {
         const currentTimeVariable = this.getInputVariable('output-current-time');
 
         try {
-            const audioFile = this.app.getAddressableObject<AudioFile>(fileId, 'audio');
-            if (!audioFile)
+            let mediaFile: AudioFile | VideoFile | undefined;
+            mediaFile = this.app.getAddressableObject<AudioFile>(fileId, 'audio') ?? this.app.getAddressableObject<VideoFile>(fileId, 'video');
+            if (!mediaFile)
                 return;
 
-            audioFile.stop();
-            this.app.setVariableValue(currentTimeVariable, audioFile.getCurrentTime());
+            mediaFile.stop();
+            this.app.setVariableValue(currentTimeVariable, mediaFile.getCurrentTime());
         } catch (err) {
             //
         }

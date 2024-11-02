@@ -19,6 +19,7 @@ import { stopAudio } from "./actions/audio/stop-audio";
 import { loadAudio } from "./actions/audio/load-audio";
 import { changeVolume } from "./actions/audio/change-volume";
 import { changePlaybackRate } from "./actions/audio/change-playback-rate";
+import { loadVideo } from "./actions/audio/load-video";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -27,8 +28,9 @@ export const actionList: ActionConfiguration[] = [
     vibrate,
 
     // audio
-    speak,
     loadAudio,
+    loadVideo,
+    speak,
     playAudio,
     stopAudio,
     stopAllAudio,

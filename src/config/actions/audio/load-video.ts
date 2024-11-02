@@ -1,13 +1,13 @@
 import { ActionConfiguration } from "../../types";
 
-export const loadAudio: ActionConfiguration = {
-    name: 'load-audio',
-    label: 'Load Audio',
+export const loadVideo: ActionConfiguration = {
+    name: 'load-video',
+    label: 'Load Video',
     group: 'media',
     inputs: [
         {
             name: 'url',
-            label: 'Audio URL',
+            label: 'Video URL',
             type: 'string',
         },
         {
@@ -18,7 +18,7 @@ export const loadAudio: ActionConfiguration = {
         },
         {
             name: 'output-file-id',
-            label: 'Audio File ID',
+            label: 'Video File ID',
             type: 'variable',
         }
     ],

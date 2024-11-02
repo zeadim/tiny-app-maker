@@ -2,12 +2,12 @@ import { ActionConfiguration } from "../../types";
 
 export const stopAudio: ActionConfiguration = {
     name: 'stop-audio',
-    label: 'Stop Audio',
-    group: 'audio',
+    label: 'Stop Media',
+    group: 'media',
     inputs: [
         {
             name: 'file-id',
-            label: 'Audio File ID',
+            label: 'Audio/Video File ID',
             type: 'string',
             defaultVariable: true,
         },

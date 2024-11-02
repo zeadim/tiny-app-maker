@@ -3,11 +3,11 @@ import { ActionConfiguration } from "../../types";
 export const changeVolume: ActionConfiguration = {
     name: 'change-volume',
     label: 'Change Volume',
-    group: 'audio',
+    group: 'media',
     inputs: [
         {
             name: 'file-id',
-            label: 'Audio File ID',
+            label: 'Audio/Video File ID',
             type: 'string',
             defaultVariable: true,
         },

@@ -5,7 +5,7 @@ import { Component } from "./component";
 export class $AudioPlayer extends Component {
     private container!: HTMLDivElement;
     private audioFileForUrl!: AudioFile;
-    private activeAudioFile?: AudioFile;
+    private activeAudioFile!: AudioFile;
     private currentTimeVariable!: string;
     private volumeVariable!: string;
 
@@ -53,16 +53,10 @@ export class $AudioPlayer extends Component {
         });
 
         this.onTimeUpdate = () => {
-            if (!this.activeAudioFile)
-                return;
-
             this.app.setVariableValue(this.currentTimeVariable, this.activeAudioFile.getCurrentTime());
         };
 
         this.onVolumeChange = () => {
-            if (!this.activeAudioFile)
-                return;
-            
             const volume = this.activeAudioFile.getVolume();
             this.app.setVariableValue(this.volumeVariable, Math.round(volume));
         };
@@ -75,12 +69,23 @@ export class $AudioPlayer extends Component {
             this.triggerEvent('pause');
         }
 
+        this.app.addEventListener('update', (event) => {
+            const { variable, value } = (event as CustomEvent).detail;
+
+            if (variable === this.currentTimeVariable) {
+                this.activeAudioFile.setCurrentTime(value);
+            } else if (variable === this.volumeVariable) {
+                this.activeAudioFile.setVolume(value);
+            }
+        });
+
         return this.container;
     }
 
     private setAudioFile(audioFile: AudioFile): void {
-        if (this.activeAudioFile === audioFile)
-            return;
+        // Always add event listeners again after src change for it to work!
+        //if (this.activeAudioFile === audioFile)
+        //    return;
 
         if (this.activeAudioFile) {
             this.activeAudioFile.audioElement.pause();

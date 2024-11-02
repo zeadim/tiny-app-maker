@@ -18,6 +18,7 @@ import { $StopAllAudio } from "./actions/audio/stop-all-audio";
 import { $LoadAudio } from "./actions/audio/load-audio";
 import { $ChangeVolume } from "./actions/audio/change-volume";
 import { $ChangePlaybackRate } from "./actions/audio/change-playback-rate";
+import { $LoadVideo } from "./actions/audio/load-video";
 
 // Maps name of action as used in configuration to its class implementation
 export const actionMap = new Map<string, typeof Action>([
@@ -32,6 +33,7 @@ export const actionMap = new Map<string, typeof Action>([
     ["stop-all-audio", $StopAllAudio],
     ["change-volume", $ChangeVolume],
     ["change-playback-rate", $ChangePlaybackRate],
+    ["load-video", $LoadVideo],
 
     // popup
     ["alert", $Alert],
