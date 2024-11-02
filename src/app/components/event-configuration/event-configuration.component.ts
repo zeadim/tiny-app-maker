@@ -1,17 +1,20 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActionState, ComponentState, EventState } from '../../types/state';
 import { EventConfiguration } from '../../../config/types';
 import { actionList } from '../../../config/action-list';
+import { Subscription } from 'rxjs';
+import { EditorService } from 'src/app/services/editor.service';
 
 @Component({
     selector: 'app-event-configuration',
     templateUrl: './event-configuration.component.html',
     styleUrls: ['./event-configuration.component.scss']
 })
-export class EventConfigurationComponent implements OnChanges, OnDestroy {
+export class EventConfigurationComponent implements OnInit, OnChanges, OnDestroy {
 
     public selectedActionIndex: number = 0;
     public event!: EventState;
+    public subscription: Subscription = new Subscription();
 
     @Input('config') public config!: EventConfiguration;
     @Input('component') public component!: ComponentState;
@@ -20,6 +23,32 @@ export class EventConfigurationComponent implements OnChanges, OnDestroy {
 
     public get SelectedAction(): ActionState {
         return this.event.actions[this.selectedActionIndex];
+    }
+
+    public constructor(
+        public readonly editorService: EditorService,
+    ) {
+        //
+    }
+
+    public ngOnInit(): void {
+        this.subscription.add(this.editorService.copy$.subscribe(() => {
+            this.editorService.setClipboardState(this.component, this.SelectedAction);
+        }));
+
+        this.subscription.add(this.editorService.paste$.subscribe(() => {
+            const clipboardState = this.editorService.getClipboardState();
+            if (!clipboardState?.action)
+                return;
+
+            if (this.SelectedAction.name !== clipboardState.action.name) {
+                Object.assign(this.SelectedAction, clipboardState.action);
+            } else {
+                this.SelectedAction.inputs = clipboardState.action.inputs;
+            }
+            
+            this.editorService.setClipboardState(clipboardState.component, clipboardState.action);
+        }));
     }
 
     // ngOnChanges instead of ngOnInit because update required each time input changes
@@ -43,6 +72,8 @@ export class EventConfigurationComponent implements OnChanges, OnDestroy {
             const index = this.component.events.indexOf(this.event);
             this.component.events.splice(index, 1);
         }
+
+        this.subscription.unsubscribe();
     }
 
     public getActionLabel(action: ActionState): string {

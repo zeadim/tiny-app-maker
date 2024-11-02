@@ -3,13 +3,13 @@
         <div class="component-settings">
             <div class="content">
                 <!-- TODO: create component for this section, since also used in action-configuration.component -->
-                <ng-container *ngIf="SelectedEvent.name === 'settings'">
-                    <ng-container *ngFor="let input of config.inputs">
+                <ng-container *ngIf="IsSettingsTabOpen">
+                    <ng-container *ngFor="let input of configInputs">
                         <app-configuration-input [config]="input" [inputs]="component.inputs"></app-configuration-input>
                     </ng-container>
                 </ng-container>
 
-                <ng-container *ngIf="SelectedEvent.name !== 'settings'">
+                <ng-container *ngIf="!IsSettingsTabOpen">
                     <app-event-configuration [config]="SelectedEvent" [component]="component"></app-event-configuration>
                 </ng-container>
             </div>

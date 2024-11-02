@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentState, InputState, State } from '../types/state';
 import { componentList } from '../../config/component-list';
 import { actionList } from '../../config/action-list';
+import { ActionState, EventState } from 'app-template/src/types';
 
 @Injectable({
     providedIn: 'root'
@@ -69,18 +70,34 @@ export class StateService {
     public copy(state: State): State {
         return {
             ...state,
-            components: state.components.map(component => ({
-                ...component,
-                inputs: component.inputs.map(input => ({ ...input })),
-                events: component.events.map(event => ({
-                    ...event,
-                    actions: event.actions.map(action => ({
-                        ...action,
-                        inputs: action.inputs.map(input => ({ ...input })),
-                    })),
-                })),
-            })),
+            components: state.components.map(x => this.copyComponent(x)),
         };
+    }
+
+    public copyComponent(component: ComponentState): ComponentState {
+        return {
+            ...component,
+            inputs: component.inputs.map(x => this.copyInput(x)),
+            events: component.events.map(x => this.copyEvent(x)),
+        };
+    }
+
+    public copyEvent(event: EventState): EventState {
+        return {
+            ...event,
+            actions: event.actions.map(x => this.copyAction(x)),
+        };
+    }
+
+    public copyAction(action: ActionState): ActionState {
+        return {
+            ...action,
+            inputs: action.inputs.map(x => this.copyInput(x)),
+        };
+    }
+
+    public copyInput(input: InputState): InputState {
+        return { ...input };
     }
 
     public getVariables(): string[] {

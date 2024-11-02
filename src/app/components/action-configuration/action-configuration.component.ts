@@ -1,20 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActionState } from '../../types/state';
 import { ActionConfiguration, InputConfiguration } from '../../../config/types';
 import { actionList } from '../../../config/action-list';
+import { Subscription } from 'rxjs';
+import { EditorService } from 'src/app/services/editor.service';
 
 @Component({
     selector: 'app-action-configuration',
     templateUrl: './action-configuration.component.html',
     styleUrls: ['./action-configuration.component.scss']
 })
-export class ActionConfigurationComponent implements OnInit {
+export class ActionConfigurationComponent implements OnInit, OnDestroy {
 
     public config!: ActionConfiguration;
     public action!: ActionState;
     public actionGroups: { name: string, options: ActionConfiguration[] }[] = [];
     public savedActionStates: Map<string, ActionState> = new Map();
     public configInputs: InputConfiguration[] = [];
+    public subscription: Subscription = new Subscription();
 
     @Input('action')
     public set Action(action: ActionState) {
@@ -38,7 +41,22 @@ export class ActionConfigurationComponent implements OnInit {
         this.loadActionType();
     }
 
+    public constructor(
+        public readonly editorService: EditorService,
+    ) {
+        //
+    }
+
     public ngOnInit(): void {
+        this.subscription.add(this.editorService.paste$.subscribe(() => {
+            const clipboardState = this.editorService.getClipboardState();
+            if (!clipboardState?.action)
+                return;
+
+            // setTimeout to make sure paste logic in event-configuration is executed first
+            setTimeout(() => this.loadActionType());
+        }));
+
         for (const action of actionList) {
             const name = action.group ?? '';
 
@@ -53,6 +71,10 @@ export class ActionConfigurationComponent implements OnInit {
         }
 
         this.loadActionType();
+    }
+
+    public ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     public loadActionType(): void {

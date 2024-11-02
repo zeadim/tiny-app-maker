@@ -15,6 +15,10 @@ export class EditComponentOverlayComponent implements AfterViewInit {
 
     @ViewChild('dialog') public dialog!: ElementRef<HTMLDialogElement>;
 
+    public get HasClipboardState(): boolean {
+        return !!this.editorService.getClipboardState();
+    }
+
     public constructor(
         public editorService: EditorService,
     ) {

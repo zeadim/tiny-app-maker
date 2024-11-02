@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ClipboardState } from '../types/clipboard-state';
+import { ActionState, ComponentState } from 'app-template/src/types';
+import { StateService } from './state.service';
 
 @Injectable({
     providedIn: 'root'
@@ -10,4 +13,22 @@ export class EditorService {
     public paste$ = new Subject<void>();
     public copy$ = new Subject<void>();
 
+    private clipboardState?: ClipboardState;
+
+    public constructor(
+        public readonly stateService: StateService,
+    ) {
+        //
+    }
+
+    public getClipboardState(): ClipboardState | undefined {
+        return this.clipboardState;
+    }
+
+    public setClipboardState(component: ComponentState, action?: ActionState): void {
+        this.clipboardState = {
+            component: this.stateService.copyComponent(component),
+            action: action ? this.stateService.copyAction(action) : undefined,
+        };
+    }
 }

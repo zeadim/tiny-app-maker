@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { InputState } from '../../types/state';
 import { InputConfiguration } from '../../../config/types';
 import { StateService } from '../../services/state.service';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subject, Subscription } from 'rxjs';
 import { EditorService } from 'src/app/services/editor.service';
 
 @Component({
@@ -18,6 +18,8 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     public currentConstantValue?: any;
     public currentVariableValue?: string;
     public subscription = new Subscription();
+    
+    public updateVariables$: Subject<void> = new Subject();
 
     @Input('config') public config!: InputConfiguration;
     @Input('inputs') public inputs!: InputState[];
@@ -46,8 +48,8 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
             //    this.currentVariableValue = this.input.value;
         }
 
-        if (this.IsOutput) // TODO: debounce?
-            this.stateService.updateVariables();
+        if (this.IsOutput)
+            this.updateVariables$.next();
     }
 
     public get Variable(): boolean {
@@ -85,6 +87,10 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         this.subscription.add(this.editorService.clear$.subscribe(() => {
             this.Variable = !!this.config.defaultVariable;
             this.Value = this.Variable ? '' : this.config.defaultValue;
+        }));
+
+        this.subscription.add(this.updateVariables$.pipe(debounceTime(500)).subscribe(() => {
+            this.stateService.updateVariables();
         }));
     }
 
