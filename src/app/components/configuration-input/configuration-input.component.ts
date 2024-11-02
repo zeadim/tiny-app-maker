@@ -2,6 +2,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { InputState } from '../../types/state';
 import { InputConfiguration } from '../../../config/types';
 import { StateService } from '../../services/state.service';
+import { Subscription } from 'rxjs';
+import { EditorService } from 'src/app/services/editor.service';
 
 @Component({
     selector: 'app-configuration-input',
@@ -15,6 +17,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     public variableOptions: string[] = [];
     public currentConstantValue?: any;
     public currentVariableValue?: string;
+    public subscription = new Subscription();
 
     @Input('config') public config!: InputConfiguration;
     @Input('inputs') public inputs!: InputState[];
@@ -65,6 +68,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
 
     public constructor(
         public readonly stateService: StateService,
+        public readonly editorService: EditorService,
     ) {
         //
     }
@@ -77,9 +81,16 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         this.input = input;
         this.id = `id--${this.config.name.replaceAll(' ', '-')}`;
         this.Value = this.input.value; // initialize state
+
+        this.subscription.add(this.editorService.clear$.subscribe(() => {
+            this.Variable = !!this.config.defaultVariable;
+            this.Value = this.Variable ? '' : this.config.defaultValue;
+        }));
     }
 
     public ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
+
         // Uncommented, because not entirely correct - e.g. for booleans, if false but defaultValue is true, then incorrect behavior
         // Would probably need to use defaultValue from config when initial value set in app (but currently config not copied)
 

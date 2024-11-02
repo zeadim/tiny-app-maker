@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { EditorService } from 'src/app/services/editor.service';
 import { ComponentState } from 'src/app/types/state';
 
 @Component({
@@ -14,11 +15,29 @@ export class EditComponentOverlayComponent implements AfterViewInit {
 
     @ViewChild('dialog') public dialog!: ElementRef<HTMLDialogElement>;
 
+    public constructor(
+        public editorService: EditorService,
+    ) {
+        //
+    }
+
     public ngAfterViewInit(): void {
         this.dialog.nativeElement.showModal();
     }
 
     public closeModal(): void {
         this.onClose.emit();
+    }
+
+    public handleClear(): void {
+        this.editorService.clear$.next();
+    }
+
+    public handlePaste(): void {
+        this.editorService.paste$.next();
+    }
+
+    public handleCopy(): void {
+        this.editorService.copy$.next();
     }
 }
