@@ -19,7 +19,7 @@ export const initialState: State = {
                 },
                 {
                     "name": "initial-text",
-                    "value": undefined,
+                    "value": "http://bit.ly/4fvcFoN",
                     "variable": false
                 },
                 {
@@ -496,9 +496,9 @@ export const initialState: State = {
         },
         {
             "name": "button",
-            "x0": 3,
+            "x0": 2,
             "y0": 10,
-            "x1": 5,
+            "x1": 6,
             "y1": 11,
             "inputs": [
                 {

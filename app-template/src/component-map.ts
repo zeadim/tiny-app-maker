@@ -7,6 +7,7 @@ import { $FileInput } from "./components/file-input";
 import { $AudioPlayer } from "./components/audio-player";
 import { $Slider } from "./components/slider";
 import { $VideoPlayer } from "./components/video-player";
+import { $BooleanInput } from "./components/boolean-input";
 
 // Maps name of component as used in configuration to its class implementation
 export const componentMap = new Map<string, typeof Component>([
@@ -18,4 +19,5 @@ export const componentMap = new Map<string, typeof Component>([
     ["audio-player", $AudioPlayer],
     ["slider", $Slider],
     ["video-player", $VideoPlayer],
+    ["boolean-input", $BooleanInput],
 ]);
