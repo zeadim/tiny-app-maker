@@ -14,6 +14,8 @@ export class $FileInput extends Component {
         this.input.setAttribute('type', 'file');
         this.input.style.minWidth = '0';
         this.input.style.minHeight = '0';
+        this.input.style.justifySelf = 'center'; // TODO: do this for all cell components?
+        this.input.style.alignSelf = 'center';
 
         this.fileNameVariable = this.getInputVariable('output-file-name');
         this.fileIdVariable = this.getInputVariable('output-file-id');
@@ -34,6 +36,8 @@ export class $FileInput extends Component {
             const addressable = this.app.createAddressable(this.fileType, fileObject);
             this.app.setVariableValue(this.fileIdVariable, addressable.id);
             this.app.setVariableValue(this.fileNameVariable, file.name);
+
+            this.triggerEvent('load');
         });
 
         return this.input;

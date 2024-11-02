@@ -212,6 +212,14 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private onKeyDown(event: KeyboardEvent): void {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            this.goBack();
+        }
+
+        if (this.componentModalOpen)
+            return;
+        
         if (event.ctrlKey && event.key === 'z') {
             event.preventDefault();
             this.performUndo();
@@ -220,11 +228,6 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (event.ctrlKey && event.key === 'y') {
             event.preventDefault();
             this.performRedo();
-        }
-
-        if (event.key === 'Escape') {
-            event.preventDefault();
-            this.goBack();
         }
     }
 

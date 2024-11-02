@@ -71,6 +71,8 @@ export class $AudioPlayer extends Component {
 
         this.app.addEventListener('update', (event) => {
             const { variable, value } = (event as CustomEvent).detail;
+            if (value === undefined)
+                return;
 
             if (variable === this.currentTimeVariable) {
                 this.activeAudioFile.setCurrentTime(value);

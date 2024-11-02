@@ -80,11 +80,13 @@ export class VideoFile extends FileObject {
     }
 
     public getCurrentTime(): number {
-        return this.videoElement.currentTime;
+        return Math.floor(this.videoElement.currentTime * 100) / 100;
     }
     
-    public setCurrentTime(currentTime: number): number {
-        return this.videoElement.currentTime = currentTime;
+    public setCurrentTime(currentTime: number): void {
+        const time = Math.floor(this.videoElement.currentTime * 100) / 100;
+        if (time !== currentTime)
+            this.videoElement.currentTime = currentTime;
     }
 
     public getVolume(): number {

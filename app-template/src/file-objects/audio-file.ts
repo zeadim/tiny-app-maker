@@ -89,12 +89,15 @@ export class AudioFile extends FileObject {
     }
 
     public getCurrentTime(): number {
-        return this.audioElement.currentTime;
+        return Math.floor(this.audioElement.currentTime * 100) / 100;
     }
     
-    public setCurrentTime(currentTime: number): number {
-        return this.audioElement.currentTime = currentTime;
+    public setCurrentTime(currentTime: number): void {
+        const time = Math.floor(this.audioElement.currentTime * 100) / 100;
+        if (time !== currentTime)
+            this.audioElement.currentTime = currentTime;
     }
+
 
     public getVolume(): number {
         return Math.max(0, Math.min(this.audioElement.volume * 100, 100));
