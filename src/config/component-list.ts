@@ -8,6 +8,7 @@ import { audioPlayer } from "./components/audio-player";
 import { slider } from "./components/slider";
 import { videoPlayer } from "./components/video-player";
 import { booleanInput } from "./components/boolean-input";
+import { youtubeVideo } from "./components/youtube-video";
 
 export const componentList: ComponentConfiguration[] = [
     cell,
@@ -19,4 +20,5 @@ export const componentList: ComponentConfiguration[] = [
     slider,
     videoPlayer,
     booleanInput,
+    youtubeVideo,
 ];

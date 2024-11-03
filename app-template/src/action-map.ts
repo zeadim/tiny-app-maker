@@ -19,6 +19,7 @@ import { $LoadAudio } from "./actions/audio/load-audio";
 import { $ChangeVolume } from "./actions/audio/change-volume";
 import { $ChangePlaybackRate } from "./actions/audio/change-playback-rate";
 import { $LoadVideo } from "./actions/audio/load-video";
+import { $OpenUrl } from "./actions/popup/open-url";
 
 // Maps name of action as used in configuration to its class implementation
 export const actionMap = new Map<string, typeof Action>([
@@ -37,6 +38,7 @@ export const actionMap = new Map<string, typeof Action>([
 
     // popup
     ["alert", $Alert],
+    ["open-url", $OpenUrl],
 
     // network
     ["download-text", $DownloadText],

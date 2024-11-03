@@ -20,6 +20,7 @@ import { loadAudio } from "./actions/audio/load-audio";
 import { changeVolume } from "./actions/audio/change-volume";
 import { changePlaybackRate } from "./actions/audio/change-playback-rate";
 import { loadVideo } from "./actions/audio/load-video";
+import { openUrl } from "./actions/popup/open-url";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -39,6 +40,7 @@ export const actionList: ActionConfiguration[] = [
 
     // popup
     alert,
+    openUrl,
 
     // network
     downloadText,
