@@ -73,7 +73,9 @@ export class ComponentConfigurationComponent implements OnInit, OnDestroy {
                 return;
 
             if (this.component.name !== clipboardState.component.name) {
+                const { x0, y0, x1, y1 } = this.component;
                 Object.assign(this.component, clipboardState.component);
+                Object.assign(this.component, { x0, y0, x1, y1 });
             } else {
                 this.component.inputs = clipboardState.component.inputs;
             }

@@ -18,6 +18,10 @@ export class $Cell extends Component {
             this.triggerEvent('click');
         });
 
+        this.addInputColorListener('background-color', (value) => {
+            this.cell.style.backgroundColor = value ?? '#e0eeee';
+        });
+
         this.addInputStringListener('text', (value) => {
             this.textContainer.textContent = value ?? '';
         });
@@ -30,21 +34,85 @@ export class $Cell extends Component {
             this.cell.style.padding = `${Math.floor(value ?? 8)}px`;
         });
 
-        this.addInputStringListener('text-horizontal-alignment', (value) => {
-            this.cell.style.textAlign = value ?? 'center';
+        this.addInputStringListener('text-alignment', (value) => {
+            switch (value) {
+                case 'top-left':
+                    this.cell.style.textAlign = 'left';
+                    this.cell.style.alignItems = 'flex-start';
+                    break;
+
+                case 'top-center':
+                    this.cell.style.textAlign = 'center';
+                    this.cell.style.alignItems = 'flex-start';
+                    break;
+
+                case 'top-right':
+                    this.cell.style.textAlign = 'right';
+                    this.cell.style.alignItems = 'flex-start';
+                    break;
+
+                case 'center-left':
+                    this.cell.style.textAlign = 'left';
+                    this.cell.style.alignItems = 'center';
+                    break;
+
+                default:
+                    this.cell.style.textAlign = 'center';
+                    this.cell.style.alignItems = 'center';
+                    break;
+
+                case 'center-right':
+                    this.cell.style.textAlign = 'right';
+                    this.cell.style.alignItems = 'center';
+                    break;
+
+                case 'bottom-left':
+                    this.cell.style.textAlign = 'left';
+                    this.cell.style.alignItems = 'flex-end';
+                    break;
+
+                case 'bottom-center':
+                    this.cell.style.textAlign = 'center';
+                    this.cell.style.alignItems = 'flex-end';
+                    break;
+
+                case 'bottom-right':
+                    this.cell.style.textAlign = 'right';
+                    this.cell.style.alignItems = 'flex-end';
+                    break;
+            }
         });
 
-        this.addInputStringListener('text-vertical-alignment', (value) => {
-            const alignment = value === 'top' ? 'flex-start' : value === 'bottom' ? 'flex-end' : 'center';
-            this.cell.style.alignItems = alignment;
+        this.addInputStringListener('text-style', (value) => {
+            switch (value) {
+                default:
+                    this.cell.style.fontWeight = 'normal';
+                    this.cell.style.fontStyle = 'normal';
+                    this.cell.style.textDecoration = 'none';
+                    break;
+
+                case 'bold':
+                    this.cell.style.fontWeight = 'bold';
+                    this.cell.style.fontStyle = 'normal';
+                    this.cell.style.textDecoration = 'none';
+                    break;
+
+                case 'italic':
+                    this.cell.style.fontWeight = 'normal';
+                    this.cell.style.fontStyle = 'italic';
+                    this.cell.style.textDecoration = 'none';
+                    break;
+
+                case 'underline':
+                    this.cell.style.fontWeight = 'normal';
+                    this.cell.style.fontStyle = 'normal';
+                    this.cell.style.textDecoration = 'underline';
+                    break;
+            }
         });
 
         this.addInputNumberListener('font-size', (value) => {
             this.cell.style.fontSize = `${Math.floor(value ?? 18)}px`;
-        });
-
-        this.addInputColorListener('background-color', (value) => {
-            this.cell.style.backgroundColor = value ?? '#e0eeee';
         });
 
         return this.cell;
