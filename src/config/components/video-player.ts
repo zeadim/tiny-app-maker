@@ -16,6 +16,11 @@ export const videoPlayer: ComponentConfiguration = {
             type: 'variable',
         },
         {
+            name: 'output-playback-rate',
+            label: 'Current Playback Rate',
+            type: 'variable',
+        },
+        {
             name: 'output-volume',
             label: 'Current Volume',
             type: 'variable',

@@ -107,6 +107,10 @@ export class AudioFile extends FileObject {
         this.audioElement.volume = Math.max(0.0, Math.min(volume / 100, 1.0));
     }
 
+    public getPlaybackRate(): number {
+        return Math.max(0, Math.min(this.audioElement.playbackRate * 100, 200));
+    }
+
     public setPlaybackRate(playbackRate: number, preservePitch: boolean): void {
         this.audioElement.preservesPitch = preservePitch;
         this.audioElement.playbackRate = Math.max(0.25, Math.min(playbackRate / 100, 2.0));

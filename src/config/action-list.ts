@@ -21,6 +21,7 @@ import { changeVolume } from "./actions/audio/change-volume";
 import { changePlaybackRate } from "./actions/audio/change-playback-rate";
 import { loadVideo } from "./actions/audio/load-video";
 import { openUrl } from "./actions/popup/open-url";
+import { changeCurrentTime } from "./actions/audio/change-current-time";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -35,8 +36,9 @@ export const actionList: ActionConfiguration[] = [
     playAudio,
     stopAudio,
     stopAllAudio,
-    changeVolume,
+    changeCurrentTime,
     changePlaybackRate,
+    changeVolume,
 
     // popup
     alert,

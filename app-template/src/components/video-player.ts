@@ -8,9 +8,11 @@ export class $VideoPlayer extends Component {
     private videoFileForUrl!: VideoFile;
     private activeVideoFile!: VideoFile;
     private currentTimeVariable!: string;
+    private playbackRateVariable!: string;
     private volumeVariable!: string;
 
     private onTimeUpdate!: (event: Event) => unknown;
+    private onPlaybackRateChange!: (event: Event) => unknown;
     private onVolumeChange!: (event: Event) => unknown;
     private onPlay!: (event: Event) => unknown;
     private onPause!: (event: Event) => unknown;
@@ -26,6 +28,7 @@ export class $VideoPlayer extends Component {
         this.setVideoFile(this.videoFileForUrl);
         
         this.currentTimeVariable = this.getInputVariable('output-current-time');
+        this.playbackRateVariable = this.getInputVariable('output-playback-rate');
         this.volumeVariable = this.getInputVariable('output-volume');
 
         this.addInputStringListener('url-or-file-id', (value) => {
@@ -55,6 +58,11 @@ export class $VideoPlayer extends Component {
 
         this.onTimeUpdate = () => {
             this.app.setVariableValue(this.currentTimeVariable, this.activeVideoFile.getCurrentTime());
+        };
+
+        this.onPlaybackRateChange = () => {
+            const playbackRate = this.activeVideoFile.getPlaybackRate();
+            this.app.setVariableValue(this.playbackRateVariable, Math.round(playbackRate));
         };
 
         this.onVolumeChange = () => {
@@ -93,6 +101,7 @@ export class $VideoPlayer extends Component {
         if (this.activeVideoFile) {
             this.activeVideoFile.videoElement.pause();
             this.activeVideoFile.videoElement.removeEventListener('timeupdate', this.onTimeUpdate);
+            this.activeVideoFile.videoElement.removeEventListener('ratechange', this.onPlaybackRateChange);
             this.activeVideoFile.videoElement.removeEventListener('volumechange', this.onVolumeChange);
             this.activeVideoFile.videoElement.removeEventListener('play', this.onPlay);
             this.activeVideoFile.videoElement.removeEventListener('pause', this.onPause);
@@ -101,6 +110,7 @@ export class $VideoPlayer extends Component {
         
         this.activeVideoFile = videoFile;
         this.activeVideoFile.videoElement.addEventListener('timeupdate', this.onTimeUpdate);
+        this.activeVideoFile.videoElement.addEventListener('ratechange', this.onPlaybackRateChange);
         this.activeVideoFile.videoElement.addEventListener('volumechange', this.onVolumeChange);
         this.activeVideoFile.videoElement.addEventListener('play', this.onPlay);
         this.activeVideoFile.videoElement.addEventListener('pause', this.onPause);

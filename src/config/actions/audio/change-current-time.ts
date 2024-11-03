@@ -1,8 +1,8 @@
 import { ActionConfiguration } from "../../types";
 
-export const changeVolume: ActionConfiguration = {
-    name: 'change-volume',
-    label: 'Change Volume',
+export const changeCurrentTime: ActionConfiguration = {
+    name: 'change-current-time',
+    label: 'Change Current Time',
     group: 'media',
     inputs: [
         {
@@ -12,10 +12,9 @@ export const changeVolume: ActionConfiguration = {
             defaultVariable: true,
         },
         {
-            name: 'volume',
-            label: 'Volume (% between 0 and 100)',
-            type: 'number', // TODO: slider
-            defaultValue: 100,
+            name: 'current-time',
+            label: 'Current Time (seconds)',
+            type: 'number',
         },
     ],
 };

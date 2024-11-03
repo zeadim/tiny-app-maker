@@ -7,9 +7,11 @@ export class $AudioPlayer extends Component {
     private audioFileForUrl!: AudioFile;
     private activeAudioFile!: AudioFile;
     private currentTimeVariable!: string;
+    private playbackRateVariable!: string;
     private volumeVariable!: string;
 
     private onTimeUpdate!: (event: Event) => unknown;
+    private onPlaybackRateChange!: (event: Event) => unknown;
     private onVolumeChange!: (event: Event) => unknown;
     private onPlay!: (event: Event) => unknown;
     private onPause!: (event: Event) => unknown;
@@ -25,6 +27,7 @@ export class $AudioPlayer extends Component {
         this.setAudioFile(this.audioFileForUrl);
         
         this.currentTimeVariable = this.getInputVariable('output-current-time');
+        this.playbackRateVariable = this.getInputVariable('output-playback-rate');
         this.volumeVariable = this.getInputVariable('output-volume');
 
         this.addInputStringListener('url-or-file-id', (value) => {
@@ -54,6 +57,11 @@ export class $AudioPlayer extends Component {
 
         this.onTimeUpdate = () => {
             this.app.setVariableValue(this.currentTimeVariable, this.activeAudioFile.getCurrentTime());
+        };
+
+        this.onPlaybackRateChange = () => {
+            const playbackRate = this.activeAudioFile.getPlaybackRate();
+            this.app.setVariableValue(this.playbackRateVariable, Math.round(playbackRate));
         };
 
         this.onVolumeChange = () => {
@@ -92,6 +100,7 @@ export class $AudioPlayer extends Component {
         if (this.activeAudioFile) {
             this.activeAudioFile.audioElement.pause();
             this.activeAudioFile.audioElement.removeEventListener('timeupdate', this.onTimeUpdate);
+            this.activeAudioFile.audioElement.removeEventListener('ratechange', this.onPlaybackRateChange);
             this.activeAudioFile.audioElement.removeEventListener('volumechange', this.onVolumeChange);
             this.activeAudioFile.audioElement.removeEventListener('play', this.onPlay);
             this.activeAudioFile.audioElement.removeEventListener('pause', this.onPause);
@@ -100,6 +109,7 @@ export class $AudioPlayer extends Component {
         
         this.activeAudioFile = audioFile;
         this.activeAudioFile.audioElement.addEventListener('timeupdate', this.onTimeUpdate);
+        this.activeAudioFile.audioElement.addEventListener('ratechange', this.onPlaybackRateChange);
         this.activeAudioFile.audioElement.addEventListener('volumechange', this.onVolumeChange);
         this.activeAudioFile.audioElement.addEventListener('play', this.onPlay);
         this.activeAudioFile.audioElement.addEventListener('pause', this.onPause);

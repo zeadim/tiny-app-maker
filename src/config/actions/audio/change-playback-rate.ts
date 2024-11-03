@@ -13,7 +13,7 @@ export const changePlaybackRate: ActionConfiguration = {
         },
         {
             name: 'playback-rate',
-            label: 'Playback Rate (between 0 and 200)',
+            label: 'Playback Rate (% between 0 and 200)',
             type: 'number', // TODO: slider
             defaultValue: 100,
         },

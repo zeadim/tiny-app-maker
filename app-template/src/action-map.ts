@@ -20,6 +20,7 @@ import { $ChangeVolume } from "./actions/audio/change-volume";
 import { $ChangePlaybackRate } from "./actions/audio/change-playback-rate";
 import { $LoadVideo } from "./actions/audio/load-video";
 import { $OpenUrl } from "./actions/popup/open-url";
+import { $ChangeCurrentTime } from "./actions/audio/change-current-time";
 
 // Maps name of action as used in configuration to its class implementation
 export const actionMap = new Map<string, typeof Action>([
@@ -35,6 +36,7 @@ export const actionMap = new Map<string, typeof Action>([
     ["change-volume", $ChangeVolume],
     ["change-playback-rate", $ChangePlaybackRate],
     ["load-video", $LoadVideo],
+    ["change-current-time", $ChangeCurrentTime],
 
     // popup
     ["alert", $Alert],
