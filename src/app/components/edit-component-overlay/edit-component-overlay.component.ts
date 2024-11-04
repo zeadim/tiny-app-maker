@@ -13,7 +13,7 @@ export class EditComponentOverlayComponent implements AfterViewInit {
 
     @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();
 
-    @ViewChild('dialog') public dialog!: ElementRef<HTMLDialogElement>;
+    //@ViewChild('dialog') public dialog!: ElementRef<HTMLDialogElement>;
 
     public get HasClipboardState(): boolean {
         return !!this.editorService.getClipboardState();
@@ -26,7 +26,7 @@ export class EditComponentOverlayComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this.dialog.nativeElement.showModal();
+        //this.dialog.nativeElement.showModal();
     }
 
     public closeModal(): void {

@@ -23,6 +23,7 @@ TODO:
 export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public componentModalOpen: boolean = false;
+    public globalEventsModalOpen: boolean = false;
     public appRunning: boolean = false;
     public selectedComponentSnapshot: string = '';
     public appHtmlTemplateString?: string;
@@ -40,6 +41,10 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public get State(): State {
         return this.stateService.getCurrentState();
+    }
+
+    public get ModalOpen(): boolean {
+        return this.componentModalOpen || this.globalEventsModalOpen;
     }
 
     public constructor(
@@ -133,6 +138,12 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedComponentSnapshot = JSON.stringify(this.SelectedComponent);
     }
 
+    public editGlobalEvents(): void {
+        this.openGlobalEventsModal();
+        // TODO: globalevents insteadof component snapshot
+        //this.selectedComponentSnapshot = JSON.stringify(this.SelectedComponent);
+    }
+
     public unselectSelectedComponent(): void {
         this.gridEditor?.selectComponent(undefined);
     }
@@ -147,6 +158,16 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.gridEditor?.activate();
     }
 
+    public openGlobalEventsModal(): void {
+        this.globalEventsModalOpen = true;
+        this.gridEditor?.deactivate();
+    }
+
+    public closeGlobalEventsModal(): void {
+        this.globalEventsModalOpen = false;
+        this.gridEditor?.activate();
+    }
+
     public onEditComponentOverlayClose(): void {
         this.closeComponentModal();
 
@@ -158,6 +179,20 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.stateService.push();
             this.gridEditor?.updateComponent(this.SelectedComponent);
         });
+    }
+
+    public onEditGlobalEventsOverlayClose(): void {
+        this.closeGlobalEventsModal();
+
+        // TODO: push state, but check globalevents instead
+        // setTimeout to make modal components' OnDestroy be called first for cleaning up empty inputs
+        /*setTimeout(() => {
+            if (this.selectedComponentSnapshot === JSON.stringify(this.SelectedComponent))
+                return;
+
+            this.stateService.push();
+            this.gridEditor?.updateComponent(this.SelectedComponent);
+        });*/
     }
 
     private createGridEditor(): void {
@@ -217,9 +252,9 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.goBack();
         }
 
-        if (this.componentModalOpen)
+        if (this.ModalOpen)
             return;
-        
+
         if (event.ctrlKey && event.key === 'z') {
             event.preventDefault();
             this.performUndo();
@@ -232,7 +267,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private goBack(): void {
-        if (this.componentModalOpen) { // any modal open
+        if (this.ModalOpen) { // any modal open
             this.closeComponentModal();
             return;
         }

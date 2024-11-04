@@ -3,10 +3,17 @@
 }
 
 .overlay {
-    &::backdrop {
+    /*&::backdrop {
         background-image: linear-gradient(#e0eeeef8, #eaeeeef8);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
         //opacity: 0.97;
-    }
+    }*/
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    background-image: linear-gradient(#e0eeeef8, #eaeeeef8);
+    z-index: 9999999;
 
     width: 100%;
     height: 100%;
@@ -20,7 +27,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    //position: relative;
 
     .background {
         z-index: 0;
@@ -29,7 +36,7 @@
         height: 100%;
         left: 0;
         top: 0;
-        cursor: pointer;
+        //cursor: pointer;
     }
 
     .header,

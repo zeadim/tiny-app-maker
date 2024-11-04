@@ -11,6 +11,7 @@ import { ComponentConfigurationComponent } from './components/component-configur
 import { ConfigurationInputComponent } from './components/configuration-input/configuration-input.component';
 import { EventConfigurationComponent } from './components/event-configuration/event-configuration.component';
 import { ActionConfigurationComponent } from './components/action-configuration/action-configuration.component';
+import { EditGlobalEventsOverlayComponent } from './components/edit-global-events-overlay/edit-global-events-overlay.component';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { ActionConfigurationComponent } from './components/action-configuration/
         ConfigurationInputComponent,
         EventConfigurationComponent,
         ActionConfigurationComponent,
+        EditGlobalEventsOverlayComponent,
     ],
     imports: [
         BrowserModule,

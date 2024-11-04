@@ -6,6 +6,14 @@ export type ComponentConfiguration = {
     events: EventConfiguration[],
 };
 
+export type GlobalEventConfiguration = {
+    name: string,
+    label: string,
+    group?: string,
+    inputs: InputConfiguration[],
+    events: EventConfiguration[],
+};
+
 export type InputConfiguration = {
     name: string,
     label: string,

@@ -21,7 +21,7 @@
         </div>
 
         <ng-container *ngIf="!SelectedComponent">
-            <app-fancy-button icon="⚡" color="#f4f4e4" label="Events"></app-fancy-button>
+            <app-fancy-button icon="⚡" color="#f4f4e4" label="Events" (onClick)="editGlobalEvents()"></app-fancy-button>
             <app-fancy-button icon="▶️" color="#eeffff" label="Run App" (onClick)="runApp()"></app-fancy-button>
         </ng-container>
 
@@ -45,3 +45,8 @@
     [component]="SelectedComponent"
     (onClose)="onEditComponentOverlayClose()"
 ></app-edit-component-overlay>
+
+<app-edit-global-events-overlay
+    *ngIf="globalEventsModalOpen"
+    (onClose)="onEditGlobalEventsOverlayClose()"
+></app-edit-global-events-overlay>

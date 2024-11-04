@@ -1,0 +1,41 @@
+<div class="overlay" #dialog>
+    <div class="background"></div>
+
+    <div class="header">
+        <app-fancy-button icon="☰" label="Menu"></app-fancy-button>
+        <app-fancy-button icon="⚙️" label="Settings"></app-fancy-button>
+        <app-fancy-button icon="💾" label="Export"></app-fancy-button>
+    </div>
+
+    <div class="content">
+        <div class="frame">
+            <div class="hgroup-space-between">
+                <div class="label">Global Events:</div>
+                <div class="hgroup-8">
+                    <app-fancy-button icon="⬆️" label="" (onClick)="moveSelectedEventUp()"></app-fancy-button>
+                    <app-fancy-button icon="⬇️" label="" (onClick)="moveSelectedEventDown()"></app-fancy-button>
+                </div>
+            </div>
+
+            <div class="event-list-container">
+                <div class="event-list" #eventList>
+                    <div class="event-entry" [class.selected]="selectedEventIndex === i" (click)="selectEvent(i)"
+                        *ngFor="let event of GlobalEvents; let i = index">
+                        {{i + 1}}. {{ getEventLabel(event) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <app-fancy-button icon="➕" label="Add New Event" color="#fff4e4"></app-fancy-button>
+
+        <div class="hgroup-8">
+            <app-fancy-button icon="🗑️" label="" color="#eeeeee"></app-fancy-button>
+            <app-fancy-button icon="✏️" label="Settings" color="#fff4e4"></app-fancy-button>
+        </div>
+
+        <app-fancy-button icon="✅" label="Ok" color="#eeffee" (onClick)="onClose.emit()"></app-fancy-button>
+    </div>
+</div>

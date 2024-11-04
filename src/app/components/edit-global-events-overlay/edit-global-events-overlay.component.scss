@@ -1,0 +1,161 @@
+:host {
+    display: contents;
+}
+
+.overlay {
+    /*&::backdrop {
+        background-image: linear-gradient(#e0eeeef8, #eaeeeef8);// linear-gradient(45deg, magenta, rebeccapurple, dodgerblue, green);
+        //opacity: 0.97;
+    }*/
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    background-image: linear-gradient(#e0eeeef8, #eaeeeef8);
+    z-index: 9999999;
+
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    //position: relative;
+
+    .background {
+        z-index: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        //cursor: pointer;
+    }
+
+    .header,
+    .footer {
+        z-index: 1;
+        width: min(67vh, 100%);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 16px;
+
+        padding: 16px 12px;
+    }
+
+    .footer {
+        //justify-content: flex-end;
+    }
+
+    .content {
+        z-index: 1;
+        flex: 1;
+        width: min(67vh, 100%);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        padding: 0 12px;
+
+        .frame {
+            flex: 1;
+            width: 100%;
+    
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            gap: 8px;
+            
+            box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(0, 0, 0, 0.4);
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            //background-color: white;
+            //border: 2px solid black;
+            //border-radius: 4px;
+            padding: 8px;
+
+            .label {
+                color: #aaa;
+                font-weight: bold;
+                font-size: 1.3em;
+                padding-left: 4px;
+            }
+    
+            .event-list-container {
+                flex: 1;
+                height: 120px;
+                position: relative;
+    
+                //box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.2);
+                border: 2px solid rgba(0, 0, 0, 0.4);
+                border-radius: 4px;
+                background-color: #eee;
+    
+                .event-list {
+                    width: 100%;
+                    height: 100%;
+    
+                    overflow-y: scroll;
+                    overflow-x: hidden;
+                    padding-bottom: 36px;
+    
+                    .event-entry:nth-child(odd) {
+                        background-color: #eed;
+                    }
+    
+                    .event-entry:nth-child(even) {
+                        background-color: #e0e0d0;
+                    }
+    
+                    .event-entry {
+                        padding: 8px;
+                        border-bottom: 2px solid #0003;
+                        text-transform: lowercase;
+                        user-select: none;
+                        cursor: pointer;
+    
+                        &.selected {
+                            background-color: #e66;
+                            font-weight: bold;
+                            color: white;
+                            cursor: default;
+                        }
+                    }
+                }
+    
+                .floating-action-list-buttons {
+                    position: absolute;
+                    top: 0;
+                    right: min(28px, 3.5vw);
+                    height: 100%;
+    
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: 8px;
+                }
+            }
+        }
+
+        .modal {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 16px;
+        }
+    }
+}

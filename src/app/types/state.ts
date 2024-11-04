@@ -2,6 +2,7 @@ export type State = {
     width: number,
     height: number,
     components: ComponentState[],
+    globalEvents?: GlobalEventState[],
 };
 
 export type ComponentState = {
@@ -10,6 +11,12 @@ export type ComponentState = {
     y0: number,
     x1: number,
     y1: number,
+    inputs: InputState[],
+    events: EventState[],
+};
+
+export type GlobalEventState = {
+    name: string,
     inputs: InputState[],
     events: EventState[],
 };
