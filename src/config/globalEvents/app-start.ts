@@ -2,8 +2,13 @@ import { GlobalEventConfiguration } from "../types";
 
 export const appStart: GlobalEventConfiguration = {
     name: 'app-start',
-    label: 'App Start',
+    label: 'On App Start',
     group: '',
     inputs: [],
-    events: [],
+    events: [
+        {
+            name: 'start',
+            label: 'On Start',
+        }
+    ],
 };

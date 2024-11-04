@@ -59,6 +59,7 @@
         z-index: 1;
         flex: 1;
         width: min(67vh, 100%);
+        min-height: 0;
 
         display: flex;
         flex-direction: column;
@@ -70,6 +71,7 @@
         .frame {
             flex: 1;
             width: 100%;
+            min-height: 0;
     
             display: flex;
             flex-direction: column;
@@ -119,7 +121,8 @@
                     }
     
                     .event-entry {
-                        padding: 8px;
+                        padding: 16px 12px;
+                        font-size: 1.1em;
                         border-bottom: 2px solid #0003;
                         text-transform: lowercase;
                         user-select: none;

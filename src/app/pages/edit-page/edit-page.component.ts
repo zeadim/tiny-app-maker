@@ -4,6 +4,9 @@ import { StateService } from '../../services/state.service';
 import { GridEditor } from './grid-editor/grid-editor';
 import { ComponentState, State } from '../../types/state';
 import { initialState as debugInitialState } from '../initial-state';
+import { componentList } from 'src/config/component-list';
+import { EditorService } from 'src/app/services/editor.service';
+import { globalEventList } from 'src/config/global-event-list';
 
 /*
 TODO:
@@ -48,6 +51,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public constructor(
+        public readonly editorService: EditorService,
         public readonly stateService: StateService,
         public readonly ngZone: NgZone,
     ) {
@@ -149,6 +153,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public openComponentModal(): void {
+        this.editorService.componentList = componentList;
         this.componentModalOpen = true;
         this.gridEditor?.deactivate();
     }
@@ -159,6 +164,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public openGlobalEventsModal(): void {
+        this.editorService.componentList = globalEventList;
         this.globalEventsModalOpen = true;
         this.gridEditor?.deactivate();
     }

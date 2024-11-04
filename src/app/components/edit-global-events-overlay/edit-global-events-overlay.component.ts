@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { StateService } from 'src/app/services/state.service';
 import { GlobalEventState } from 'src/app/types/state';
 import { globalEventList } from 'src/config/global-event-list';
@@ -8,9 +8,10 @@ import { globalEventList } from 'src/config/global-event-list';
   templateUrl: './edit-global-events-overlay.component.html',
   styleUrls: ['./edit-global-events-overlay.component.scss']
 })
-export class EditGlobalEventsOverlayComponent {
+export class EditGlobalEventsOverlayComponent implements OnInit {
 
     public selectedEventIndex: number = 0;
+    public editModalOpen: boolean = false;
 
     @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();
     
@@ -20,14 +21,35 @@ export class EditGlobalEventsOverlayComponent {
         return this.stateService.getCurrentState().globalEvents ?? [];
     }
 
+    public get SelectedEvent(): GlobalEventState {
+        return this.GlobalEvents[this.selectedEventIndex];
+    }
+
     public constructor(
         public readonly stateService: StateService,
     ) {
         //
     }
 
+    public ngOnInit(): void {
+        this.selectedEventIndex = 0;
+        this.addPlaceholderEvent(true);
+    }
+
     public closeModal(): void {
         this.onClose.emit();
+    }
+
+    public getEventLabel(event: GlobalEventState): string {
+        if (event.name === 'interval') {
+            return `on interval (${event.inputs?.[0]?.value ?? 1} second${(event.inputs?.[0]?.value ?? 1) == 1 ? '' : 's'})`;
+        }
+
+        if (event.name === 'variable-change') {
+            return `on variable change (${event.inputs?.[0]?.value ?? ''})`;
+        }
+
+        return globalEventList.find(x => x.name === event.name)?.label ?? 'unknown';
     }
 
     public selectEvent(index: number): void {
@@ -35,20 +57,17 @@ export class EditGlobalEventsOverlayComponent {
         this.scrollSelectionEventEntryIntoView();
     }
 
-    public getEventLabel(event: GlobalEventState): string {
-        if (event.name === 'goto')
-            return `go to action ${event.inputs[0].value ?? 1}`; // special case
+    public deleteSelectedEvent(): void {
+        this.GlobalEvents.splice(this.selectedEventIndex, 1);
+        this.addPlaceholderEvent(true);
+        this.selectedEventIndex = Math.max(0, this.selectedEventIndex - 1);
+        this.scrollSelectionEventEntryIntoView();
+    }
 
-        if (event.name === 'interval') {
-            return `interval (${event.inputs[0].value ?? 1} second${(event.inputs[0].value ?? 1) == 1 ? '' : 's'})`;
-        }
-
-        if (event.name === 'variable-change') {
-            return `variable change (${event.inputs[0].value ?? 'any'})`;
-        }
-
-        const label = globalEventList.find(x => x.name === event.name)?.label ?? 'unknown';
-        return `on ${label}`;
+    public addEvent(): void {
+        this.addPlaceholderEvent(false);
+        this.selectedEventIndex = this.GlobalEvents.length - 1;
+        this.scrollSelectionEventEntryIntoView();
     }
 
     public moveSelectedEventUp(): void {
@@ -71,6 +90,20 @@ export class EditGlobalEventsOverlayComponent {
         this.GlobalEvents[this.selectedEventIndex + 1] = action;
         this.selectedEventIndex += 1;
         this.scrollSelectionEventEntryIntoView();
+    }
+
+    public openEditModal(): void {
+        this.editModalOpen = true;
+    }
+
+    public onEditModalClose(): void {
+        this.editModalOpen = false;
+    }
+
+    private addPlaceholderEvent(onlyWhenEmpty: boolean): void {
+        if (!onlyWhenEmpty || this.GlobalEvents.length === 0)
+            // @ts-ignore
+            this.GlobalEvents.push({ name: 'app-start', inputs: [], events: [] });
     }
 
     private scrollSelectionEventEntryIntoView(): void {

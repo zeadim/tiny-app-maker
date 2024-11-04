@@ -2,7 +2,7 @@ import { GlobalEventConfiguration } from "../types";
 
 export const interval: GlobalEventConfiguration = {
     name: 'interval',
-    label: 'Interval',
+    label: 'On Interval',
     group: '',
     inputs: [
         {
@@ -12,5 +12,10 @@ export const interval: GlobalEventConfiguration = {
             defaultValue: 1,
         },
     ],
-    events: [],
+    events: [
+        {
+            name: 'interval',
+            label: 'On Interval',
+        }
+    ],
 };

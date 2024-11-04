@@ -25,11 +25,8 @@ export class $YouTubeVideo extends Component {
         this.addInputStringListener('youtube-url-or-id', (value) => {
             let id = '';
             try {
-                console.log('1', value);
                 const { search } = new URL(value ?? '');
-                console.log('2', search);
                 const parameters = new URLSearchParams(search?.slice(1));
-                console.log('3', parameters);
                 id = parameters.get('v') ?? '';
             } catch (err){
                 id = value ?? '';

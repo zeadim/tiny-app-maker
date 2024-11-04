@@ -1,26 +1,12 @@
+
+// @ts-nocheck
 import { State } from "../types/state";
 
 //  TODO: remove this file, just for debugging
 export const initialState: State = {
     "width": 6,
     "height": 10,
-    "globalEvents": [
-        {
-            "name": "variable-change",
-            "inputs": [{ name: 'variable-name', value: 'MUSIC', variable: false }],
-            "events": [],
-        },
-        {
-            "name": "app-start",
-            "inputs": [],
-            "events": [],
-        },
-        {
-            "name": "interval",
-            "inputs": [{ name: 'interval', value: 5, variable: false }],
-            "events": [],
-        },
-    ],
+    "globalEvents": [],
     "components": [
         {
             "name": "text-input",

@@ -15,11 +15,7 @@ export type ComponentState = {
     events: EventState[],
 };
 
-export type GlobalEventState = {
-    name: string,
-    inputs: InputState[],
-    events: EventState[],
-};
+export type GlobalEventState = ComponentState;
 
 export type InputState = {
     name: string,

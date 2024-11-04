@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { ClipboardState } from '../types/clipboard-state';
 import { ActionState, ComponentState } from 'app-template/src/types';
 import { StateService } from './state.service';
+import { ComponentConfiguration } from 'src/config/types';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,8 @@ export class EditorService {
     public clear$ = new Subject<void>();
     public paste$ = new Subject<void>();
     public copy$ = new Subject<void>();
+
+    public componentList: ComponentConfiguration[] = [];
 
     private clipboardState?: ClipboardState;
 

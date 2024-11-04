@@ -29,13 +29,19 @@
     </div>
 
     <div class="footer">
-        <app-fancy-button icon="➕" label="Add New Event" color="#fff4e4"></app-fancy-button>
+        <app-fancy-button icon="➕" label="Event" color="#fff4e4" (onClick)="addEvent()"></app-fancy-button>
 
         <div class="hgroup-8">
-            <app-fancy-button icon="🗑️" label="" color="#eeeeee"></app-fancy-button>
-            <app-fancy-button icon="✏️" label="Settings" color="#fff4e4"></app-fancy-button>
+            <app-fancy-button icon="🗑️" label="" color="#eeeeee" (onClick)="deleteSelectedEvent()"></app-fancy-button>
+            <app-fancy-button icon="✏️" label="Settings" color="#fff4e4" (onClick)="openEditModal()"></app-fancy-button>
         </div>
 
         <app-fancy-button icon="✅" label="Ok" color="#eeffee" (onClick)="onClose.emit()"></app-fancy-button>
     </div>
 </div>
+
+<app-edit-component-overlay
+    *ngIf="editModalOpen && SelectedEvent"
+    [component]="SelectedEvent"
+    (onClose)="onEditModalClose()"
+></app-edit-component-overlay>

@@ -24,6 +24,10 @@ export class ComponentConfigurationComponent implements OnInit, OnDestroy {
 
     @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();
 
+    public get ComponentList(): ComponentConfiguration[] {
+        return this.editorService.componentList;
+    }
+
     public get SelectedComponentType(): string {
         return this.component.name;
     }
@@ -84,7 +88,7 @@ export class ComponentConfigurationComponent implements OnInit, OnDestroy {
             this.loadComponentType();
         }));
 
-        for (const component of componentList) {
+        for (const component of this.ComponentList) {
             const name = component.group ?? '';
 
             let index = this.componentGroups.findIndex(x => x.name === name);
@@ -106,15 +110,20 @@ export class ComponentConfigurationComponent implements OnInit, OnDestroy {
 
     private loadComponentType(): void {
         this.savedComponentStates.set(this.component.name, { ...this.component });
-        this.config = componentList.find(x => x.name === this.component.name)!;
+        this.config = this.ComponentList.find(x => x.name === this.component.name)!;
 
-        this.events = [{
-            name: 'settings',
-            label: 'Settings',
-        }];
+        this.events = [];
+
+        if (this.config.inputs.length > 0) {
+            this.events.push({
+                name: 'settings',
+                label: 'Settings',
+            });
+        }
 
         for (const event of this.config.events) {
-            this.events.push({ name: '', label: '' });
+            if (this.events.length > 0)
+                this.events.push({ name: '', label: '' });
             this.events.push(event);
         }
 

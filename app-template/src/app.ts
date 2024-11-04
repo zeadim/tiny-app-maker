@@ -7,7 +7,6 @@ import { Addressable, AddressableType } from "./types";
 
 export class App extends EventTarget {
     private gridElement: HTMLElement;
-    private components: Component[] = [];
     private variables: Map<string, any> = new Map();
     private addressables: Map<string, Addressable> = new Map();
 
@@ -21,7 +20,6 @@ export class App extends EventTarget {
     }
 
     public addComponent(component: Component): void {
-        this.components.push(component);
         this.gridElement.appendChild(component.htmlElement);
     }
 

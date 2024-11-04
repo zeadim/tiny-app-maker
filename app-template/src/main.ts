@@ -1,5 +1,6 @@
 import { App } from './app';
 import { componentMap } from './component-map';
+import { globalEventMap } from './global-event-map';
 import './style.css';
 
 window.addEventListener('load', () => initializeApp());
@@ -7,7 +8,7 @@ window.addEventListener('beforeunload', () => window.speechSynthesis.cancel());
 
 function initializeApp() {
     // @ts-ignore
-    const { width, height, components } = window.appConfig;
+    const { width, height, components, globalEvents } = window.appConfig;
     const gridElement = document.getElementById('grid')!;
 
     // Create app page grid
@@ -41,5 +42,19 @@ function initializeApp() {
         const component = new ComponentClass(app, x0, y0, x1, y1, inputs, events);
         app.addComponent(component);
     }
+
+    setTimeout(() => {
+        for (const globalEventConfig of globalEvents) {
+            const { name, inputs, events } = globalEventConfig;
+
+            const GlobalEventClass = globalEventMap.get(name);
+            if (!GlobalEventClass) {
+                console.warn(`Unsupported global event type in config: ${name}`);
+                continue;
+            }
+
+            new GlobalEventClass(app, inputs, events);
+        }
+    });
 }
 
