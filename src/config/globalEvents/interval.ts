@@ -11,6 +11,18 @@ export const interval: GlobalEventConfiguration = {
             type: 'number',
             defaultValue: 1,
         },
+        {
+            name: 'immediate',
+            label: 'Trigger on start',
+            type: 'boolean',
+            defaultValue: false,
+        },
+        {
+            name: 'async',
+            label: 'Asynchronous',
+            type: 'boolean',
+            defaultValue: false,
+        },
     ],
     events: [
         {
