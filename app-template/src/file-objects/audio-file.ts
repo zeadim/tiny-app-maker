@@ -100,11 +100,13 @@ export class AudioFile extends FileObject {
 
 
     public getVolume(): number {
-        return Math.max(0, Math.min(this.audioElement.volume * 100, 100));
+        const volume = Math.pow(this.audioElement.volume, 0.5);
+        return Math.max(0, Math.min(volume * 100, 100));
     }
 
     public setVolume(volume: number): void {
-        this.audioElement.volume = Math.max(0.0, Math.min(volume / 100, 1.0));
+        const value = Math.max(0.0, Math.min(volume / 100, 1.0));
+        this.audioElement.volume = Math.pow(value, 2);
     }
 
     public getPlaybackRate(): number {

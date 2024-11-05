@@ -12,7 +12,7 @@ export type InputConfiguration = {
     name: string,
     label: string,
     note?: string,
-    type: 'variable' | 'boolean' | 'string' | 'number' | 'color' | 'datetime' | 'options',
+    type: 'variable' | 'boolean' | 'string' | 'number' | 'color' | 'datetime' | 'time' | 'options',
     defaultValue?: any,
     defaultVariable?: boolean,
 

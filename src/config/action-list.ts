@@ -22,17 +22,19 @@ import { changePlaybackRate } from "./actions/audio/change-playback-rate";
 import { loadVideo } from "./actions/audio/load-video";
 import { openUrl } from "./actions/popup/open-url";
 import { changeCurrentTime } from "./actions/audio/change-current-time";
+import { invokeFunction } from "./actions/other/invoke-function";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
 
     // other
+    speak,
     vibrate,
+    invokeFunction,
 
     // audio
     loadAudio,
     loadVideo,
-    speak,
     playAudio,
     stopAudio,
     stopAllAudio,

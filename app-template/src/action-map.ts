@@ -21,11 +21,13 @@ import { $ChangePlaybackRate } from "./actions/audio/change-playback-rate";
 import { $LoadVideo } from "./actions/audio/load-video";
 import { $OpenUrl } from "./actions/popup/open-url";
 import { $ChangeCurrentTime } from "./actions/audio/change-current-time";
+import { $InvokeFunction } from "./actions/other/invoke-function";
 
 // Maps name of action as used in configuration to its class implementation
 export const actionMap = new Map<string, typeof Action>([
     // other
     ["vibrate", $Vibrate],
+    ["invoke-function", $InvokeFunction],
 
     // audio
     ["speak", $Speak],

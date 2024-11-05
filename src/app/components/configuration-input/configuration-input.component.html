@@ -48,6 +48,10 @@
             <input type="datetime-local" [(ngModel)]="Value" />
         </div>
 
+        <div *ngSwitchCase="'time'" class="input">
+            <input type="time" step="1" [(ngModel)]="Value" />
+        </div>
+
         <div *ngSwitchCase="'options'" class="input">
             <select class="options-input" [(ngModel)]="Value">
                 <option *ngFor="let option of config.options" [ngValue]="option.value">{{option.label}}</option>

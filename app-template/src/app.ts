@@ -9,6 +9,7 @@ export class App extends EventTarget {
     private gridElement: HTMLElement;
     private variables: Map<string, any> = new Map();
     private addressables: Map<string, Addressable> = new Map();
+    private functionListeners: Map<string, (() => unknown)[]> = new Map();
 
     public audioContext: AudioContext;
 
@@ -71,6 +72,38 @@ export class App extends EventTarget {
             return;
 
         this.addressables.delete(id);
+    }
+
+    public addFunctionListener(functionName: string, listener: () => unknown): void {
+        if (!this.functionListeners.has(functionName))
+            this.functionListeners.set(functionName, []);
+
+        const listeners = this.functionListeners.get(functionName);
+        listeners?.push(listener);
+    }
+    
+    public removeFunctionListener(functionName: string, listener: () => unknown): void {
+        if (!this.functionListeners.has(functionName))
+            return;
+
+        const listeners = this.functionListeners.get(functionName);
+        const index = listeners!.indexOf(listener) ?? -1;
+        if (index < 0)
+            return;
+
+        listeners!.splice(index, 1);
+        if (listeners!.length === 0)
+            this.functionListeners.delete(functionName);
+    }
+
+    public async invokeFunction(functionName: string): Promise<void> {
+        if (!this.functionListeners.has(functionName))
+            return;
+
+        const listeners = this.functionListeners.get(functionName)!.slice();
+        for (const listener of listeners) {
+            await listener();
+        }
     }
 
     public static generateUniqueId(): string {

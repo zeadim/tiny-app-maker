@@ -90,11 +90,13 @@ export class VideoFile extends FileObject {
     }
 
     public getVolume(): number {
-        return Math.max(0, Math.min(this.videoElement.volume * 100, 100));
+        const volume = Math.pow(this.videoElement.volume, 0.5);
+        return Math.max(0, Math.min(volume * 100, 100));
     }
 
     public setVolume(volume: number): void {
-        this.videoElement.volume = Math.max(0.0, Math.min(volume / 100, 1.0));
+        const value = Math.max(0.0, Math.min(volume / 100, 1.0));
+        this.videoElement.volume = Math.pow(value, 2);
     }
 
     public getPlaybackRate(): number {
