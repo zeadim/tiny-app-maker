@@ -12,6 +12,7 @@ import { ConfigurationInputComponent } from './components/configuration-input/co
 import { EventConfigurationComponent } from './components/event-configuration/event-configuration.component';
 import { ActionConfigurationComponent } from './components/action-configuration/action-configuration.component';
 import { EditGlobalEventsOverlayComponent } from './components/edit-global-events-overlay/edit-global-events-overlay.component';
+import { EditSettingsOverlayComponent } from './components/edit-settings-overlay/edit-settings-overlay.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { EditGlobalEventsOverlayComponent } from './components/edit-global-event
         EventConfigurationComponent,
         ActionConfigurationComponent,
         EditGlobalEventsOverlayComponent,
+        EditSettingsOverlayComponent,
     ],
     imports: [
         BrowserModule,

@@ -15,6 +15,7 @@ export type InputConfiguration = {
     type: 'variable' | 'boolean' | 'string' | 'number' | 'color' | 'datetime' | 'time' | 'options',
     defaultValue?: any,
     defaultVariable?: boolean,
+    alwaysConstant?: boolean,
 
     // boolean only
     trueLabel?: string,

@@ -1,8 +1,7 @@
 export type State = {
-    width: number,
-    height: number,
+    settings: InputState[],
     components: ComponentState[],
-    globalEvents?: GlobalEventState[],
+    globalEvents: GlobalEventState[],
 };
 
 export type ComponentState = {

@@ -63,7 +63,7 @@
         <div class="label identifier">var?</div>
 
         <div class="input">
-            <input type="checkbox" [(ngModel)]="Variable" [disabled]="IsOutput" />
+            <input type="checkbox" [(ngModel)]="Variable" [disabled]="!!config.alwaysConstant" />
         </div>
     </div>
 </div>

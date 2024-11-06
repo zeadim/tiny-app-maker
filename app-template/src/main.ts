@@ -1,15 +1,19 @@
 import { App } from './app';
 import { componentMap } from './component-map';
 import { globalEventMap } from './global-event-map';
+import { InputListenerActionSource } from './input-listener-action-source';
+import { InputState, State } from './types';
 import './style.css';
 
 window.addEventListener('load', () => initializeApp());
 window.addEventListener('beforeunload', () => window.speechSynthesis.cancel());
 
 function initializeApp() {
-    // @ts-ignore
-    const { width, height, components, globalEvents } = window.appConfig;
+    const { settings, components, globalEvents } = (window as any).appConfig as State;
     const gridElement = document.getElementById('grid')!;
+
+    const width = settings.find(x => x.name === 'grid-width')!.value;
+    const height = settings.find(x => x.name === 'grid-height')!.value;
 
     // Create app page grid
     gridElement.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
@@ -56,5 +60,43 @@ function initializeApp() {
             new GlobalEventClass(app, inputs, events);
         }
     });
+
+    new SettingsController(app, settings);
 }
 
+class SettingsController extends InputListenerActionSource {
+
+    public constructor(app: App, settings: InputState[]) {
+        super(app, settings, []);
+
+        this.setUp();
+        this.notifyInitialInputUpdates();
+    }
+
+    private setUp(): void {
+        this.addInputNumberListener('container-width', (value) => {
+            // TODO
+        });
+        
+        this.addInputNumberListener('container-height', (value) => {
+            // TODO
+        });
+        
+        this.addInputNumberListener('container-padding', (value) => {
+            document.body.style.padding = `${value ?? 0}px`;
+        });
+
+        this.addInputColorListener('background-color', (value) => {
+            // TODO
+        });
+        
+        this.addInputColorListener('theme-color', (value) => {
+            document.querySelector('meta[name="theme-color"]')?.setAttribute('content', value ?? '#8dd');
+        });
+        
+        this.addInputStringListener('ui-theme', (value) => {
+            // TODO
+            console.log('UI THEME:', value);
+        });
+    }
+}

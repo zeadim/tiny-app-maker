@@ -6,7 +6,7 @@
         </div>
 
         <app-fancy-button icon="☰" label="Menu" (onClick)="test()"></app-fancy-button>
-        <app-fancy-button icon="⚙️" label="Settings"></app-fancy-button>
+        <app-fancy-button icon="⚙️" label="Settings" (onClick)="openSettingsModal()"></app-fancy-button>
         <app-fancy-button icon="💾" label="Export"></app-fancy-button>
     </div>
 
@@ -36,7 +36,7 @@
     </div>
 
     <div class="footer footer-app-running" *ngIf="appRunning">
-        <app-fancy-button icon="⏹" color="#ffcccc" label="Go back to editing" (onClick)="runApp()"></app-fancy-button>
+        <app-fancy-button icon="⏹" color="#ffcccc" label="Return to editor" (onClick)="runApp()"></app-fancy-button>
     </div>
 </div>
 
@@ -50,3 +50,9 @@
     *ngIf="globalEventsModalOpen"
     (onClose)="onEditGlobalEventsOverlayClose()"
 ></app-edit-global-events-overlay>
+
+<app-edit-settings-overlay
+    *ngIf="settingsModalOpen"
+    [settings]="State.settings"
+    (onClose)="onEditSettingsOverlayClose()"
+></app-edit-settings-overlay>

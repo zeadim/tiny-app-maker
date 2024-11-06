@@ -61,8 +61,9 @@ export class GridEditor {
     public syncState(state: State): void {
         this.clearGridState();
 
-        this.gridWidth = state.width;
-        this.gridHeight = state.height;
+        // TODO: refactor settings.find(), done in multiple places, no default - perhaps do get it once at startup?
+        this.gridWidth = state.settings.find(x => x.name === 'grid-width')!.value;
+        this.gridHeight = state.settings.find(x => x.name === 'grid-height')!.value;
         this.addGridCells();
         state.components.forEach(x => this.addComponent(x));
     }

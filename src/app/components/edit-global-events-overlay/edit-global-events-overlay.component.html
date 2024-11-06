@@ -9,12 +9,14 @@
 
     <div class="content">
         <div class="frame">
-            <div class="hgroup-space-between">
-                <div class="label">Global Events:</div>
+            <div class="header hgroup-space-between">
                 <div class="hgroup-8">
                     <app-fancy-button icon="⬆️" label="" (onClick)="moveSelectedEventUp()"></app-fancy-button>
                     <app-fancy-button icon="⬇️" label="" (onClick)="moveSelectedEventDown()"></app-fancy-button>
                 </div>
+                
+                <app-fancy-button icon="➕" label="Add New Event" color="#fff4e4"
+                    (onClick)="addEvent()"></app-fancy-button>
             </div>
 
             <div class="event-list-container">
@@ -29,7 +31,10 @@
     </div>
 
     <div class="footer">
-        <app-fancy-button icon="➕" label="Event" color="#fff4e4" (onClick)="addEvent()"></app-fancy-button>
+        <div class="hgroup-8">
+            <app-fancy-button icon="⏪" label="" color="#e4e4e4"></app-fancy-button>
+            <app-fancy-button icon="⏩" label="" color="#e4e4e4"></app-fancy-button>
+        </div>
 
         <div class="hgroup-8">
             <app-fancy-button icon="🗑️" label="" color="#eeeeee" (onClick)="deleteSelectedEvent()"></app-fancy-button>
@@ -40,8 +45,5 @@
     </div>
 </div>
 
-<app-edit-component-overlay
-    *ngIf="editModalOpen && SelectedEvent"
-    [component]="SelectedEvent"
-    (onClose)="onEditModalClose()"
-></app-edit-component-overlay>
+<app-edit-component-overlay *ngIf="editModalOpen && SelectedEvent" [component]="SelectedEvent"
+    (onClose)="onEditModalClose()"></app-edit-component-overlay>

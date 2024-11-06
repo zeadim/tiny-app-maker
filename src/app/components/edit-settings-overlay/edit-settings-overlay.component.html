@@ -1,0 +1,23 @@
+<div class="overlay" #dialog>
+    <div class="background"></div>
+
+    <div class="header">
+        <app-fancy-button icon="☰" label="Menu"></app-fancy-button>
+        <app-fancy-button icon="⚙️" label="Settings"></app-fancy-button>
+        <app-fancy-button icon="💾" label="Export"></app-fancy-button>
+    </div>
+
+    <div class="content">
+        <div class="settings-background">
+            <div class="frame">
+                <ng-container *ngFor="let input of configInputs">
+                    <app-configuration-input [config]="input" [inputs]="settings"></app-configuration-input>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <app-fancy-button icon="✅" label="Ok" color="#eeffee" (onClick)="onClose.emit()"></app-fancy-button>
+    </div>
+</div>

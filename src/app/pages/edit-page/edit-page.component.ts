@@ -27,6 +27,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public componentModalOpen: boolean = false;
     public globalEventsModalOpen: boolean = false;
+    public settingsModalOpen: boolean = false;
     public appRunning: boolean = false;
     public selectedComponentSnapshot: string = '';
     public appHtmlTemplateString?: string;
@@ -46,8 +47,16 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.stateService.getCurrentState();
     }
 
+    public get GridWidth(): number {
+        return this.State.settings.find(x => x.name === 'grid-width')!.value;
+    }
+
+    public get GridHeight(): number {
+        return this.State.settings.find(x => x.name === 'grid-height')!.value;
+    }
+
     public get ModalOpen(): boolean {
-        return this.componentModalOpen || this.globalEventsModalOpen;
+        return this.componentModalOpen || this.globalEventsModalOpen || this.settingsModalOpen;
     }
 
     public constructor(
@@ -174,6 +183,14 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.gridEditor?.activate();
     }
 
+    public openSettingsModal(): void {
+        this.settingsModalOpen = true;
+    }
+
+    public closeSettingsModal(): void {
+        this.settingsModalOpen = false;
+    }
+
     public onEditComponentOverlayClose(): void {
         this.closeComponentModal();
 
@@ -199,6 +216,10 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             this.stateService.push();
             this.gridEditor?.updateComponent(this.SelectedComponent);
         });*/
+    }
+
+    public onEditSettingsOverlayClose(): void {
+        this.closeSettingsModal();
     }
 
     private createGridEditor(): void {
@@ -316,8 +337,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             iframe.setAttribute('src', src);
             iframe.style.gridColumnStart = '1';
             iframe.style.gridRowStart = '1';
-            iframe.style.gridColumnEnd = `${this.State.width + 1}`;
-            iframe.style.gridRowEnd = `${this.State.height + 1}`;
+            iframe.style.gridColumnEnd = `${this.GridWidth + 1}`;
+            iframe.style.gridRowEnd = `${this.GridHeight + 1}`;
             iframe.classList.add('app-frame');
 
             this.gridEditor?.deactivate();

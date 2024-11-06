@@ -4,8 +4,33 @@ import { State } from "../types/state";
 
 //  TODO: remove this file, just for debugging
 export const initialState: State = {
-    "width": 6,
-    "height": 10,
+    "settings": [
+        {
+            "name": "grid-width",
+            "value": 6,
+            "variable": false,
+        },
+        {
+            "name": "grid-height",
+            "value": 10,
+            "variable": false,
+        },
+        {
+            "name": "container-padding",
+            "value": 0,
+            "variable": false,
+        },
+        {
+            "name": "background-color",
+            "value": "#FF0000",
+            "variable": false,
+        },
+        {
+            "name": "theme-color",
+            "value": "#00FF00",
+            "variable": false,
+        },
+    ],
     "globalEvents": [],
     "components": [
         {
