@@ -202,8 +202,9 @@ export class EditGlobalEventsOverlayComponent implements OnInit, OnDestroy {
 
     private goBack(): void {
         if (this.editModalOpen) { // any modal open
+            this.onEditModalClose();
+        } else {
             this.closeModal();
-            return;
         }
     }
 }
