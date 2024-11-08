@@ -73,7 +73,7 @@ export class ComponentConfigurationComponent implements OnInit, OnDestroy {
                 return;
 
             const clipboardState = this.editorService.getClipboardState();
-            if (!clipboardState)
+            if (!clipboardState?.component)
                 return;
 
             if (this.component.name !== clipboardState.component.name) {
@@ -114,7 +114,7 @@ export class ComponentConfigurationComponent implements OnInit, OnDestroy {
 
         this.events = [];
 
-        if (this.config.inputs.length > 0) {
+        if (true || this.config.inputs.length > 0) {
             this.events.push({
                 name: 'settings',
                 label: 'Settings',

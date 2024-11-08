@@ -11,7 +11,7 @@ import { InputConfiguration } from '../../../config/types';
 export class EditSettingsOverlayComponent implements OnInit {
 
     public configInputs: InputConfiguration[] = [];
-
+    
     @Input('settings') public settings: InputState[] = [];
     
     @Output('onClose') public onClose: EventEmitter<void> = new EventEmitter();

@@ -38,6 +38,7 @@ export class EventConfigurationComponent implements OnInit, OnChanges, OnDestroy
 
         this.subscription.add(this.editorService.paste$.subscribe(() => {
             const clipboardState = this.editorService.getClipboardState();
+            console.log(clipboardState);
             if (!clipboardState?.action)
                 return;
 
@@ -47,7 +48,7 @@ export class EventConfigurationComponent implements OnInit, OnChanges, OnDestroy
                 this.SelectedAction.inputs = clipboardState.action.inputs;
             }
             
-            this.editorService.setClipboardState(clipboardState.component, clipboardState.action);
+            //this.editorService.setClipboardState(clipboardState.component, clipboardState.action);
         }));
     }
 

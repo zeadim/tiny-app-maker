@@ -32,8 +32,8 @@
 
     <div class="footer">
         <div class="hgroup-8">
-            <app-fancy-button icon="⏪" label="" color="#e4e4e4"></app-fancy-button>
-            <app-fancy-button icon="⏩" label="" color="#e4e4e4"></app-fancy-button>
+            <app-fancy-button icon="⏪" label="" color="#e4e4e4" (onClick)="performUndo()"></app-fancy-button>
+            <app-fancy-button icon="⏩" label="" color="#e4e4e4" (onClick)="performRedo()"></app-fancy-button>
         </div>
 
         <div class="hgroup-8">

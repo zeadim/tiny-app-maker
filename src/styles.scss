@@ -69,10 +69,10 @@ body {
     user-select: none;
     //white-space: nowrap;
     //text-overflow: ellipsis;
+}
 
-    &.highlight {
-        animation: highlight 0.2s linear;
-    }
+.highlight {
+    animation: highlight 0.2s linear;
 }
 
 @keyframes highlight {

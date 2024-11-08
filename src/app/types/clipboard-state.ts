@@ -1,6 +1,7 @@
-import { ActionState, ComponentState } from "./state";
+import { ActionState, ComponentState, GlobalEventState } from "./state";
 
 export type ClipboardState = {
-    component: ComponentState,
+    component?: ComponentState,
     action?: ActionState,
+    globalEvent?: GlobalEventState,
 };

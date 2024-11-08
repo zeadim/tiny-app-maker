@@ -53,6 +53,6 @@
 
 <app-edit-settings-overlay
     *ngIf="settingsModalOpen"
-    [settings]="State.settings"
+    [settings]="stateService.settings"
     (onClose)="onEditSettingsOverlayClose()"
 ></app-edit-settings-overlay>

@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-import { ComponentState, State } from "../../../types/state";
+import { ComponentState, GridEditorState } from "../../../types/state";
 import { GridCell } from "./grid-cell";
 import { GridComponent } from "./grid-component";
 import { GridSelectionBox } from "./grid-selection-box";
@@ -30,7 +30,7 @@ export class GridEditor {
     public componentRightClick$: Subject<ComponentState> = new Subject();
     public componentDoubleClick$: Subject<ComponentState> = new Subject();
 
-    public constructor(containerElement: HTMLElement, initialState: State) {
+    public constructor(containerElement: HTMLElement, initialState: GridEditorState) {
         this.containerElement = containerElement;
 
         this.setEventListener(containerElement, 'contextmenu', (event: Event) => event.preventDefault());
@@ -58,12 +58,11 @@ export class GridEditor {
         }
     }
 
-    public syncState(state: State): void {
+    public syncState(state: GridEditorState): void {
         this.clearGridState();
 
-        // TODO: refactor settings.find(), done in multiple places, no default - perhaps do get it once at startup?
-        this.gridWidth = state.settings.find(x => x.name === 'grid-width')!.value;
-        this.gridHeight = state.settings.find(x => x.name === 'grid-height')!.value;
+        this.gridWidth = state.width;
+        this.gridHeight = state.height;
         this.addGridCells();
         state.components.forEach(x => this.addComponent(x));
     }

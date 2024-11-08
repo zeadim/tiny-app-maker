@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ClipboardState } from '../types/clipboard-state';
-import { ActionState, ComponentState } from 'app-template/src/types';
+import { ActionState, ComponentState, GlobalEventState } from '../types/state';
 import { StateService } from './state.service';
 import { ComponentConfiguration } from 'src/config/types';
+import { globalEventList } from 'src/config/global-event-list';
 
 @Injectable({
     providedIn: 'root'
@@ -25,13 +26,33 @@ export class EditorService {
     }
 
     public getClipboardState(): ClipboardState | undefined {
-        return this.clipboardState;
+        if (!this.clipboardState)
+            return undefined;
+
+        if (this.componentList === globalEventList) {
+            return {
+                component: this.clipboardState.globalEvent,
+                action: this.clipboardState.action,
+            };
+        } else {
+            return {
+                component: this.clipboardState.component,
+                action: this.clipboardState.action,
+            };
+        }
     }
 
     public setClipboardState(component: ComponentState, action?: ActionState): void {
-        this.clipboardState = {
-            component: this.stateService.copyComponent(component),
-            action: action ? this.stateService.copyAction(action) : undefined,
-        };
+        if (this.componentList === globalEventList) {
+            this.clipboardState = {
+                globalEvent: this.stateService.copyComponentState(component),
+                action: action ? this.stateService.copyActionState(action) : undefined,
+            };
+        } else {
+            this.clipboardState = {
+                component: this.stateService.copyComponentState(component),
+                action: action ? this.stateService.copyActionState(action) : undefined,
+            };
+        }
     }
 }

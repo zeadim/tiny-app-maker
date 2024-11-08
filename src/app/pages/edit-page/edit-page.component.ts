@@ -2,11 +2,12 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewCh
 import { fromEvent, Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { StateService } from '../../services/state.service';
 import { GridEditor } from './grid-editor/grid-editor';
-import { ComponentState, State } from '../../types/state';
-import { initialState as debugInitialState } from '../initial-state';
-import { componentList } from 'src/config/component-list';
-import { EditorService } from 'src/app/services/editor.service';
-import { globalEventList } from 'src/config/global-event-list';
+import { ComponentState } from '../../types/state';
+import { componentList } from '../../../config/component-list';
+import { EditorService } from '../../services/editor.service';
+import { globalEventList } from '../../../config/global-event-list';
+
+import { initialState } from '../initial-state';
 
 /*
 TODO:
@@ -16,6 +17,8 @@ TODO:
 - use proper icons from a package/svgs instead of emojis/unicode
 - check error handling in app components & actions (always try-catch, or also put it where invoked?)
 - check TODOs
+- add if, while, for loops (instead of goto?) -> close via "end" action used for all of them (inserted at end if missing)
+- possible to allow loading <script>s (either global namespace and/or module) for allowing more powerful apps?
 */
 
 @Component({
@@ -43,16 +46,12 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.gridEditor?.getSelectedComponent();
     }
 
-    public get State(): State {
-        return this.stateService.getCurrentState();
-    }
-
     public get GridWidth(): number {
-        return this.State.settings.find(x => x.name === 'grid-width')!.value;
+        return this.stateService.gridEditor.width;
     }
 
     public get GridHeight(): number {
-        return this.State.settings.find(x => x.name === 'grid-height')!.value;
+        return this.stateService.gridEditor.height;
     }
 
     public get ModalOpen(): boolean {
@@ -68,12 +67,16 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        const initialState = {
+        /*const settings = [] as InputState[];
+        const gridEditor = {
             width: 6,
             height: 10,
             components: [],
         };
-        this.stateService.setInitialState(debugInitialState);
+        const globalEvents = [] as GlobalEventState[];*/
+
+        const { settings, gridEditor, globalEvents } = initialState;
+        this.stateService.setInitialState(settings, gridEditor, globalEvents);
 
         fromEvent<KeyboardEvent>(window, 'keydown')
             .pipe(takeUntil(this.destroy$))
@@ -84,8 +87,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         // TODO: for debugging
         // @ts-ignore
         window.setState = (state) => {
-            this.stateService.setInitialState(state);
-            this.gridEditor?.syncState(state);
+            this.stateService.setInitialState(state.settings, state.gridEditor, state.globalEvents);
+            this.gridEditor?.syncState(state.gridEditor);
         };
     }
 
@@ -116,16 +119,16 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public performUndo(): void {
-        const changedComponent = this.stateService.undo();
-        this.gridEditor?.syncState(this.State);
+        const changedComponent = this.stateService.undoGridEditorState();
+        this.gridEditor?.syncState(this.stateService.gridEditor);
 
         if (changedComponent)
             this.gridEditor?.highlightComponent(changedComponent);
     }
 
     public performRedo(): void {
-        const changedComponent = this.stateService.redo();
-        this.gridEditor?.syncState(this.State);
+        const changedComponent = this.stateService.redoGridEditorState();
+        this.gridEditor?.syncState(this.stateService.gridEditor);
 
         if (changedComponent)
             this.gridEditor?.highlightComponent(changedComponent);
@@ -135,11 +138,11 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!component)
             return;
 
-        const index = this.State.components.indexOf(component);
+        const index = this.stateService.gridEditor.components.indexOf(component);
         if (index >= 0) {
             this.gridEditor?.removeComponent(component);
-            this.State.components.splice(index, 1);
-            this.stateService.push();
+            this.stateService.gridEditor.components.splice(index, 1);
+            this.stateService.pushGridEditorState();
         }
     }
 
@@ -199,7 +202,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.selectedComponentSnapshot === JSON.stringify(this.SelectedComponent))
                 return;
 
-            this.stateService.push();
+            this.stateService.pushGridEditorState();
             this.gridEditor?.updateComponent(this.SelectedComponent);
         });
     }
@@ -219,6 +222,26 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onEditSettingsOverlayClose(): void {
+        const width = this.stateService.settings.find(x => x.name === 'grid-width')?.value ?? 6;
+        const height = this.stateService.settings.find(x => x.name === 'grid-height')?.value ?? 10
+
+        this.stateService.gridEditor.width = width;
+        this.stateService.gridEditor.height = height;
+        this.stateService.settings = this.stateService.settings.filter(x => x.name !== 'grid-width' && x.name !== 'grid-height');
+
+        // Remove components outside of grid, if any
+        this.stateService.gridEditor.components = this.stateService.gridEditor.components.filter(component => {
+            if (component.x0 > width || component.y0 > height)
+                return false;
+
+            component.x1 = Math.min(component.x1, width);
+            component.y1 = Math.min(component.y1, height);
+            return true;
+        });
+
+        this.gridEditor?.syncState(this.stateService.gridEditor); // TODO: correct undo/redo for width and height change
+        this.stateService.pushGridEditorState();
+
         this.closeSettingsModal();
     }
 
@@ -228,10 +251,10 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.ngZone.runOutsideAngular(() => {
             this.gridEditor?.destroy();
-            this.gridEditor = new GridEditor(this.gridElementRef.nativeElement, this.State);
+            this.gridEditor = new GridEditor(this.gridElementRef.nativeElement, this.stateService.gridEditor);
             this.addGridEditorSubscription(this.gridEditor.selectedComponentChange$, x => this.onSelectedComponentChange(x));
             this.addGridEditorSubscription(this.gridEditor.cellClick$, x => this.createNewComponent(x.x, x.y));
-            this.addGridEditorSubscription(this.gridEditor.moveOrResizeEnd$, () => this.stateService.push());
+            this.addGridEditorSubscription(this.gridEditor.moveOrResizeEnd$, () => this.stateService.pushGridEditorState());
             this.addGridEditorSubscription(this.gridEditor.componentRightClick$, (x) => this.deleteComponent(x));
             this.addGridEditorSubscription(this.gridEditor.componentDoubleClick$, () => this.editSelectedComponent());
         });
@@ -247,12 +270,12 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!component)
             return;
 
-        const index = this.State.components.indexOf(component);
+        const index = this.stateService.gridEditor.components.indexOf(component);
         if (index < 0)
             return;
 
-        this.State.components.splice(index, 1);
-        this.State.components.push(component);
+        this.stateService.gridEditor.components.splice(index, 1);
+        this.stateService.gridEditor.components.push(component);
     }
 
     private createNewComponent(x: number, y: number): void {
@@ -266,14 +289,17 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             events: [],
         };
 
-        this.stateService.getCurrentState().components.push(component);
-        this.stateService.push();
+        this.stateService.gridEditor.components.push(component);
+        this.stateService.pushGridEditorState();
 
         this.gridEditor?.addComponent(component);
         this.gridEditor?.selectComponent(component);
     }
 
     private onKeyDown(event: KeyboardEvent): void {
+        if (this.globalEventsModalOpen)
+            return;
+
         if (event.key === 'Escape') {
             event.preventDefault();
             this.goBack();
@@ -304,7 +330,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // TODO: remove, just for debugging
     public test(): void {
-        console.log(this.State);
+        console.log(this.stateService.settings, this.stateService.gridEditor, this.stateService.globalEvents);
     }
 
     public runApp(): void {
@@ -323,7 +349,22 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.appHtmlTemplateString)
             return;
 
-        const json = JSON.stringify(this.State);
+        const json = JSON.stringify({
+            settings: this.stateService.settings.concat([
+                {
+                    name: 'grid-width',
+                    value: this.stateService.gridEditor.width,
+                    variable: false,
+                },
+                {
+                    name: 'grid-height',
+                    value: this.stateService.gridEditor.height,
+                    variable: false,
+                }
+            ]),
+            components: this.stateService.gridEditor.components,
+            globalEvents: this.stateService.globalEvents,
+        });
         const html = this.appHtmlTemplateString?.replace(' id="%APP_CONFIG%">', `>window.appConfig = ${json}`);
         const blob = new Blob([html], { type: 'text/html' });
         const src = URL.createObjectURL(blob);

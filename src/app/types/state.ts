@@ -1,7 +1,13 @@
 export type State = {
     settings: InputState[],
-    components: ComponentState[],
+    gridEditor: GridEditorState,
     globalEvents: GlobalEventState[],
+};
+
+export type GridEditorState = {
+    width: number,
+    height: number,
+    components: ComponentState[],
 };
 
 export type ComponentState = {

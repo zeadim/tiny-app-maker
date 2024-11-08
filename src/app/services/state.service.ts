@@ -1,20 +1,26 @@
-import { Injectable } from '@angular/core';
-import { ComponentState, InputState, State } from '../types/state';
+import {  Injectable } from '@angular/core';
+import { ComponentState, GridEditorState, InputState, ActionState, EventState, GlobalEventState } from '../types/state';
 import { componentList } from '../../config/component-list';
 import { actionList } from '../../config/action-list';
-import { ActionState, EventState } from 'app-template/src/types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class StateService {
 
-    private history: State[] = [];
-    private historyPointer: number = -1;
-    private currentState!: State;
     private variables: string[] = [];
     private componentConfigurationVariables: Map<string, Set<string>> = new Map();
     private actionConfigurationVariables: Map<string, Set<string>> = new Map();
+
+    private gridEditorHistory: GridEditorState[] = [];
+    private gridEditorHistoryPointer: number = -1;
+
+    private globalEventsHistory: GlobalEventState[][] = [];
+    private globalEventsHistoryPointer: number = -1;
+
+    public settings!: InputState[];
+    public gridEditor!: GridEditorState;
+    public globalEvents!: GlobalEventState[];
 
     public constructor() {
         for (const component of componentList) {
@@ -28,75 +34,114 @@ export class StateService {
         }
     }
 
-    public setInitialState(state: State): void {
-        this.historyPointer = -1;
-        this.currentState = state;
+    public setInitialState(settings: InputState[], gridEditor: GridEditorState, globalEvents: GlobalEventState[]): void {
+        this.gridEditorHistoryPointer = -1;
+        this.globalEventsHistoryPointer = -1;
+
+        this.settings = settings;
+        this.gridEditor = gridEditor;
+        this.globalEvents = globalEvents;
+
         this.updateVariables();
-        this.push();
+        this.pushGridEditorState();
+        this.pushGlobalEventsState();
     }
 
-    public getCurrentState(): State {
-        return this.currentState;
-    }
-
-    public undo(): ComponentState | undefined {
-        if (this.historyPointer < 0)
+    public undoGridEditorState(): ComponentState | undefined {
+        if (this.gridEditorHistoryPointer < 0)
             return;
 
-        const previousState = this.currentState;
-        this.historyPointer = Math.max(0, this.historyPointer - 1);
-        this.currentState = this.copy(this.history[this.historyPointer]);
+        const previousState = this.gridEditor;
+        this.gridEditorHistoryPointer = Math.max(0, this.gridEditorHistoryPointer - 1);
+        this.gridEditor = this.copyGridEditorState(this.gridEditorHistory[this.gridEditorHistoryPointer]);
         this.updateVariables();
-        return this.detectChangedComponent(previousState, this.currentState);
+
+        return this.detectChangedComponent(previousState.components, this.gridEditor.components);
     }
 
-    public redo(): ComponentState | undefined {
-        if (this.historyPointer >= this.history.length - 1)
+    public redoGridEditorState(): ComponentState | undefined {
+        if (this.gridEditorHistoryPointer >= this.gridEditorHistory.length - 1)
             return;
 
-        const previousState = this.currentState;
-        this.historyPointer += 1;
-        this.currentState = this.copy(this.history[this.historyPointer]);
+        const previousState = this.gridEditor;
+        this.gridEditorHistoryPointer += 1;
+        this.gridEditor = this.copyGridEditorState(this.gridEditorHistory[this.gridEditorHistoryPointer]);
         this.updateVariables();
-        return this.detectChangedComponent(previousState, this.currentState);
+
+        return this.detectChangedComponent(previousState.components, this.gridEditor.components);
     }
 
-    public push(): void {
-        this.historyPointer += 1;
-        this.history.length = this.historyPointer + 1;
-        this.history[this.historyPointer] = this.copy(this.currentState);
+    public undoGlobalEventsState(): GlobalEventState | undefined {
+        if (this.globalEventsHistoryPointer < 0)
+            return;
+
+        const previousState = this.globalEvents;
+        this.globalEventsHistoryPointer = Math.max(0, this.globalEventsHistoryPointer - 1);
+        this.globalEvents = this.copyGlobalEventsState(this.globalEventsHistory[this.globalEventsHistoryPointer]);
+        this.updateVariables();
+
+        return this.detectChangedComponent(previousState, this.globalEvents);
     }
 
-    public copy(state: State): State {
+    public redoGlobalEventsState(): GlobalEventState | undefined {
+        if (this.globalEventsHistoryPointer >= this.globalEventsHistory.length - 1)
+            return;
+
+        const previousState = this.globalEvents;
+        this.globalEventsHistoryPointer += 1;
+        this.globalEvents = this.copyGlobalEventsState(this.globalEventsHistory[this.globalEventsHistoryPointer]);
+        this.updateVariables();
+
+        return this.detectChangedComponent(previousState, this.globalEvents);
+    }
+
+    public pushGridEditorState(): void {
+        this.gridEditorHistoryPointer += 1;
+        this.gridEditorHistory.length = this.gridEditorHistoryPointer + 1;
+        this.gridEditorHistory[this.gridEditorHistoryPointer] = this.copyGridEditorState(this.gridEditor);
+    }
+
+    public pushGlobalEventsState(): void {
+        this.globalEventsHistoryPointer += 1;
+        this.globalEventsHistory.length = this.globalEventsHistoryPointer + 1;
+        this.globalEventsHistory[this.globalEventsHistoryPointer] = this.copyGlobalEventsState(this.globalEvents);
+    }
+
+    public copyGridEditorState(state: GridEditorState): GridEditorState {
         return {
-            ...state,
-            components: state.components.map(x => this.copyComponent(x)),
+            width: state.width,
+            height: state.height,
+            components: state.components.map(x => this.copyComponentState(x)),
         };
     }
 
-    public copyComponent(component: ComponentState): ComponentState {
+    public copyGlobalEventsState(state: GlobalEventState[]): GlobalEventState[] {
+        return state.map(x => this.copyComponentState(x));
+    }
+
+    public copyComponentState(component: ComponentState): ComponentState {
         return {
             ...component,
-            inputs: component.inputs.map(x => this.copyInput(x)),
-            events: component.events.map(x => this.copyEvent(x)),
+            inputs: component.inputs.map(x => this.copyInputState(x)),
+            events: component.events.map(x => this.copyEventState(x)),
         };
     }
 
-    public copyEvent(event: EventState): EventState {
+    public copyEventState(event: EventState): EventState {
         return {
             ...event,
-            actions: event.actions.map(x => this.copyAction(x)),
+            actions: event.actions.map(x => this.copyActionState(x)),
         };
     }
 
-    public copyAction(action: ActionState): ActionState {
+    public copyActionState(action: ActionState): ActionState {
         return {
             ...action,
-            inputs: action.inputs.map(x => this.copyInput(x)),
+            inputs: action.inputs.map(x => this.copyInputState(x)),
         };
     }
 
-    public copyInput(input: InputState): InputState {
+    public copyInputState(input: InputState): InputState {
         return { ...input };
     }
 
@@ -105,7 +150,7 @@ export class StateService {
     }
 
     public updateVariables(): void {
-        const variables = this.currentState.components.flatMap(component => {
+        const variables = this.gridEditor.components.flatMap(component => {
             const componentVariables = this.findVariablesInInputs(component.name, component.inputs, this.componentConfigurationVariables);
             const actionVariables = component.events
                 .flatMap(event => event.actions
@@ -127,20 +172,20 @@ export class StateService {
             .map(x => x.value.trim().toUpperCase());
     }
 
-    private detectChangedComponent(previousState: State, currentState: State): ComponentState | undefined {
+    private detectChangedComponent(previousState: ComponentState[], currentState: ComponentState[]): ComponentState | undefined {
         const unchangedComponents: ComponentState[] = [];
-        const previousStateStrings = previousState.components.map(x => JSON.stringify(x));
-        const currentStateStrings = currentState.components.map(x => JSON.stringify(x));
+        const previousStateStrings = previousState.map(x => JSON.stringify(x));
+        const currentStateStrings = currentState.map(x => JSON.stringify(x));
 
-        for (let i = 0; i < currentState.components.length; i++) {
-            for (let j = 0; j < previousState.components.length; j++) {
+        for (let i = 0; i < currentState.length; i++) {
+            for (let j = 0; j < previousState.length; j++) {
                 if (currentStateStrings[i] === previousStateStrings[j]) {
-                    unchangedComponents.push(currentState.components[i]);
+                    unchangedComponents.push(currentState[i]);
                     break;
                 }
             }
         }
 
-        return currentState.components.filter(x => !unchangedComponents.includes(x))[0];
+        return currentState.filter(x => !unchangedComponents.includes(x))[0];
     }
 }
