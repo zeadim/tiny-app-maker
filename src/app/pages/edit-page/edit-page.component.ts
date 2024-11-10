@@ -17,6 +17,8 @@ TODO:
 - use proper icons from a package/svgs instead of emojis/unicode
 - check error handling in app components & actions (always try-catch, or also put it where invoked?)
 - check TODOs
+- make copy/paste work via actual system's clipboard if possible (to copy/paste on reload and on different editor instances)
+- bug: settings width/height not loaded correctly on settings menu open
 - add if, while, for loops (instead of goto?) -> close via "end" action used for all of them (inserted at end if missing)
 - possible to allow loading <script>s (either global namespace and/or module) for allowing more powerful apps?
 */
@@ -66,7 +68,11 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         //
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        fromEvent<KeyboardEvent>(window, 'keydown')
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((event: KeyboardEvent) => this.onKeyDown(event));
+
         /*const settings = [] as InputState[];
         const gridEditor = {
             width: 6,
@@ -75,14 +81,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         };
         const globalEvents = [] as GlobalEventState[];*/
 
-        const { settings, gridEditor, globalEvents } = initialState;
-        this.stateService.setInitialState(settings, gridEditor, globalEvents);
-
-        fromEvent<KeyboardEvent>(window, 'keydown')
-            .pipe(takeUntil(this.destroy$))
-            .subscribe((event: KeyboardEvent) => this.onKeyDown(event));
-
-        this.loadAppTemplate();
+        //const { settings, gridEditor, globalEvents } = initialState;
+        //this.stateService.setInitialState(settings, gridEditor, globalEvents);
 
         // TODO: for debugging
         // @ts-ignore
@@ -109,7 +109,14 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    public ngAfterViewInit(): void {
+    public async ngAfterViewInit(): Promise<void> {
+        let hash = location.hash;
+        if (hash.startsWith('#'))
+            hash = hash.slice(1);
+        await this.stateService.setInitialStateFromHash(hash, initialState);
+        
+        await this.loadAppTemplate();
+
         this.createGridEditor();
     }
 
@@ -333,7 +340,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(this.stateService.settings, this.stateService.gridEditor, this.stateService.globalEvents);
     }
 
-    public runApp(): void {
+    public async runApp(): Promise<void> {
         if (this.appRunning) {
             const iframe = document.querySelector('iframe');
             if (iframe) {
@@ -349,7 +356,7 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.appHtmlTemplateString)
             return;
 
-        const json = JSON.stringify({
+        /*const json = JSON.stringify({
             settings: this.stateService.settings.concat([
                 {
                     name: 'grid-width',
@@ -367,19 +374,28 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         const html = this.appHtmlTemplateString?.replace(' id="%APP_CONFIG%">', `>window.appConfig = ${json}`);
         const blob = new Blob([html], { type: 'text/html' });
-        const src = URL.createObjectURL(blob);
+        const src = URL.createObjectURL(blob);*/
+
+        const hash = await this.stateService.getStateHash();
+        let url = location.href;
+        if (url.indexOf('#') >= 0)
+            url = url.slice(0, url.indexOf('#'));
+        if (url.endsWith('/'))
+            url = url.slice(0, url.length - 1);
+        const src = `${url}/x#${hash}`;
 
         if (false /*openInNewTab*/) {
             window.open(src, '_blank');
         } else {
             const iframe = document.createElement('iframe');
 
-            iframe.setAttribute('frameBorder', '0');
+            iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('src', src);
             iframe.style.gridColumnStart = '1';
             iframe.style.gridRowStart = '1';
             iframe.style.gridColumnEnd = `${this.GridWidth + 1}`;
             iframe.style.gridRowEnd = `${this.GridHeight + 1}`;
+            iframe.style.padding = '3px';
             iframe.classList.add('app-frame');
 
             this.gridEditor?.deactivate();

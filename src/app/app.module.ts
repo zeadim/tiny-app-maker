@@ -13,6 +13,7 @@ import { EventConfigurationComponent } from './components/event-configuration/ev
 import { ActionConfigurationComponent } from './components/action-configuration/action-configuration.component';
 import { EditGlobalEventsOverlayComponent } from './components/edit-global-events-overlay/edit-global-events-overlay.component';
 import { EditSettingsOverlayComponent } from './components/edit-settings-overlay/edit-settings-overlay.component';
+import { AppPageComponent } from './pages/app-page/app-page.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { EditSettingsOverlayComponent } from './components/edit-settings-overlay
         ActionConfigurationComponent,
         EditGlobalEventsOverlayComponent,
         EditSettingsOverlayComponent,
+        AppPageComponent,
     ],
     imports: [
         BrowserModule,

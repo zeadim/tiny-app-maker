@@ -19,6 +19,8 @@ export class Component extends InputListenerActionSource {
         this.y1 = y1;
 
         this.htmlElement = this.createHtmlElement();
+        this.htmlElement.style.minWidth = '0';
+        this.htmlElement.style.minHeight = '0';
         /*const div = document.createElement('div');
         div.style.display = 'flex';
         div.style.minWidth = '0';

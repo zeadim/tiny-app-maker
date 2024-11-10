@@ -1,5 +1,6 @@
 import { Component } from "./component";
 
+// TODO: fix entering decimal numbers (dot, comma), because of two-way binding
 export class $NumberInput extends Component {
     private input!: HTMLInputElement;
     private outputVariable!: string;
@@ -9,6 +10,7 @@ export class $NumberInput extends Component {
         this.input = document.createElement('input');
 
         this.input.setAttribute('type', 'number');
+        this.input.setAttribute('step', 'any');
         this.input.style.minWidth = '0';
         this.input.style.minHeight = '0';
 

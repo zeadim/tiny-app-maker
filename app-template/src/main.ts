@@ -8,12 +8,44 @@ import './style.css';
 window.addEventListener('load', () => initializeApp());
 window.addEventListener('beforeunload', () => window.speechSynthesis.cancel());
 
-function initializeApp() {
-    const { settings, components, globalEvents } = (window as any).appConfig as State;
+async function decompress(byteArray: ArrayBuffer): Promise<string> {
+    const cs = new DecompressionStream('deflate-raw');
+    const writer = cs.writable.getWriter();
+    writer.write(byteArray);
+    writer.close();
+    const arrayBuffer = await new Response(cs.readable).arrayBuffer();
+    return new TextDecoder().decode(arrayBuffer);
+}
+
+function convertFromBase64(encoded: string): ArrayBuffer {
+    const binary = atob(encoded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < bytes.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes;
+}
+
+async function initializeApp(): Promise<void> {
+    let hash = location.hash;
+    if (hash.startsWith('#'))
+        hash = hash.slice(1);
+    console.log('hash', hash);
+
+    try {
+        const json = await decompress(convertFromBase64(hash));
+        const data = JSON.parse(json);
+        console.log('data', data);
+        (window as any).appConfig = data;
+    } catch (err) {
+        //
+    }
+
+    const { settings, gridEditor, globalEvents } = (window as any).appConfig as State;
     const gridElement = document.getElementById('grid')!;
 
-    const width = settings.find(x => x.name === 'grid-width')!.value;
-    const height = settings.find(x => x.name === 'grid-height')!.value;
+    const width = gridEditor.width;
+    const height = gridEditor.height;
 
     // Create app page grid
     gridElement.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
@@ -34,7 +66,7 @@ function initializeApp() {
     // Set up app with components and events
     const app = new App(gridElement);
 
-    for (const componentConfig of components) {
+    for (const componentConfig of gridEditor.components) {
         const { name, x0, y0, x1, y1, inputs, events } = componentConfig;
 
         const ComponentClass = componentMap.get(name);

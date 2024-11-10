@@ -9,6 +9,7 @@ import { $Slider } from "./components/slider";
 import { $VideoPlayer } from "./components/video-player";
 import { $BooleanInput } from "./components/boolean-input";
 import { $YouTubeVideo } from "./components/youtube-video";
+import { $WebsiteEmbedding } from "./components/website-embedding";
 
 // Maps name of component as used in configuration to its class implementation
 export const componentMap = new Map<string, typeof Component>([
@@ -22,4 +23,5 @@ export const componentMap = new Map<string, typeof Component>([
     ["video-player", $VideoPlayer],
     ["boolean-input", $BooleanInput],
     ["youtube-video", $YouTubeVideo],
+    ["website-embedding", $WebsiteEmbedding],
 ]);

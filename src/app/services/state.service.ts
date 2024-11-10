@@ -1,5 +1,5 @@
-import {  Injectable } from '@angular/core';
-import { ComponentState, GridEditorState, InputState, ActionState, EventState, GlobalEventState } from '../types/state';
+import { Injectable } from '@angular/core';
+import { ComponentState, GridEditorState, InputState, ActionState, EventState, GlobalEventState, State } from '../types/state';
 import { componentList } from '../../config/component-list';
 import { actionList } from '../../config/action-list';
 
@@ -35,6 +35,7 @@ export class StateService {
     }
 
     public setInitialState(settings: InputState[], gridEditor: GridEditorState, globalEvents: GlobalEventState[]): void {
+        console.log(settings, gridEditor, globalEvents);
         this.gridEditorHistoryPointer = -1;
         this.globalEventsHistoryPointer = -1;
 
@@ -149,7 +150,42 @@ export class StateService {
         return this.variables;
     }
 
+    public async getStateHash(): Promise<string> {
+        const json = JSON.stringify({
+            settings: this.settings,
+            gridEditor: this.gridEditor,
+            globalEvents: this.globalEvents,
+        });
+
+        return this.convertToBase64(await this.compress(json));
+    }
+
+    public async setInitialStateFromHash(hash: string, defaultState: State): Promise<void> {
+        let data: State | undefined;
+        try {
+
+            const json = await this.decompress(this.convertFromBase64(hash));
+            data = JSON.parse(json);
+        } catch (err) {
+            //
+        }
+
+        if (!data)
+            data = defaultState;
+
+        console.log(hash, 'data (default? ' + (data === defaultState) + ')', data);
+
+        this.setInitialState(data.settings, data.gridEditor, data.globalEvents);
+    }
+
     public updateVariables(): void {
+        (async () => {
+            // TODO: put this hash update in a more correct, central place
+            const hash = await this.getStateHash();
+            location.hash = hash;
+            console.log('hash updated');
+        })();
+
         const variables = this.gridEditor.components.flatMap(component => {
             const componentVariables = this.findVariablesInInputs(component.name, component.inputs, this.componentConfigurationVariables);
             const actionVariables = component.events
@@ -187,5 +223,36 @@ export class StateService {
         }
 
         return currentState.filter(x => !unchangedComponents.includes(x))[0];
+    }
+
+    private convertToBase64(arrayBuffer: ArrayBuffer): string {
+        return btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    }
+
+    private convertFromBase64(encoded: string): ArrayBuffer {
+        const binary = atob(encoded);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < bytes.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    private async compress(str: string): Promise<ArrayBuffer> {
+        const byteArray = new TextEncoder().encode(str);
+        const cs = new CompressionStream('deflate-raw');
+        const writer = cs.writable.getWriter();
+        writer.write(byteArray);
+        writer.close();
+        return new Response(cs.readable).arrayBuffer();
+    }
+
+    private async decompress(byteArray: ArrayBuffer): Promise<string> {
+        const cs = new DecompressionStream('deflate-raw');
+        const writer = cs.writable.getWriter();
+        writer.write(byteArray);
+        writer.close();
+        const arrayBuffer = await new Response(cs.readable).arrayBuffer();
+        return new TextDecoder().decode(arrayBuffer);
     }
 }
