@@ -19,6 +19,7 @@ TODO:
 - check TODOs
 - make copy/paste work via actual system's clipboard if possible (to copy/paste on reload and on different editor instances)
 - bug: settings width/height not loaded correctly on settings menu open
+- determine iframe configurations (values for 'allow', 'sandbox' attributes etc.) + does iframe nesting work for non-same-origin?
 - add if, while, for loops (instead of goto?) -> close via "end" action used for all of them (inserted at end if missing)
 - possible to allow loading <script>s (either global namespace and/or module) for allowing more powerful apps?
 */
@@ -382,7 +383,8 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
             url = url.slice(0, url.indexOf('#'));
         if (url.endsWith('/'))
             url = url.slice(0, url.length - 1);
-        const src = `${url}/x#${hash}`;
+        //const src = `${url}/x#${hash}`;
+        const src = `${url}/assets/index.html#${hash}`;
 
         if (false /*openInNewTab*/) {
             window.open(src, '_blank');

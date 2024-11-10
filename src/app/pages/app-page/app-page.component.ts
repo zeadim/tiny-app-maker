@@ -16,7 +16,7 @@ export class AppPageComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit(): void {
         const hash = location.hash;
         const contents = hash.startsWith('#') ? hash.slice(1) : hash;
-        const src = `http://localhost:4600/assets/index.html#${contents}`;
+        const src = `${location.origin}/assets/index.html#${contents}`;
 
         if (window.self !== window.top) {
             location.href = src;

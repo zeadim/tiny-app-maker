@@ -30,16 +30,19 @@ async function initializeApp(): Promise<void> {
     let hash = location.hash;
     if (hash.startsWith('#'))
         hash = hash.slice(1);
-    console.log('hash', hash);
 
     try {
         const json = await decompress(convertFromBase64(hash));
         const data = JSON.parse(json);
-        console.log('data', data);
         (window as any).appConfig = data;
     } catch (err) {
         //
     }
+
+    const insideIframe = window.self !== window.top;
+    /*if (insideIframe) {
+        document.body.style.padding = '1px';
+    }*/
 
     const { settings, gridEditor, globalEvents } = (window as any).appConfig as State;
     const gridElement = document.getElementById('grid')!;
@@ -115,7 +118,7 @@ class SettingsController extends InputListenerActionSource {
         });
         
         this.addInputNumberListener('container-padding', (value) => {
-            document.body.style.padding = `${value ?? 0}px`;
+            document.getElementById('grid')!.style.padding = `${value ?? 0}px`;
         });
 
         this.addInputColorListener('background-color', (value) => {

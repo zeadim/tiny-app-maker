@@ -47,11 +47,15 @@ export class GridEditor {
     }
 
     public activate(): void {
+        Array.from(this.containerElement.children).forEach(x => (x as HTMLElement).style.visibility = 'visible');
+
         this.setEventListener(window, 'pointermove', (event: PointerEvent) => this.onPointerMove(event));
         this.setEventListener(window, 'pointerup', () => this.onPointerCancel());
     }
 
     public deactivate(): void {
+        Array.from(this.containerElement.children).forEach(x => (x as HTMLElement).style.visibility = 'hidden');
+        
         for (const [element, eventName, handler] of this.eventListeners) {
             if (element === window)
                 element.removeEventListener(eventName, handler, false);
