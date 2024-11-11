@@ -2,7 +2,7 @@ import { ActionConfiguration } from "../../types";
 
 export const invokeFunction: ActionConfiguration = {
     name: 'invoke-function',
-    label: 'Invoke Function',
+    label: 'Call Function',
     group: 'other',
     inputs: [
         {

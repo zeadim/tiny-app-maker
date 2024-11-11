@@ -9,21 +9,6 @@ import { globalEventList } from '../../../config/global-event-list';
 
 import { initialState } from '../initial-state';
 
-/*
-TODO:
-- how to work with booleans (conditions, truthy/falsy values as well as checkbox inputs)? Separate type or 0 and 1?
-- how to handle different app types, like file (image/video/audio) etc.? Also via ID like web sockets?
-- improve UI: more uniform colors (inputs <-> action list + event buttons, background, header/footer buttons etc.)
-- use proper icons from a package/svgs instead of emojis/unicode
-- check error handling in app components & actions (always try-catch, or also put it where invoked?)
-- check TODOs
-- make copy/paste work via actual system's clipboard if possible (to copy/paste on reload and on different editor instances)
-- bug: settings width/height not loaded correctly on settings menu open
-- determine iframe configurations (values for 'allow', 'sandbox' attributes etc.) + does iframe nesting work for non-same-origin?
-- add if, while, for loops (instead of goto?) -> close via "end" action used for all of them (inserted at end if missing)
-- possible to allow loading <script>s (either global namespace and/or module) for allowing more powerful apps?
-*/
-
 @Component({
     selector: 'app-edit-page',
     templateUrl: './edit-page.component.html',
@@ -231,21 +216,20 @@ export class EditPageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public onEditSettingsOverlayClose(): void {
         const width = this.stateService.settings.find(x => x.name === 'grid-width')?.value ?? 6;
-        const height = this.stateService.settings.find(x => x.name === 'grid-height')?.value ?? 10
+        const height = this.stateService.settings.find(x => x.name === 'grid-height')?.value ?? 10;
 
         this.stateService.gridEditor.width = width;
         this.stateService.gridEditor.height = height;
         this.stateService.settings = this.stateService.settings.filter(x => x.name !== 'grid-width' && x.name !== 'grid-height');
 
         // Remove components outside of grid, if any
-        this.stateService.gridEditor.components = this.stateService.gridEditor.components.filter(component => {
-            if (component.x0 > width || component.y0 > height)
-                return false;
-
-            component.x1 = Math.min(component.x1, width);
-            component.y1 = Math.min(component.y1, height);
-            return true;
-        });
+        this.stateService.gridEditor.components = this.stateService.gridEditor.components
+            .filter(component => component.x0 <= width && component.y0 <= height)
+            .map(component => {
+                component.x1 = Math.min(component.x1, width + 1);
+                component.y1 = Math.min(component.y1, height + 1);
+                return component;
+            });
 
         this.gridEditor?.syncState(this.stateService.gridEditor); // TODO: correct undo/redo for width and height change
         this.stateService.pushGridEditorState();

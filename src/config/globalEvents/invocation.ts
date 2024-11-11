@@ -2,7 +2,7 @@ import { GlobalEventConfiguration } from "../types";
 
 export const invocation: GlobalEventConfiguration = {
     name: 'invocation',
-    label: 'On Function Invocation',
+    label: 'On Function Call',
     group: '',
     inputs: [
         {
@@ -14,7 +14,7 @@ export const invocation: GlobalEventConfiguration = {
     events: [
         {
             name: 'invoke',
-            label: 'On Invoke',
+            label: 'On Call',
         }
     ],
 };
