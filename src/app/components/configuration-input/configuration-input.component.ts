@@ -17,7 +17,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
     public id: string = '';
     public variableOptions: string[] = [];
     public currentConstantValue?: any;
-    public currentVariableValue?: string;
+    public currentVariableValue: string = '';
     public subscription = new Subscription();
 
     public value: any;
@@ -74,7 +74,7 @@ export class ConfigurationInputComponent implements OnInit, OnDestroy {
         else
             this.value = this.currentConstantValue;
 
-        this.input.value = this.variable ? value : this.convertValue(this.value);
+        this.input.value = this.variable ? this.value : this.convertValue(this.value);
     }
 
     public constructor(

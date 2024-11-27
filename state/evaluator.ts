@@ -24,7 +24,7 @@ export class Evaluator {
 
             case 'variable':
                 this.queries.add(node.name);
-                console.log('GETVAR', node.name, this.variables.get(node.name), this.variables);
+                //console.log('GETVAR', node.name, this.variables.get(node.name), this.variables);
                 return this.variables.get(node.name);
 
             case 'unary':

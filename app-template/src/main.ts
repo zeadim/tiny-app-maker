@@ -42,13 +42,13 @@ async function initializeApp(): Promise<void> {
             hash = hash.slice(1);
         }
         const code = await decompress(convertFromBase64(hash));
-        console.log("CODE:", code);
+        //console.log("CODE:", code);
         const tokenizer = new Tokenizer(code);
         const parser = new Parser(code, tokenizer.tokenizeCode());
         const program = parser.parseProgram();
         const converter = new Converter();
         const data = converter.convertProgram(program);
-        console.log("DATA:", data);
+        //console.log("DATA:", data);
 
         (window as any).appConfig = data;
     } catch (err) {
