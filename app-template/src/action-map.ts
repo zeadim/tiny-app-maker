@@ -58,7 +58,10 @@ export const actionMap = new Map<string, typeof Action>([
 
     // assignment
     ["assign-text", $AssignVariable],
+    ["assign-number", $AssignVariable],
+    ["assign-boolean", $AssignVariable],
+    ["assign-color", $AssignVariable],
 
     // math
-    ["add", $Add],
+    //["add", $Add],
 ]);

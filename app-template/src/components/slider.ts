@@ -22,8 +22,10 @@ export class $Slider extends Component {
             if (this.initialValueSet)
                 return;
 
-            this.updateInputValue(value ?? 0);
-            this.updateOutputVariable();
+            setTimeout(() => {
+                this.updateInputValue(value ?? 0);
+                this.updateOutputVariable();
+            }, 0); // Needed for slider somehow
         });
 
         this.addInputNumberListener('min-value', (value) => {
@@ -47,6 +49,10 @@ export class $Slider extends Component {
             this.updateOutputVariable();
         });
 
+        this.addInputBooleanListener('orientation', (value) => {
+            this.input.style.writingMode = value ? 'vertical-lr' : 'horizontal-tb';
+        });
+
         return this.input;
     }
 
@@ -54,11 +60,11 @@ export class $Slider extends Component {
         if (value === undefined)
             this.input.value = '';
         else
-            this.input.valueAsNumber = value;
+            this.input.value = value.toString();
     }
 
     private updateOutputVariable(): void {
-        const value = this.input.valueAsNumber;
+        const value = +this.input.value;
         this.app.setVariableValue(this.outputVariable, Number.isFinite(value) ? value : undefined);
     }
 }

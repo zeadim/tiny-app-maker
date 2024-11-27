@@ -12,12 +12,15 @@
         </div>
 
         <div *ngSwitchCase="'variable'" class="input">
+            <app-expression-input [(expression)]="Value"></app-expression-input>
+            <!--
             <input [attr.list]="id" type="text" [(ngModel)]="Value" spellcheck="false" autocomplete="off"
                 class="variable" />
             <datalist [id]="id" *ngIf="!IsOutput">
                 <option *ngFor="let variableOption of VariableOptions" [value]="variableOption">{{variableOption}}
                 </option>
             </datalist>
+            -->
         </div>
 
         <div *ngSwitchCase="'boolean'" class="input">

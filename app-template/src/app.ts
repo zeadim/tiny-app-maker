@@ -1,5 +1,7 @@
+import { ExpressionNode } from "../../state/parser";
 import { Component } from "./components/component";
 import { Addressable, AddressableType } from "./types";
+import { Evaluator } from "../../state/evaluator";
 
 // TODO:
 // - instead of passing app instance through classes, make it global/static
@@ -152,5 +154,14 @@ export class App extends EventTarget {
 
         const isInvalidColor = typeof value !== 'string' || !value.trim().startsWith('#') || value.trim().length < 7;
         return isInvalidColor ? '#000000' : value.trim().slice(0, 7);
+    }
+
+    public evaluateExpression(expression: ExpressionNode): [any, Set<string>] {
+        const evaluator = new Evaluator(this.variables);
+        let value = evaluator.evaluateExpression(expression);
+        if (typeof value === 'number') {
+            value = Math.floor(value * 10000) / 10000;
+        }
+        return [value, evaluator.queries];
     }
 }

@@ -1,10 +1,10 @@
 import { Component } from "./component";
 
-// TODO: fix entering decimal numbers (dot, comma), because of two-way binding
 export class $NumberInput extends Component {
     private input!: HTMLInputElement;
     private outputVariable!: string;
     private initialValueSet!: boolean;
+    private currentValue!: string;
 
     protected override createHtmlElement(): HTMLElement {
         this.input = document.createElement('input');
@@ -16,6 +16,7 @@ export class $NumberInput extends Component {
 
         this.outputVariable = this.getInputVariable('output-number');
         this.initialValueSet = false;
+        this.currentValue = '';
 
         // setTimeout to let variable values be propagated once
         setTimeout(() => this.initialValueSet = true, 0);
@@ -42,17 +43,23 @@ export class $NumberInput extends Component {
         });
 
         this.input.addEventListener('input', () => {
+            this.updateInputValue(this.input.value);
             this.updateOutputVariable();
         });
 
         return this.input;
     }
 
-    private updateInputValue(value: number | undefined): void {
-        if (value === undefined)
-            this.input.value = '';
-        else
-            this.input.valueAsNumber = value;
+    private updateInputValue(value: string | number | undefined): void {
+        if (typeof value === 'string') {
+            this.currentValue = value;
+        } else {
+            this.currentValue = Number.isFinite(value) ? value!.toString() : '';
+        }
+
+        if (this.input.value !== this.currentValue) {
+            this.input.value = this.currentValue;
+        }
     }
 
     private updateOutputVariable(): void {

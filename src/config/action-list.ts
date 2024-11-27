@@ -23,6 +23,9 @@ import { loadVideo } from "./actions/audio/load-video";
 import { openUrl } from "./actions/popup/open-url";
 import { changeCurrentTime } from "./actions/audio/change-current-time";
 import { invokeFunction } from "./actions/other/invoke-function";
+import { assignNumber } from "./actions/assignment/assign-number";
+import { assignBoolean } from "./actions/assignment/assign-boolean";
+import { assignColor } from "./actions/assignment/assign-color";
 
 export const actionList: ActionConfiguration[] = [
     doNothing,
@@ -60,7 +63,10 @@ export const actionList: ActionConfiguration[] = [
 
     // assignment
     assignText,
+    assignNumber,
+    assignBoolean,
+    assignColor,
 
     // math
-    add,
+    //add,
 ];

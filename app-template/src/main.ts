@@ -3,6 +3,9 @@ import { componentMap } from './component-map';
 import { globalEventMap } from './global-event-map';
 import { InputListenerActionSource } from './input-listener-action-source';
 import { InputState, State } from './types';
+import { Tokenizer } from '../../state/tokenizer';
+import { Parser } from '../../state/parser';
+import { Converter } from '../../state/converter';
 import './style.css';
 
 window.addEventListener('load', () => initializeApp());
@@ -32,11 +35,24 @@ async function initializeApp(): Promise<void> {
         hash = hash.slice(1);
 
     try {
-        const json = await decompress(convertFromBase64(hash));
-        const data = JSON.parse(json);
+        /*const json = await decompress(convertFromBase64(hash));
+        const data = JSON.parse(json);*/
+
+        if (hash.startsWith("/")) {
+            hash = hash.slice(1);
+        }
+        const code = await decompress(convertFromBase64(hash));
+        console.log("CODE:", code);
+        const tokenizer = new Tokenizer(code);
+        const parser = new Parser(code, tokenizer.tokenizeCode());
+        const program = parser.parseProgram();
+        const converter = new Converter();
+        const data = converter.convertProgram(program);
+        console.log("DATA:", data);
+
         (window as any).appConfig = data;
     } catch (err) {
-        //
+        console.error(err);
     }
 
     const insideIframe = window.self !== window.top;
@@ -122,7 +138,10 @@ class SettingsController extends InputListenerActionSource {
         });
 
         this.addInputColorListener('background-color', (value) => {
-            // TODO
+            (document.querySelector('.grid') as HTMLElement).style.backgroundColor = value ?? '#fff';
+            document.querySelectorAll('.grid-cell').forEach(x => {
+                (x as HTMLElement).style.backgroundColor = value ?? '#fff';
+            });
         });
         
         this.addInputColorListener('theme-color', (value) => {

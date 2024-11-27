@@ -6,14 +6,18 @@ import { EventState, InputState } from "./types";
 
 export class InputListenerActionSource extends InputHolder {
     private inputListeners = new Map<string, (value: any) => unknown>();
-    private inputVariablesReversed = new Map<string, string>();
+    private inputVariablesReversed = new Map<string, string[]>();
     private events = new Map<string, Action[]>();
 
     public constructor(app: App, inputs: InputState[], events: EventState[]) {
         super(app, inputs);
 
-        for (const [name, variable] of this.inputVariables) {
+        /*for (const [name, variable] of this.inputVariables) {
             this.inputVariablesReversed.set(variable, name);
+        }*/
+
+        for (const [name, expression] of this.inputExpressions) {
+            
         }
 
         for (const event of events) {
@@ -87,9 +91,15 @@ export class InputListenerActionSource extends InputHolder {
     private onVariableChange(event: CustomEvent): void {
         const { variable, value } = event.detail;
 
-        if (this.inputVariablesReversed.has(variable)) {
-            const name = this.inputVariablesReversed.get(variable)!;
+        /*if (this.inputVariablesReversed.has(variable)) {
+            const name = this.inputVariablesReversed.get(variable)!; // TODO: bug? what if multiple inputs use same variable?
             this.notifyInputUpdate(name, value);
+        }*/
+       
+        for (const [name, expression] of this.inputExpressions) {
+            if (expression.changedVariables.has(variable)) {
+                this.notifyInputUpdate(name, expression.evaluate(this.app));
+            }
         }
     }
 

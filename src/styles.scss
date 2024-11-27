@@ -194,6 +194,20 @@ body {
     margin: -3px;
 }
 
+.token {
+    display: inline-block;
+}
+
+.type-value {
+    color: #c94;
+}
+
+.type-identifier {
+    color: #44c;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
 // TODO: add small intervals here (from font-size 15px to 10px or something)
 @media (max-height: 700px) {
     :root {

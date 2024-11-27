@@ -1,0 +1,39 @@
+export type State = {
+    settings: InputState[],
+    gridEditor: GridEditorState,
+    globalEvents: GlobalEventState[],
+};
+
+export type GridEditorState = {
+    width: number,
+    height: number,
+    components: ComponentState[],
+};
+
+export type ComponentState = {
+    name: string,
+    x0: number,
+    y0: number,
+    x1: number,
+    y1: number,
+    inputs: InputState[],
+    events: EventState[],
+};
+
+export type GlobalEventState = ComponentState;
+
+export type InputState = {
+    name: string,
+    value: any,
+    variable: boolean,
+};
+
+export type EventState = {
+    name: string,
+    actions: ActionState[],
+};
+
+export type ActionState = {
+    name: string,
+    inputs: InputState[],
+};

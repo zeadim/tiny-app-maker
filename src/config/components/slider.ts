@@ -21,6 +21,14 @@ export const slider: ComponentConfiguration = {
             type: 'number',
         },
         {
+            name: 'orientation',
+            label: 'Orientation',
+            type: 'boolean',
+            defaultValue: false,
+            trueLabel: 'Vertical',
+            falseLabel: 'Horizontal',
+        },
+        {
             name: 'output-value',
             label: 'Current Value',
             type: 'variable',

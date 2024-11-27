@@ -28,12 +28,12 @@ export class EditSettingsOverlayComponent implements OnInit {
 
         this.stateService.settings.push({
             name: 'grid-width',
-            value: this.stateService.gridEditor.width,
-            variable: false,
+            value: `${this.stateService.gridEditor.width}`,
+            variable: true,
         }, {
             name: 'grid-height',
-            value: this.stateService.gridEditor.height,
-            variable: false,
+            value: `${this.stateService.gridEditor.height}`,
+            variable: true,
         });
     }
 

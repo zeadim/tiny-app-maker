@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { ComponentState, GridEditorState, InputState, ActionState, EventState, GlobalEventState, State } from '../types/state';
 import { componentList } from '../../config/component-list';
 import { actionList } from '../../config/action-list';
+import { Deconverter } from 'state/deconverter';
+import { Converter } from 'state/converter';
+import { Tokenizer } from 'state/tokenizer';
+import { Parser } from 'state/parser';
 
 @Injectable({
     providedIn: 'root'
@@ -151,23 +155,50 @@ export class StateService {
     }
 
     public async getStateHash(): Promise<string> {
-        const json = JSON.stringify({
+        /*const json = JSON.stringify({
             settings: this.settings,
             gridEditor: this.gridEditor,
             globalEvents: this.globalEvents,
         });
 
-        return this.convertToBase64(await this.compress(json));
+        return this.convertToBase64(await this.compress(json));*/
+
+        const deconverter = new Deconverter();
+        const code = deconverter.deconvertProgram({
+            settings: this.settings,
+            gridEditor: this.gridEditor,
+            globalEvents: this.globalEvents,
+        });
+
+        return "/" + this.convertToBase64(await this.compress(code));
     }
 
     public async setInitialStateFromHash(hash: string, defaultState: State): Promise<void> {
         let data: State | undefined;
         try {
+            /*const json = await this.decompress(this.convertFromBase64(hash));
+            data = JSON.parse(json);*/
 
-            const json = await this.decompress(this.convertFromBase64(hash));
-            data = JSON.parse(json);
+            let code: string = "";
+
+            if (!hash.startsWith("/")) {
+                code = decodeURIComponent(hash);
+            } else {
+                const base64 = hash.slice(1);
+                code = await this.decompress(this.convertFromBase64(base64));
+            }
+
+            console.log('loading', code);
+            const tokenizer = new Tokenizer(code);
+            const tokens = tokenizer.tokenizeCode();
+            console.log('tokens:', tokens);
+            const parser = new Parser(code, tokens);
+            const program = parser.parseProgram();
+            const converter = new Converter();
+            data = converter.convertProgram(program);
+            console.log('data:', data);
         } catch (err) {
-            //
+            console.error(err);
         }
 
         if (!data)
